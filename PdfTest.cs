@@ -21,6 +21,8 @@ namespace PdfPlayGround
                 new InfoTableMetaData("Insurance Ref #:", "Test Claim" ),
                 new InfoTableMetaData("Event Type:", "Storm" )
             };
+
+            PdfPageEvent = new ENDataClassicHeader(this);
         }
 
         protected override void WriteDocument()
