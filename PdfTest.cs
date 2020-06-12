@@ -29,6 +29,7 @@ namespace PdfPlayGround
         {
             base.WriteDocument();
             Doc.Add(new Paragraph("Site Inspection - Claim Information", StyleHeader) { SpacingAfter = 15f });
+            Doc.Add(DividingLine);
             Doc.Add(GenerateInfoTable(ClaimContent));
         }
 
