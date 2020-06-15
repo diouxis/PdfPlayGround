@@ -26,24 +26,82 @@ namespace PdfPlayGround
             PdfPageEvent = new ENDataClassicHeader(this);
         }
 
+        protected override void FillTemplate()
+        {
+            ClaimTable = new List<InfoTableMetaData>
+            {
+                new InfoTableMetaData("Building Owner:","Brewster & Lily Hoo"),
+                new InfoTableMetaData("Address:", "12 Sagittarius Drive, Colebee NSW 2761"),
+                new InfoTableMetaData("Client:", "Gallagher Bassett Services Pty Ltd"),
+                new InfoTableMetaData("Our Reference:", "ABC 00145"),
+                new InfoTableMetaData("Client Reference:", "HBCF-CL-00XXXX"),
+            };
+        }
+
         protected override void WriteDocument()
         {
+            Doc.AddAuthor("ENData");
+            Doc.AddCreator("ENData for example");
+            Doc.AddKeywords("This is an report");
+            Doc.AddSubject("Test");
+            Doc.AddTitle("XXX Report");
+
             base.WriteDocument();
             Doc.Add(new Paragraph("Site Inspection - Claim Information", StyleHeader) { SpacingAfter = 15f });
             Doc.Add(new Paragraph("06 November 2019"));
             Doc.Add(DividingLine);
             Doc.Add(GenerateInfoTable(ClaimContent));
-            Doc.Add(GenerateInfoTable(ClaimTable));
+
+            Doc.Add(new Paragraph("JOB DETAILS"));
+            Doc.Add(GenerateInfoTable(ClaimTable, 2));
+
+
+            //PdfPTable table = new PdfPTable(4);
+            //table.TotalWidth = 400f;
+            //table.LockedWidth = true;
+            //PdfPCell header = new PdfPCell(new Phrase("this is a different table"));
+            //header.HorizontalAlignment = 1;
+            //header.Colspan = 4;
+            //table.AddCell(header);
+            //table.AddCell("Cell 1");
+            //table.AddCell("Cell 2");
+            //table.AddCell("Cell 3");
+            //table.AddCell("Cell 4");
+            //PdfPTable nested = new PdfPTable(1);
+            //nested.AddCell("Nested Row 1");
+            //nested.AddCell("Nested Row 2");
+            //nested.AddCell("Nested Row 3");
+            //PdfPCell nesthousing = new PdfPCell(nested);
+            //nesthousing.Padding = 0f;
+            //table.AddCell(nesthousing);
+            //PdfPCell bottom = new PdfPCell(new Phrase("bottom"));
+            //bottom.Colspan = 3;
+            //table.AddCell(bottom);
+            //Doc.Add(table);
+
+            //test 
+            PdfPTable Table1 = new PdfPTable(2);
+            PdfPCell header1 = new PdfPCell(new Phrase("JOB DETAILS normal table"));
+            header1.Colspan = 2;
+            header1.HorizontalAlignment = 1;
+            Table1.AddCell(header1);
+            Table1.AddCell("Building Owner:");
+            Table1.AddCell("Brewster & Lily Hoo");
+
+            Table1.AddCell("Address:");
+            Table1.AddCell("12 Sagittarius Drive, Colebee NSW 2761");
+
+            Table1.AddCell("Client");
+            Table1.AddCell("Gallagher Bassett Services Pty Ltd");
+
+            Table1.AddCell("Our Reference:");
+            Table1.AddCell("ABC 00145");
+
+            Table1.AddCell("Client Reference:");
+            Table1.AddCell("HBCF-CL-00XXXX");
+            Doc.Add(Table1);
         }
 
-        protected override void FillTemplate()
-        {
-            ClaimTable = new List<InfoTableMetaData>
-            {
-                new InfoTableMetaData("1111","222" ),
-                new InfoTableMetaData("Event Type:", "Storm" )
-            };
-        }
 
         protected PdfPTable GenerateInfoTable(List<InfoTableMetaData> model, byte columNum = 4, float[] widths = null)
         {
