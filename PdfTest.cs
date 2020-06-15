@@ -8,6 +8,7 @@ namespace PdfPlayGround
     public class PdfTest : PdfBase
     {
         protected List<InfoTableMetaData> ClaimContent = new List<InfoTableMetaData>();
+        protected List<InfoTableMetaData> ClaimTable = new List<InfoTableMetaData>();
 
         public PdfTest()
         {
@@ -32,11 +33,16 @@ namespace PdfPlayGround
             Doc.Add(new Paragraph("06 November 2019"));
             Doc.Add(DividingLine);
             Doc.Add(GenerateInfoTable(ClaimContent));
+            Doc.Add(GenerateInfoTable(ClaimTable));
         }
 
         protected override void FillTemplate()
         {
-
+            ClaimTable = new List<InfoTableMetaData>
+            {
+                new InfoTableMetaData("1111","222" ),
+                new InfoTableMetaData("Event Type:", "Storm" )
+            };
         }
 
         protected PdfPTable GenerateInfoTable(List<InfoTableMetaData> model, byte columNum = 4, float[] widths = null)
