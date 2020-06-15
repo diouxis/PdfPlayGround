@@ -29,6 +29,7 @@ namespace PdfPlayGround
         {
             base.WriteDocument();
             Doc.Add(new Paragraph("Site Inspection - Claim Information", StyleHeader) { SpacingAfter = 15f });
+            Doc.Add(new Paragraph("06 November 2019"));
             Doc.Add(DividingLine);
             Doc.Add(GenerateInfoTable(ClaimContent));
         }
@@ -42,7 +43,9 @@ namespace PdfPlayGround
         {
             PdfPCell cell = new PdfPCell()
             {
-                Border = Rectangle.NO_BORDER
+                Border = Rectangle.NO_BORDER,
+                Rowspan = 1,
+                Colspan = 1
             };
             return GenerateInfoTable(model, columNum, widths, cell, cell);
         }
