@@ -33,6 +33,11 @@ namespace PdfPlayGround
             Doc.Add(GenerateInfoTable(ClaimContent));
         }
 
+        protected override void FillTemplate()
+        {
+
+        }
+
         protected PdfPTable GenerateInfoTable(List<InfoTableMetaData> model, byte columNum = 4, float[] widths = null)
         {
             PdfPCell cell = new PdfPCell()
