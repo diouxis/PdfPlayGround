@@ -83,6 +83,7 @@ namespace PdfPlayGround
             PdfPTable Table1 = new PdfPTable(2);
             PdfPCell header1 = new PdfPCell(new Phrase("JOB DETAILS normal table"));
             header1.Colspan = 2;
+            header1.BackgroundColor = new CmykColor(0, 0, 0, 50);
             header1.HorizontalAlignment = 1;
             Table1.AddCell(header1);
             Table1.AddCell("Building Owner:");
@@ -100,6 +101,10 @@ namespace PdfPlayGround
             Table1.AddCell("Client Reference:");
             Table1.AddCell("HBCF-CL-00XXXX");
             Doc.Add(Table1);
+
+            //table example 
+            PdfPTable table = new PdfPTable(2);
+
         }
 
 
