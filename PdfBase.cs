@@ -99,7 +99,7 @@ namespace PdfPlayGround
             }
         }
 
-        protected PdfPTable GenerateInfoTable(List<InfoTableMetaData> model, byte columNum = 4, float[] widths = null, PdfPCell headerCell = null, PdfPCell contentCell = null)
+        protected PdfPTable GenerateInfoTable(List<InfoTableMetaData> model, byte columNum = 4, float[] widths = null, PdfPCell headerCell = null, PdfPCell contentCell = null, PdfPCell titleCell = null)
         {
             PdfPTable table = new PdfPTable(columNum)
             {
@@ -117,6 +117,11 @@ namespace PdfPlayGround
                 }
             }
             table.SetWidths(widths);
+            if (titleCell != null)
+            {
+                titleCell.Colspan = columNum;
+                table.AddCell(titleCell);
+            }
             PdfPCell cellHeader = headerCell ?? new PdfPCell()
             {
                 Border = Cell.BOX,
