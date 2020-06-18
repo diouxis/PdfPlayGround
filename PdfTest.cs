@@ -13,7 +13,7 @@ namespace PdfPlayGround
 
         public PdfTest()
         {
-            PageMargin = new Margin(10, 10, 50, 35);
+            PageMargin = new Margin(10, 10, 30, 30);
         }
 
         protected override void InitialPdf()
@@ -58,18 +58,76 @@ namespace PdfPlayGround
             CultureInfo ci = new CultureInfo("en-US");
             var month = DateTime.Now.ToString("MMMM", ci);
 
-            Doc.Add(new Phrase(DateTime.Now.Day.ToString() + " " + month + " " + DateTime.Now.Year.ToString()));
-            Phrase email = new Phrase("builderswarrantyclaims@gbtpa.com.au", new Font(Font.BOLD, 12f, Font.NORMAL, BaseColor.Blue));
+            Doc.Add(new Phrase((DateTime.Now.Day.ToString() + " " + month + " " + DateTime.Now.Year.ToString() + "\n" + "\n"), new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
 
-            Phrase infoList = new Phrase("Attention: Andrew Robinson" + "\n" + "Gallagher Bassett Services Pty Ltd" + "\n" + "Locked Bag 912, North Sydney NSW 2060" + "\n"  + "Email: ", new Font(Font.NORMAL, 10f, Font.NORMAL, BaseColor.Black));
+            Phrase email = new Phrase("builderswarrantyclaims@gbtpa.com.au", new Font(Font.UNDEFINED, 10f, Font.UNDERLINE, BaseColor.Blue));
+
+            Phrase infoList = new Phrase("Attention: Andrew Robinson" + "\n" + "Gallagher Bassett Services Pty Ltd" + "\n" + "Locked Bag 912, North Sydney NSW 2060" + "\n" + "Email: ",
+                new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black
+            ));
+
+            Phrase emailInfo = new Phrase();
+            emailInfo.Add(email);
 
             Doc.Add(infoList);
+            Doc.Add(emailInfo);
+
+
+            PdfPTable firstPageTable = new PdfPTable(1);
+            firstPageTable.TotalWidth = 820f;
+            firstPageTable.LockedWidth = true;
+            firstPageTable.SpacingBefore = 15f;
+            firstPageTable.DefaultCell.Border = Rectangle.NO_BORDER;
+
+            PdfPCell firstPageTableHeader = new PdfPCell(new Phrase("TECHNICAL ASSESSMENT & INSPECTION REPORT" + "#1" + "\n"+ "BUILDERS HOME WARRANTY", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
+            firstPageTableHeader.Colspan = 1;
+            firstPageTableHeader.BackgroundColor = new BaseColor(0, 0, 51);
+            firstPageTableHeader.HorizontalAlignment = Element.ALIGN_CENTER;
+            firstPageTableHeader.Border = Rectangle.NO_BORDER;
+
+            PdfPCell firstPageTableBody = new PdfPCell(
+                new Phrase("This report has been prepared for the sole use of icare HBCF for the purpose of technical evaluation of alleged defects claimed by the insured. " +
+                "All information has been collected in accordance with National Privacy Principles.",
+                new Font(Font.UNDEFINED, 12f, Font.UNDEFINED, BaseColor.Black)));
+            firstPageTableBody.Border = Rectangle.NO_BORDER;
+            firstPageTableBody.PaddingTop = 10f;
+            firstPageTableBody.PaddingBottom = 10f;
+
+            //the table img of first page 
+            string firstPageTableImgPath = "C:/Users/ChrisLi/Desktop/";
+            Image firstPageTableImg = Image.GetInstance(firstPageTableImgPath + "firstPageTableImg.jpg");
+            firstPageTableImg.ScalePercent(30f);
+            //this is the way to center img of itextsharp
+            firstPageTableImg.Alignment = iTextSharp.text.Image.ALIGN_CENTER;
+            Paragraph firstPageTableImgText = new Paragraph("Shows the front Eastern elevation", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black));
+            firstPageTableImgText.Alignment = Element.ALIGN_CENTER;
+
+
+            PdfPCell firstPageTableImgInfo = new PdfPCell();
+            firstPageTableImgInfo.Colspan = 1;
+            firstPageTableImgInfo.AddElement(firstPageTableImg);
+            firstPageTableImgInfo.AddElement(firstPageTableImgText);
+            firstPageTableImgInfo.Border = Rectangle.NO_BORDER;
+            firstPageTableImgInfo.HorizontalAlignment = Element.ALIGN_CENTER;
+            firstPageTableImgInfo.VerticalAlignment = Element.ALIGN_MIDDLE;
+
+
+            firstPageTable.AddCell(firstPageTableHeader);
+            firstPageTable.AddCell(firstPageTableBody);
+            firstPageTable.AddCell(firstPageTableImgInfo);
+
+            Doc.Add(firstPageTable);
+
             Doc.NewPage();
 
             //set following to the new page
             //Doc.NewPage();
             //test 
             //Doc.Add(GenerateTestTable(ClaimTable, "JOB DETAILS normal table", 2));
+
+
+
+
 
             //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!page two!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!//
 
@@ -117,7 +175,7 @@ namespace PdfPlayGround
             twoTable.TotalWidth = 820f;
             twoTable.LockedWidth = true;
 
-            PdfPCell twoTableLeft = new PdfPCell(GenerateTestTable(ClaimTable, "JOB DETAILS normal table", 2));
+            PdfPCell twoTableLeft = new PdfPCell(GenerateTestTable(ClaimTable, "JOB DETAILS", 2));
             twoTableLeft.Colspan = 1;
             twoTableLeft.Padding = 0;
             twoTableLeft.Border = Rectangle.NO_BORDER;
@@ -148,11 +206,11 @@ namespace PdfPlayGround
             bcdTable.AddCell(bcdTableHeader);
             string[] bcdInfo = {
                 "Consultant name, phone No", "Building Consultant: 040404040",//line one 
-                "Consultant’s reference No:", "ABC 00145",  
+                "Consultant’s reference No:", "ABC 00145",
                 "Consultant’s email address:", "Building consulatant@abconsultants.com",//line two
-                "Consultant’s license number:", "131490C",  
+                "Consultant’s license number:", "131490C",
                 "Date Consultant appointed:", "20 May 2019",//line three
-                "Date Owner contacted:","22 May 2019"   
+                "Date Owner contacted:","22 May 2019"
             };
 
             foreach (string i in bcdInfo)
@@ -174,7 +232,7 @@ namespace PdfPlayGround
             bdTable.AddCell(bdTableHeader);
             string[] bdInfo = {
                 "Ground floor:", "Concrete Slab",//line one 
-                "Occupancy:", "August 2017",  
+                "Occupancy:", "August 2017",
                 "First floor:", "Residential", //line two
                 "Building Usage:", "131490C",
                 "External cladding:", "Brick Veneer & Weatherboard", //line three
@@ -222,11 +280,14 @@ namespace PdfPlayGround
             Doc.Add(rcdTable);
 
 
+
+
+
             //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!page three!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!//
             Doc.NewPage();
             //table type 3
             PdfPTable table3 = new PdfPTable(9);
-            table3.TotalWidth =820f;
+            table3.TotalWidth = 820f;
             table3.LockedWidth = true;
 
             //left part of table 3 
@@ -263,25 +324,25 @@ namespace PdfPlayGround
 
             //left Second part of table 3 
             PdfPCell crossRef = new PdfPCell(new Phrase("Cross Ref:" + "\n" + "11111", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
-            crossRef.HorizontalAlignment = Element.ALIGN_CENTER;
+            crossRef.HorizontalAlignment = Element.ALIGN_LEFT;
 
             PdfPCell lossType = new PdfPCell(new Phrase("Loss type: ", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
-            lossType.HorizontalAlignment = Element.ALIGN_CENTER;
+            lossType.HorizontalAlignment = Element.ALIGN_LEFT;
 
             PdfPCell lossTypeInfo = new PdfPCell(new Phrase("Minor Defect ", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
-            lossTypeInfo.HorizontalAlignment = Element.ALIGN_CENTER;
+            lossTypeInfo.HorizontalAlignment = Element.ALIGN_LEFT;
 
             PdfPCell completionStatus = new PdfPCell(new Phrase("Completion status:", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
-            completionStatus.HorizontalAlignment = Element.ALIGN_CENTER;
+            completionStatus.HorizontalAlignment = Element.ALIGN_LEFT;
 
             PdfPCell completionStatusInfo = new PdfPCell(new Phrase("N/A", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
-            completionStatusInfo.HorizontalAlignment = Element.ALIGN_CENTER;
+            completionStatusInfo.HorizontalAlignment = Element.ALIGN_LEFT;
 
             PdfPCell recommendation = new PdfPCell(new Phrase("Recommendation:", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
-            recommendation.HorizontalAlignment = Element.ALIGN_CENTER;
+            recommendation.HorizontalAlignment = Element.ALIGN_LEFT;
 
             PdfPCell recommendationInfo = new PdfPCell(new Phrase("Decline:", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
-            recommendationInfo.HorizontalAlignment = Element.ALIGN_CENTER;
+            recommendationInfo.HorizontalAlignment = Element.ALIGN_LEFT;
 
             table3Left.AddCell(crossRef);
             table3Left.AddCell(lossType);
@@ -293,19 +354,21 @@ namespace PdfPlayGround
 
             //info from third line to last line 
             PdfPCell observation = new PdfPCell(new Phrase("Observation", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
-            observation.HorizontalAlignment = Element.ALIGN_CENTER;
+            observation.HorizontalAlignment = Element.ALIGN_LEFT;
             observation.VerticalAlignment = Element.ALIGN_MIDDLE;
 
             PdfPCell observationInfo = new PdfPCell(new Phrase(
                 "The item of claim is unspecific to the precise locations of the scuff marks." + "\n" +
                 "The inspection revealed several minor scuff marks to the internal walls of the residence, consistent with accidental damage." + "\n" +
-                "As the residence was completed in August 2017, and occupied since, and the inspection carried out in July 2019, it cannot be confirmed who caused the damage to the internal walls. There is insufficient evidence to confirm whether the damage to the internal walls was caused by the Builder during the construction works. The damage may have been caused by others during occupation of the residence."
+                "As the residence was completed in August 2017, and occupied since, and the inspection carried out in July 2019, it cannot be confirmed who caused the damage to the internal walls. " +
+                "There is insufficient evidence to confirm whether the damage to the internal walls was caused by the Builder during the construction works. " +
+                "The damage may have been caused by others during occupation of the residence."
                 , new Font(Font.UNDEFINED, 12f, Font.UNDEFINED, BaseColor.Black)));
             observationInfo.HorizontalAlignment = Element.ALIGN_LEFT;
             observationInfo.Colspan = 6;
 
             PdfPCell cause = new PdfPCell(new Phrase("Cause", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
-            cause.HorizontalAlignment = Element.ALIGN_CENTER;
+            cause.HorizontalAlignment = Element.ALIGN_LEFT;
             cause.VerticalAlignment = Element.ALIGN_MIDDLE;
 
             PdfPCell causeInfo = new PdfPCell(new Phrase("Minor building movement and poor fixing", new Font(Font.UNDEFINED, 12f, Font.UNDEFINED, BaseColor.Black)));
@@ -313,7 +376,7 @@ namespace PdfPlayGround
             causeInfo.Colspan = 6;
 
             PdfPCell breach = new PdfPCell(new Phrase("Breach(es)", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
-            breach.HorizontalAlignment = Element.ALIGN_CENTER;
+            breach.HorizontalAlignment = Element.ALIGN_LEFT;
             breach.VerticalAlignment = Element.ALIGN_MIDDLE;
 
             PdfPCell breachInfo = new PdfPCell(new Phrase("The NSW Office of Fair Trading - Guide to Standards and Tolerances 2017" +
@@ -329,7 +392,7 @@ namespace PdfPlayGround
             breachInfo.Colspan = 6;
 
             PdfPCell reasoForDenial = new PdfPCell(new Phrase("Reason for Denial", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
-            reasoForDenial.HorizontalAlignment = Element.ALIGN_CENTER;
+            reasoForDenial.HorizontalAlignment = Element.ALIGN_LEFT;
             reasoForDenial.VerticalAlignment = Element.ALIGN_MIDDLE;
 
             PdfPCell reasoForDenialInfo = new PdfPCell(new Phrase("N/A", new Font(Font.UNDEFINED, 12f, Font.UNDEFINED, BaseColor.Black)));
@@ -340,11 +403,16 @@ namespace PdfPlayGround
             List table3List = new List(List.ORDERED, 20f);
             table3List.SetListSymbol("\u2022");
             table3List.IndentationLeft = 12f;
-            iTextSharp.text.ListItem item1 = new iTextSharp.text.ListItem("Re-orientate the light switch adjacent to the front door vertically to clear the architrave", new Font(Font.UNDEFINED, 12f, Font.UNDEFINED, BaseColor.Black));
-            iTextSharp.text.ListItem item2 = new iTextSharp.text.ListItem("Replace the cut-out section or architrave with a matching profiled section.", new Font(Font.UNDEFINED, 12f, Font.UNDEFINED, BaseColor.Black));
-            iTextSharp.text.ListItem item3 = new iTextSharp.text.ListItem("Repair the plasterboard wall lining as part of the switch re-orientation. Work to AS 2589 – Gypsum lining – Application and finishing.", new Font(Font.UNDEFINED, 12f, Font.UNDEFINED, BaseColor.Black));
-            iTextSharp.text.ListItem item4 = new iTextSharp.text.ListItem("Prepare and paint the affected wall and architrave, to the nearest break or joint using a similar colour and finish to the existing and in accordance with AS 2311 - Guide To The Painting Of Buildings.", new Font(Font.UNDEFINED, 12f, Font.UNDEFINED, BaseColor.Black));
-            iTextSharp.text.ListItem item5 = new iTextSharp.text.ListItem("Make good all affected surfaces as part of the works, to their prior condition.", new Font(Font.UNDEFINED, 12f, Font.UNDEFINED, BaseColor.Black));
+            iTextSharp.text.ListItem item1 = new iTextSharp.text.ListItem("Re-orientate the light switch adjacent to the front door vertically to clear the architrave", 
+                new Font(Font.UNDEFINED, 12f, Font.UNDEFINED, BaseColor.Black));
+            iTextSharp.text.ListItem item2 = new iTextSharp.text.ListItem("Replace the cut-out section or architrave with a matching profiled section.", 
+                new Font(Font.UNDEFINED, 12f, Font.UNDEFINED, BaseColor.Black));
+            iTextSharp.text.ListItem item3 = new iTextSharp.text.ListItem("Repair the plasterboard wall lining as part of the switch re-orientation. Work to AS 2589 – Gypsum lining – Application and finishing.", 
+                new Font(Font.UNDEFINED, 12f, Font.UNDEFINED, BaseColor.Black));
+            iTextSharp.text.ListItem item4 = new iTextSharp.text.ListItem("Prepare and paint the affected wall and architrave, to the nearest break or joint using a similar colour and finish to the existing and in accordance with AS 2311 - Guide To The Painting Of Buildings.", 
+                new Font(Font.UNDEFINED, 12f, Font.UNDEFINED, BaseColor.Black));
+            iTextSharp.text.ListItem item5 = new iTextSharp.text.ListItem("Make good all affected surfaces as part of the works, to their prior condition.", 
+                new Font(Font.UNDEFINED, 12f, Font.UNDEFINED, BaseColor.Black));
 
             table3List.Add(item1);
             table3List.Add(item2);
@@ -353,8 +421,9 @@ namespace PdfPlayGround
             table3List.Add(item5);
             //list in Suggested Scope of Works ends
 
-            PdfPCell suggestedScopeOfWorks = new PdfPCell(new Phrase("Suggested Scope of Works", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
-            suggestedScopeOfWorks.HorizontalAlignment = Element.ALIGN_CENTER;
+            PdfPCell suggestedScopeOfWorks = new PdfPCell(new Phrase("Suggested Scope of Works", 
+                new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
+            suggestedScopeOfWorks.HorizontalAlignment = Element.ALIGN_LEFT;
             suggestedScopeOfWorks.VerticalAlignment = Element.ALIGN_MIDDLE;
 
             PdfPCell suggestedScopeOfWorksList = new PdfPCell();
@@ -400,6 +469,7 @@ namespace PdfPlayGround
             string imagePath = "C:/Users/ChrisLi/Desktop/";
             Image textImg = Image.GetInstance(imagePath + "ENDataTransparent.png");
             textImg.SpacingAfter = 5f;
+            textImg.ScalePercent(12f);
 
             PdfPCell table3Right = new PdfPCell();
             table3Right.AddElement(textImg);
