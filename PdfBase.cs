@@ -23,7 +23,7 @@ namespace PdfPlayGround
         public string Title { get; protected set; } = string.Empty;
 
         // Pdf Setting
-        protected Rectangle PageInfo = new Rectangle(PageSize.A4);
+        protected Rectangle PageInfo = new Rectangle(PageSize.A4.Rotate());
         protected Margin PageMargin = new Margin(20, 20, 40, 60);
 
         // Page Property
