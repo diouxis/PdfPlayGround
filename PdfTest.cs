@@ -62,7 +62,9 @@ namespace PdfPlayGround
 
             Phrase email = new Phrase("builderswarrantyclaims@gbtpa.com.au", new Font(Font.UNDEFINED, 10f, Font.UNDERLINE, BaseColor.Blue));
 
-            Phrase infoList = new Phrase("Attention: Andrew Robinson" + "\n" + "Gallagher Bassett Services Pty Ltd" + "\n" + "Locked Bag 912, North Sydney NSW 2060" + "\n" + "Email: ",
+            Phrase infoList = new Phrase("Attention: Andrew Robinson" + "\n" + 
+                "Gallagher Bassett Services Pty Ltd" + "\n" + 
+                "Locked Bag 912, North Sydney NSW 2060" + "\n" + "Email: ",
                 new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black
             ));
 
@@ -79,7 +81,8 @@ namespace PdfPlayGround
             firstPageTable.SpacingBefore = 15f;
             firstPageTable.DefaultCell.Border = Rectangle.NO_BORDER;
 
-            PdfPCell firstPageTableHeader = new PdfPCell(new Phrase("TECHNICAL ASSESSMENT & INSPECTION REPORT" + "#1" + "\n"+ "BUILDERS HOME WARRANTY", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
+            PdfPCell firstPageTableHeader = new PdfPCell(new Phrase("TECHNICAL ASSESSMENT & INSPECTION REPORT" + "#1" + 
+                "\n"+ "BUILDERS HOME WARRANTY", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
             firstPageTableHeader.Colspan = 1;
             firstPageTableHeader.BackgroundColor = new BaseColor(0, 0, 51);
             firstPageTableHeader.HorizontalAlignment = Element.ALIGN_CENTER;
@@ -280,10 +283,66 @@ namespace PdfPlayGround
             Doc.Add(rcdTable);
 
 
+            //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!page Three!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!//
+            Doc.NewPage();
 
+            //**********************first table in page three************************//
+            PdfPTable cdTable = new PdfPTable(2);
+            cdTable.TotalWidth = 820f;
+            cdTable.LockedWidth = true;
 
+            PdfPCell cdTableHeader = new PdfPCell(new Phrase("CLAIM DETAILS", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
+            cdTableHeader.Colspan = 2;
+            cdTableHeader.BackgroundColor = new BaseColor(0, 0, 51);
+            cdTableHeader.HorizontalAlignment = Element.ALIGN_CENTER;
+            cdTable.AddCell(cdTableHeader);
 
-            //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!page three!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!//
+            string[] cdTableCells = {
+                "Date claim was reported (in writing) to Gallagher Bassett ", "Claim Form signed 12/04/2019", //1
+                "Age of property at time claim was reported to Gallagher Bassett ", "1 year 8 months", //2
+                "Age of property at date claim was first reported to Gallagher Bassett", "1 year 8 months", //3
+                "Is Property in time for Major Defects ", "Yes", //4
+                "Is Property in time for other defects", "Yes", //5
+                "Was the Contract Price in line with industry standard ", "Yes", //6
+                "Method used to measure contract price", "Rawlinsons Construction Cost Guide", //7
+                "Have any pre-payments been made", "N/A – Contract paid in full", //8
+                "Have any overpayments been identified and how much, if so?", "N/A – Contract paid in full", //9
+            };
+
+            foreach (string i in cdTableCells)
+            {
+                cdTable.AddCell(i);
+            }
+            Doc.Add(cdTable);
+
+            //**********************Second table********************//
+
+            PdfPTable dutyTable = new PdfPTable(1);
+            dutyTable.TotalWidth = 820f;
+            dutyTable.LockedWidth = true;
+            dutyTable.SpacingBefore = 20f;
+
+            PdfPCell dutyTableHeader = new PdfPCell(new Phrase("DUTY TO THE TRIBUNAL", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
+            dutyTableHeader.BackgroundColor = new BaseColor(0, 0, 51);
+            dutyTableHeader.HorizontalAlignment = Element.ALIGN_CENTER;
+
+            dutyTable.AddCell(dutyTableHeader);
+
+            PdfPCell dutyTableInfo = new PdfPCell(new Phrase(
+                "I affirm that I have read the NSW Civil and Administrative Tribunal (NCAT), " +
+                "Expert Witness Code of Conduct NCAT’s Procedural Direction 3 to Expert Witnesses. (See ‘Annexure B’)" +
+                "\n" + "This report has been prepared in accordance with that Code and those directions." +
+                "\n" + "In accordance with those directions, I confirm it is my duty to assist the Tribunal and not act as an advocate for any party in this matter.",
+                new Font(Font.UNDEFINED, 12f, Font.UNDEFINED, BaseColor.Black)
+                ));
+            dutyTableInfo.PaddingTop = 10f;
+            dutyTableInfo.PaddingBottom = 10f;
+
+            dutyTable.AddCell(dutyTableInfo);
+
+            Doc.Add(dutyTable);
+
+            //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!page Four!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!//
             Doc.NewPage();
             //table type 3
             PdfPTable table3 = new PdfPTable(9);
