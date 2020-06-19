@@ -13,7 +13,7 @@ namespace PdfPlayGround
 
         public PdfTest()
         {
-            PageMargin = new Margin(10, 10, 30, 30);
+            PageMargin = new Margin(10, 10, 90, 20);
         }
 
         protected override void InitialPdf()
@@ -139,6 +139,7 @@ namespace PdfPlayGround
             PdfPTable table = new PdfPTable(2);
             table.TotalWidth = 410f;
             table.LockedWidth = true;
+            table.SpacingBefore = 20f;
             //table.SpacingBefore = 20;
             PdfPCell header = new PdfPCell(new Phrase("INTRODUCTION", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
             header.BackgroundColor = new BaseColor(0, 0, 51);
@@ -291,7 +292,7 @@ namespace PdfPlayGround
             cdTable.TotalWidth = 820f;
             cdTable.LockedWidth = true;
 
-            PdfPCell cdTableHeader = new PdfPCell(new Phrase("CLAIM DETAILS", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
+            PdfPCell cdTableHeader = new PdfPCell(new Phrase("CLAIM DETAILS", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.White)));
             cdTableHeader.Colspan = 2;
             cdTableHeader.BackgroundColor = new BaseColor(0, 0, 51);
             cdTableHeader.HorizontalAlignment = Element.ALIGN_CENTER;
@@ -348,30 +349,31 @@ namespace PdfPlayGround
             PdfPTable table3 = new PdfPTable(9);
             table3.TotalWidth = 820f;
             table3.LockedWidth = true;
+            table3.DefaultCell.FixedHeight = 700f;
 
             //left part of table 3 
 
             //left First part of Table 3 
             PdfPTable table3Left = new PdfPTable(7);
             //item
-            PdfPCell table3LeftItemNum = new PdfPCell(new Phrase("ITEM 1", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
+            PdfPCell table3LeftItemNum = new PdfPCell(new Phrase("ITEM 1", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.White)));
             table3LeftItemNum.BackgroundColor = new BaseColor(0, 0, 51);
             table3LeftItemNum.HorizontalAlignment = Element.ALIGN_CENTER;
             //description
-            PdfPCell table3LeftDescription = new PdfPCell(new Phrase("Description: ", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
+            PdfPCell table3LeftDescription = new PdfPCell(new Phrase("Description: ", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.White)));
             table3LeftDescription.BackgroundColor = new BaseColor(0, 0, 51);
             table3LeftDescription.HorizontalAlignment = Element.ALIGN_CENTER;
             //descriptionInfo
-            PdfPCell table3LeftInfo = new PdfPCell(new Phrase("Architrave cut around light switch", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
+            PdfPCell table3LeftInfo = new PdfPCell(new Phrase("Architrave cut around light switch", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.White)));
             table3LeftInfo.BackgroundColor = new BaseColor(0, 0, 51);
             table3LeftInfo.Colspan = 3;
             table3LeftInfo.HorizontalAlignment = Element.ALIGN_CENTER;
             //location
-            PdfPCell table3LeftLocation = new PdfPCell(new Phrase("Location: ", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
+            PdfPCell table3LeftLocation = new PdfPCell(new Phrase("Location: ", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.White)));
             table3LeftLocation.BackgroundColor = new BaseColor(0, 0, 51);
             table3LeftLocation.HorizontalAlignment = Element.ALIGN_CENTER;
             //locationInfo
-            PdfPCell table3LeftLocationInfom = new PdfPCell(new Phrase("Entry", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
+            PdfPCell table3LeftLocationInfom = new PdfPCell(new Phrase("Entry", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.White)));
             table3LeftLocationInfom.BackgroundColor = new BaseColor(0, 0, 51);
             table3LeftLocationInfom.HorizontalAlignment = Element.ALIGN_CENTER;
 
@@ -382,25 +384,25 @@ namespace PdfPlayGround
             table3Left.AddCell(table3LeftLocationInfom);
 
             //left Second part of table 3 
-            PdfPCell crossRef = new PdfPCell(new Phrase("Cross Ref:" + "\n" + "11111", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
+            PdfPCell crossRef = new PdfPCell(new Phrase("Cross Ref:" + "\n" + "11111", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
             crossRef.HorizontalAlignment = Element.ALIGN_LEFT;
 
-            PdfPCell lossType = new PdfPCell(new Phrase("Loss type: ", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
+            PdfPCell lossType = new PdfPCell(new Phrase("Loss type: ", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
             lossType.HorizontalAlignment = Element.ALIGN_LEFT;
 
-            PdfPCell lossTypeInfo = new PdfPCell(new Phrase("Minor Defect ", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
+            PdfPCell lossTypeInfo = new PdfPCell(new Phrase("Minor Defect ", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
             lossTypeInfo.HorizontalAlignment = Element.ALIGN_LEFT;
 
-            PdfPCell completionStatus = new PdfPCell(new Phrase("Completion status:", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
+            PdfPCell completionStatus = new PdfPCell(new Phrase("Completion status:", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
             completionStatus.HorizontalAlignment = Element.ALIGN_LEFT;
 
-            PdfPCell completionStatusInfo = new PdfPCell(new Phrase("N/A", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
+            PdfPCell completionStatusInfo = new PdfPCell(new Phrase("N/A", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
             completionStatusInfo.HorizontalAlignment = Element.ALIGN_LEFT;
 
-            PdfPCell recommendation = new PdfPCell(new Phrase("Recommendation:", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
+            PdfPCell recommendation = new PdfPCell(new Phrase("Recommendation:", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
             recommendation.HorizontalAlignment = Element.ALIGN_LEFT;
 
-            PdfPCell recommendationInfo = new PdfPCell(new Phrase("Decline:", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
+            PdfPCell recommendationInfo = new PdfPCell(new Phrase("Decline:", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
             recommendationInfo.HorizontalAlignment = Element.ALIGN_LEFT;
 
             table3Left.AddCell(crossRef);
@@ -412,7 +414,7 @@ namespace PdfPlayGround
             table3Left.AddCell(recommendationInfo);
 
             //info from third line to last line 
-            PdfPCell observation = new PdfPCell(new Phrase("Observation", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
+            PdfPCell observation = new PdfPCell(new Phrase("Observation", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
             observation.HorizontalAlignment = Element.ALIGN_LEFT;
             observation.VerticalAlignment = Element.ALIGN_MIDDLE;
 
@@ -422,19 +424,19 @@ namespace PdfPlayGround
                 "As the residence was completed in August 2017, and occupied since, and the inspection carried out in July 2019, it cannot be confirmed who caused the damage to the internal walls. " +
                 "There is insufficient evidence to confirm whether the damage to the internal walls was caused by the Builder during the construction works. " +
                 "The damage may have been caused by others during occupation of the residence."
-                , new Font(Font.UNDEFINED, 12f, Font.UNDEFINED, BaseColor.Black)));
+                , new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
             observationInfo.HorizontalAlignment = Element.ALIGN_LEFT;
             observationInfo.Colspan = 6;
 
-            PdfPCell cause = new PdfPCell(new Phrase("Cause", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
+            PdfPCell cause = new PdfPCell(new Phrase("Cause", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
             cause.HorizontalAlignment = Element.ALIGN_LEFT;
             cause.VerticalAlignment = Element.ALIGN_MIDDLE;
 
-            PdfPCell causeInfo = new PdfPCell(new Phrase("Minor building movement and poor fixing", new Font(Font.UNDEFINED, 12f, Font.UNDEFINED, BaseColor.Black)));
+            PdfPCell causeInfo = new PdfPCell(new Phrase("Minor building movement and poor fixing", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
             causeInfo.HorizontalAlignment = Element.ALIGN_LEFT;
             causeInfo.Colspan = 6;
 
-            PdfPCell breach = new PdfPCell(new Phrase("Breach(es)", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
+            PdfPCell breach = new PdfPCell(new Phrase("Breach(es)", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
             breach.HorizontalAlignment = Element.ALIGN_LEFT;
             breach.VerticalAlignment = Element.ALIGN_MIDDLE;
 
@@ -445,33 +447,33 @@ namespace PdfPlayGround
                 "or exceed 1 mm in width within the first 12 months of completion and are visible from a normal viewing position. " +
                 "After the first 12 months, gaps are defective if they exceed 2 mm in width and are visible from a normal viewing position. " +
                 "Gaps between skirting and flooring are defective if they exceed 2 mm within the first 24 months after handover and are visible from a normal viewing position.”"
-                , new Font(Font.UNDEFINED, 12f, Font.UNDEFINED, BaseColor.Black)));
+                , new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
 
             breachInfo.HorizontalAlignment = Element.ALIGN_LEFT;
             breachInfo.Colspan = 6;
 
-            PdfPCell reasoForDenial = new PdfPCell(new Phrase("Reason for Denial", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
+            PdfPCell reasoForDenial = new PdfPCell(new Phrase("Reason for Denial", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
             reasoForDenial.HorizontalAlignment = Element.ALIGN_LEFT;
             reasoForDenial.VerticalAlignment = Element.ALIGN_MIDDLE;
 
-            PdfPCell reasoForDenialInfo = new PdfPCell(new Phrase("N/A", new Font(Font.UNDEFINED, 12f, Font.UNDEFINED, BaseColor.Black)));
+            PdfPCell reasoForDenialInfo = new PdfPCell(new Phrase("N/A", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
             reasoForDenialInfo.HorizontalAlignment = Element.ALIGN_LEFT;
             reasoForDenialInfo.Colspan = 6;
 
             //list in Suggested Scope of Works
-            List table3List = new List(List.ORDERED, 20f);
+            List table3List = new List(List.ORDERED, 15f);
             table3List.SetListSymbol("\u2022");
-            table3List.IndentationLeft = 12f;
+            table3List.IndentationLeft = 10f;
             iTextSharp.text.ListItem item1 = new iTextSharp.text.ListItem("Re-orientate the light switch adjacent to the front door vertically to clear the architrave", 
-                new Font(Font.UNDEFINED, 12f, Font.UNDEFINED, BaseColor.Black));
+                new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black));
             iTextSharp.text.ListItem item2 = new iTextSharp.text.ListItem("Replace the cut-out section or architrave with a matching profiled section.", 
-                new Font(Font.UNDEFINED, 12f, Font.UNDEFINED, BaseColor.Black));
+                new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black));
             iTextSharp.text.ListItem item3 = new iTextSharp.text.ListItem("Repair the plasterboard wall lining as part of the switch re-orientation. Work to AS 2589 – Gypsum lining – Application and finishing.", 
-                new Font(Font.UNDEFINED, 12f, Font.UNDEFINED, BaseColor.Black));
+                new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black));
             iTextSharp.text.ListItem item4 = new iTextSharp.text.ListItem("Prepare and paint the affected wall and architrave, to the nearest break or joint using a similar colour and finish to the existing and in accordance with AS 2311 - Guide To The Painting Of Buildings.", 
-                new Font(Font.UNDEFINED, 12f, Font.UNDEFINED, BaseColor.Black));
+                new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black));
             iTextSharp.text.ListItem item5 = new iTextSharp.text.ListItem("Make good all affected surfaces as part of the works, to their prior condition.", 
-                new Font(Font.UNDEFINED, 12f, Font.UNDEFINED, BaseColor.Black));
+                new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black));
 
             table3List.Add(item1);
             table3List.Add(item2);
@@ -481,7 +483,7 @@ namespace PdfPlayGround
             //list in Suggested Scope of Works ends
 
             PdfPCell suggestedScopeOfWorks = new PdfPCell(new Phrase("Suggested Scope of Works", 
-                new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
+                new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
             suggestedScopeOfWorks.HorizontalAlignment = Element.ALIGN_LEFT;
             suggestedScopeOfWorks.VerticalAlignment = Element.ALIGN_MIDDLE;
 
@@ -491,14 +493,14 @@ namespace PdfPlayGround
 
 
             //add list title
-            Phrase listTitle = new Phrase("Allow: ", new Font(Font.UNDEFINED, 12f, Font.UNDEFINED, BaseColor.Black));
+            Phrase listTitle = new Phrase("Allow: ", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black));
             Paragraph listTitleNamePah = new Paragraph();
             string listTitleNameText = "Entity";
             listTitleNamePah.Add(listTitleNameText);
-            listTitleNamePah.IndentationLeft = 12f;
-            listTitleNamePah.Font.Size = 12f;
+            listTitleNamePah.IndentationLeft = 10f;
+            listTitleNamePah.Font.Size = 10f;
 
-            //Phrase listTitleName = new Phrase(listTitleNamePah, new Font(Font.UNDEFINED, 12f, Font.UNDERLINE, BaseColor.Black));
+            //Phrase listTitleName = new Phrase(listTitleNamePah, new Font(Font.UNDEFINED, 10f, Font.UNDERLINE, BaseColor.Black));
 
             suggestedScopeOfWorksList.AddElement(listTitle);
             suggestedScopeOfWorksList.AddElement(listTitleNamePah);
@@ -526,13 +528,11 @@ namespace PdfPlayGround
 
             //image phrase 
             string imagePath = "C:/Users/ChrisLi/Desktop/";
-            Image textImg = Image.GetInstance(imagePath + "ENDataTransparent.png");
+            Image textImg = Image.GetInstance(imagePath + "test.jpg");
             textImg.SpacingAfter = 5f;
-            textImg.ScalePercent(12f);
+            textImg.ScalePercent(40f);
 
             PdfPCell table3Right = new PdfPCell();
-            table3Right.AddElement(textImg);
-            table3Right.AddElement(textImg);
             table3Right.AddElement(textImg);
             table3Right.Colspan = 2;
             table3Right.HorizontalAlignment = Element.ALIGN_LEFT;
@@ -543,8 +543,13 @@ namespace PdfPlayGround
 
             Doc.Add(table3);
 
-
         }
+
+
+
+
+
+
 
 
         protected PdfPTable GenerateInfoTable(List<InfoTableMetaData> model, byte columNum = 4, float[] widths = null)
@@ -602,38 +607,84 @@ namespace PdfPlayGround
         protected class ENDataClassicHeader : PdfPageEventBase
         {
             PdfTest ThisDocument => (PdfTest)BaseDocument;
-            protected Phrase PDFFooter_Date;
-            protected Phrase PDFHeader_Title;
+            //protected Phrase PDFFooter_Date;
+            //protected Phrase PDFHeader_Title;
+
 
             public ENDataClassicHeader(PdfBase pdfbase) : base(pdfbase)
             {
-                PDFFooter_Date = new Phrase($"Printed On: {BaseDocument.Date}", StyleFooterAndPageNumber);
-                PDFHeader_Title = new Phrase(BaseDocument.Title, ThisDocument.StyleTiltleHeader);
+                //PDFFooter_Date = new Phrase($"Printed On: {BaseDocument.Date}", StyleFooterAndPageNumber);
+                //PDFHeader_Title = new Phrase(BaseDocument.Title, ThisDocument.StyleTiltleHeader);
             }
 
             public override void OnStartPage(PdfWriter writer, Document document)
             {
-                base.OnStartPage(writer, document);
+                //base.OnStartPage(writer, document);
 
-                ColumnText.ShowTextAligned(writer.DirectContent, Element.ALIGN_LEFT,
-                    PDFHeader_Title,
-                    ThisDocument.PageMargin.Left,
-                    ThisDocument.PageInfo.Height - 36f, 0);
+                //ColumnText.ShowTextAligned(writer.DirectContent, Element.ALIGN_LEFT,
+                //    PDFHeader_Title,
+                //    ThisDocument.PageMargin.Left,
+                //    ThisDocument.PageInfo.Height - 36f, 0);
 
-                ColumnText.ShowTextAligned(writer.DirectContent, Element.ALIGN_RIGHT,
-                    new Phrase("Page " + writer.PageNumber.ToString(), StyleFooterAndPageNumber),
-                    ThisDocument.PageInfo.Width - ThisDocument.PageMargin.Right,
-                    ThisDocument.PageInfo.Height - 20f, 0);
+                //ColumnText.ShowTextAligned(writer.DirectContent, Element.ALIGN_RIGHT,
+                //    new Phrase("Page " + writer.PageNumber.ToString(), StyleFooterAndPageNumber),
+                //    ThisDocument.PageInfo.Width - ThisDocument.PageMargin.Right,
+                //    ThisDocument.PageInfo.Height - 20f, 0);
+
+                // create header table
+                PdfPTable headerTable = new PdfPTable(2);
+                headerTable.TotalWidth = 820f;
+                //headerTable.TotalWidth = document.PageSize.Width - document.LeftMargin - document.RightMargin; //this centers [table]
+                headerTable.LockedWidth = true;
+                headerTable.DefaultCell.Border = Rectangle.NO_BORDER;
+
+                //create cells 1
+                PdfPCell headerFirstLineLeft = new PdfPCell(new Phrase("ACE BUILDING CONSULTANTS", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+                headerFirstLineLeft.HorizontalAlignment = Element.ALIGN_LEFT;
+                headerFirstLineLeft.Border = Rectangle.NO_BORDER;
+                PdfPCell headerFirstLineRight = new PdfPCell(new Phrase("Prepared by:", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+                headerFirstLineRight.HorizontalAlignment = Element.ALIGN_RIGHT;
+                headerFirstLineRight.Border = Rectangle.NO_BORDER;
+                //create cells 2
+                PdfPCell headerSecondLineLeft = new PdfPCell(new Phrase("147 Burly St" + "\n" + "Wyong, NSW 2772", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+                headerSecondLineLeft.HorizontalAlignment = Element.ALIGN_LEFT;
+                headerSecondLineLeft.Border = Rectangle.NO_BORDER;
+                PdfPCell headerSecondLineRight = new PdfPCell(new Phrase("The Building Consultant" + "\n" + "040404040", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+                headerSecondLineRight.HorizontalAlignment = Element.ALIGN_RIGHT;
+                headerSecondLineRight.Border = Rectangle.NO_BORDER;
+
+                headerTable.AddCell(headerFirstLineLeft);
+                headerTable.AddCell(headerFirstLineRight);
+                headerTable.AddCell(headerSecondLineLeft);
+                headerTable.AddCell(headerSecondLineRight);
+
+                headerTable.WriteSelectedRows(0, -1, document.LeftMargin, document.PageSize.Height -25, writer.DirectContent);
+
             }
 
             public override void OnEndPage(PdfWriter writer, Document document)
             {
                 base.OnEndPage(writer, document);
 
-                ColumnText.ShowTextAligned(writer.DirectContent, Element.ALIGN_LEFT,
-                    PDFFooter_Date,
-                    ThisDocument.PageMargin.Left,
-                    10f, 0);
+                //ColumnText.ShowTextAligned(writer.DirectContent, Element.ALIGN_CENTER,
+                //    PDFFooter_Date,
+                //    ThisDocument.PageMargin.Left,
+                //    10f, 0);
+                //ColumnText.ShowTextAligned(writer.DirectContent, Element.ALIGN_RIGHT,
+                //    new Phrase("Page " + writer.PageNumber.ToString(), StyleFooterAndPageNumber),
+                //    ThisDocument.PageInfo.Width - ThisDocument.PageMargin.Right,
+                //    ThisDocument.PageInfo.Height - 20f, 0);
+
+                PdfPTable footerTable = new PdfPTable(1);
+                footerTable.TotalWidth = 820f;
+                footerTable.LockedWidth = true;
+                footerTable.DefaultCell.Border = Rectangle.NO_BORDER;
+                PdfPCell footerPageNum = new PdfPCell(new Phrase("Page " + writer.PageNumber.ToString(), new Font(Font.UNDEFINED, 8f, Font.UNDEFINED, BaseColor.Black)));
+                footerPageNum.HorizontalAlignment = Element.ALIGN_CENTER;
+                footerPageNum.Border = Rectangle.NO_BORDER;
+                footerTable.AddCell(footerPageNum);
+
+                footerTable.WriteSelectedRows(0, -1, 10, 20f, writer.DirectContent);
             }
 
             static readonly Font StyleFooterAndPageNumber = FontFactory.GetFont(BaseFont.HELVETICA, 10);
