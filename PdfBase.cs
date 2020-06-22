@@ -105,7 +105,7 @@ namespace PdfPlayGround
             {
                 HorizontalAlignment = Rectangle.ALIGN_LEFT,
                 TotalWidth = PageContentWidth,
-                SpacingAfter = 20f,
+                SpacingAfter = 10f,
                 LockedWidth = true
             };
             if (widths == null)
@@ -128,7 +128,7 @@ namespace PdfPlayGround
                 BorderColor = ThemeTableBorder,
                 BackgroundColor = ThemeTableHeadShading,
                 VerticalAlignment = Cell.ALIGN_MIDDLE,
-                Padding = 8f
+                Padding = 10f
             };
             PdfPCell cellContent = contentCell ?? new PdfPCell()
             {
