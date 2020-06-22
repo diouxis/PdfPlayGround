@@ -8,6 +8,8 @@ namespace PdfPlayGround
 {
     public static class FileUtil
     {
+        public static string ImagePath => Path.Combine(Directory.GetCurrentDirectory(), "img");
+
         public static string ConvertToValidFilename(string str)
         {
             string invalidChars = Regex.Escape(new string(Path.GetInvalidFileNameChars()));

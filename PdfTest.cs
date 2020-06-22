@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 
@@ -97,8 +98,7 @@ namespace PdfPlayGround
             firstPageTableBody.PaddingBottom = 10f;
 
             //the table img of first page 
-            string firstPageTableImgPath = "C:/Users/ChrisLi/Desktop/";
-            Image firstPageTableImg = Image.GetInstance(firstPageTableImgPath + "firstPageTableImg.jpg");
+            Image firstPageTableImg = Image.GetInstance(Path.Combine(FileUtil.ImagePath, "firstPageTableImg.jpg"));
             firstPageTableImg.ScalePercent(30f);
             //this is the way to center img of itextsharp
             firstPageTableImg.Alignment = iTextSharp.text.Image.ALIGN_CENTER;
@@ -527,8 +527,7 @@ namespace PdfPlayGround
             //right part of table 3 
 
             //image phrase 
-            string imagePath = "C:/Users/ChrisLi/Desktop/";
-            Image textImg = Image.GetInstance(imagePath + "test.jpg");
+            Image textImg = Image.GetInstance(Path.Combine(FileUtil.ImagePath, "test.jpg"));
             textImg.SpacingAfter = 5f;
             textImg.ScalePercent(40f);
 

@@ -9,4 +9,13 @@
     <PackageReference Include="iTextSharp.LGPLv2.Core" Version="1.6.7" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="img\firstPageTableImg.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="img\test.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
