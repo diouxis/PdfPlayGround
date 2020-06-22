@@ -23,7 +23,7 @@ namespace PdfPlayGround
         public string Title { get; protected set; } = string.Empty;
 
         // Pdf Setting
-        protected Rectangle PageInfo = new Rectangle(PageSize.A4.Rotate());
+        protected Rectangle PageInfo = new Rectangle(PageSize.A4);
         protected Margin PageMargin = new Margin(20, 20, 40, 60);
 
         // Page Property
@@ -52,7 +52,7 @@ namespace PdfPlayGround
         protected virtual Font StyleContentBold => FontFactory.GetFont(BaseFont.HELVETICA, 9, Font.BOLD);
         protected virtual Font StyleContentSmall => FontFactory.GetFont(BaseFont.HELVETICA, 8);
         protected virtual Font StyleContentSmallBold => FontFactory.GetFont(BaseFont.HELVETICA, 8, Font.BOLD);
-        protected virtual Font StyleContentHeader => FontFactory.GetFont(BaseFont.HELVETICA, 12, Font.UNDEFINED, ThemePrimary);
+        protected virtual Font StyleContentHeader => FontFactory.GetFont(BaseFont.HELVETICA, 9, Font.BOLD, ThemePrimary);
         protected virtual Font StyleAudit => FontFactory.GetFont(BaseFont.HELVETICA, 9, ThemeAudit);
         protected virtual Font StyleAuditBold => FontFactory.GetFont(BaseFont.HELVETICA, 9, Font.BOLD, ThemeAudit);
         protected virtual Font StyleAuditSmall => FontFactory.GetFont(BaseFont.HELVETICA, 8, ThemeAudit);
@@ -105,7 +105,7 @@ namespace PdfPlayGround
             {
                 HorizontalAlignment = Rectangle.ALIGN_LEFT,
                 TotalWidth = PageContentWidth,
-                SpacingAfter = 10f,
+                SpacingAfter = 20f,
                 LockedWidth = true
             };
             if (widths == null)
@@ -128,7 +128,7 @@ namespace PdfPlayGround
                 BorderColor = ThemeTableBorder,
                 BackgroundColor = ThemeTableHeadShading,
                 VerticalAlignment = Cell.ALIGN_MIDDLE,
-                Padding = 10f
+                Padding = 8f
             };
             PdfPCell cellContent = contentCell ?? new PdfPCell()
             {

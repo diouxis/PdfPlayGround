@@ -18,6 +18,7 @@ namespace PdfPlayGround
         public PdfTest()
         {
             PageMargin = new Margin(10, 10, 90, 20);
+            PageInfo = new Rectangle(PageSize.A4.Rotate());
         }
 
         protected override void InitialPdf()
@@ -661,7 +662,7 @@ namespace PdfPlayGround
             {
                 table.TotalWidth = totalWidths;
             }
-            //table.TotalWidth = 410f;
+            table.SpacingAfter = 10f;
             return table;
         }
 
@@ -776,6 +777,7 @@ namespace PdfPlayGround
         protected override Font StyleTiltleHeader => FontFactory.GetFont(BaseFont.HELVETICA, 23, Font.BOLD);
         protected override Font StyleHeader => FontFactory.GetFont(BaseFont.HELVETICA, 18, Font.BOLD);
         protected override Font StyleContent => FontFactory.GetFont(BaseFont.HELVETICA, 12);
+        protected override Font StyleContentHeader => FontFactory.GetFont(BaseFont.HELVETICA, 12, Font.UNDEFINED, ThemePrimary);
         protected override Font StyleContentBold => FontFactory.GetFont(BaseFont.HELVETICA, 12, Font.BOLD);
         protected override Font StyleContentSmall => FontFactory.GetFont(BaseFont.HELVETICA, 9);
         protected override Font StyleContentSmallBold => FontFactory.GetFont(BaseFont.HELVETICA, 10, Font.BOLD);
