@@ -10,8 +10,11 @@ namespace PdfPlayGround
     public class PdfTest : PdfBase
     {
         protected List<InfoTableMetaData> ClaimContent = new List<InfoTableMetaData>();
-        protected List<InfoTableMetaData> ClaimTable = new List<InfoTableMetaData>();
 
+        //Page One 
+        protected List<InfoTableMetaData> JobDetailsTable = new List<InfoTableMetaData>();
+        protected List<InfoTableMetaData> IntroductionTable = new List<InfoTableMetaData>();
+        protected List<InfoTableMetaData> BuildingConsultantDetailTable = new List<InfoTableMetaData>();
         public PdfTest()
         {
             PageMargin = new Margin(10, 10, 90, 20);
@@ -25,7 +28,7 @@ namespace PdfPlayGround
                 new InfoTableMetaData("Event Type:", "Storm" )
             };
 
-            ClaimTable = new List<InfoTableMetaData>
+            JobDetailsTable = new List<InfoTableMetaData>
             {
                 new InfoTableMetaData("Building Owner:","Brewster & Lily Hoo"),
                 new InfoTableMetaData("Address:", "12 Sagittarius Drive, Colebee NSW 2761"),
@@ -33,6 +36,17 @@ namespace PdfPlayGround
                 new InfoTableMetaData("Our Reference:", "ABC 00145"),
                 new InfoTableMetaData("Client Reference:", "HBCF-CL-00XXXX"),
             };
+
+            BuildingConsultantDetailTable = new List<InfoTableMetaData>
+            {
+                new InfoTableMetaData("Consultant name, phone No", "Building Consultant: 040404040"),
+                new InfoTableMetaData("Consultant’s reference No:", "ABC 00145"),
+                new InfoTableMetaData("Consultant’s email address:", "Building consulatant@abconsultants.com"),
+                new InfoTableMetaData("Consultant’s license number:", "131490C"),
+                new InfoTableMetaData("Date Consultant appointed:", "20 May 2019"),
+                new InfoTableMetaData("Date Owner contacted:", "22 May 2019"),
+            };
+
 
             PdfPageEvent = new ENDataClassicHeader(this);
         }
@@ -136,38 +150,81 @@ namespace PdfPlayGround
 
             //***********************first part************************//
             //Table type 2  
-            PdfPTable table = new PdfPTable(2);
-            table.TotalWidth = 410f;
-            table.LockedWidth = true;
-            table.SpacingBefore = 20f;
-            //table.SpacingBefore = 20;
+            PdfPTable introTable = new PdfPTable(2);
+            introTable.TotalWidth = 410f;
+            introTable.LockedWidth = true;
+            introTable.SpacingBefore = 20f;
+            //introTable.SpacingBefore = 20;
             PdfPCell header = new PdfPCell(new Phrase("INTRODUCTION", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
             header.BackgroundColor = new BaseColor(0, 0, 51);
             header.Colspan = 2;
             header.HorizontalAlignment = Element.ALIGN_CENTER;
+            header.PaddingTop = 4f;
+            header.PaddingBottom = 4f;
 
             //heading spacing
-            table.AddCell(header);
-            table.AddCell("Claim Type:");
-            table.AddCell("Incomeplete $ Defects");
+            introTable.AddCell(header);
+
+            PdfPCell claimType = new PdfPCell(new Phrase("Claim Type: ", new Font(Font.UNDEFINED, 12f, Font.UNDEFINED, BaseColor.Black)));
+            claimType.PaddingTop = 4f;
+            claimType.PaddingBottom = 4f;
+            claimType.VerticalAlignment = Element.ALIGN_MIDDLE;
+            claimType.Colspan = 1;
+
+            PdfPCell claimTypeInfo = new PdfPCell(new Phrase("Incomeplete & Defects", new Font(Font.UNDEFINED, 12f, Font.UNDEFINED, BaseColor.Black))); 
+            claimTypeInfo.PaddingTop = 4f;
+            claimTypeInfo.PaddingBottom = 4f;
+            claimTypeInfo.VerticalAlignment = Element.ALIGN_MIDDLE;
+            claimTypeInfo.Colspan = 1;
+
+            introTable.AddCell(claimType);
+            introTable.AddCell(claimTypeInfo);
 
             PdfPCell tableCombineLeft = new PdfPCell(new Phrase("Attendees: "));
             tableCombineLeft.Colspan = 1;
             tableCombineLeft.Rowspan = 1;
+            tableCombineLeft.PaddingTop = 4f;
+            tableCombineLeft.PaddingBottom = 4f;
             tableCombineLeft.VerticalAlignment = Element.ALIGN_MIDDLE;
-            table.AddCell(tableCombineLeft);
+            introTable.AddCell(tableCombineLeft);
 
             PdfPTable tableCombineInfo = new PdfPTable(1);
-            tableCombineInfo.AddCell("Building Consultant – Ace Building Consultants");
-            tableCombineInfo.AddCell("Joe Brandt - Tenant");
+            PdfPCell attendeeInfoOne = new PdfPCell(new Phrase("Building Consultant – Ace Building Consultants"));
+            attendeeInfoOne.PaddingTop = 4f;
+            attendeeInfoOne.PaddingBottom = 4f;
+            attendeeInfoOne.VerticalAlignment = Element.ALIGN_MIDDLE;
+
+            PdfPCell attendeeInfoTwo = new PdfPCell(new Phrase("Joe Brandt - Tenant"));
+            attendeeInfoTwo.PaddingTop = 4f;
+            attendeeInfoTwo.PaddingBottom = 4f;
+            attendeeInfoTwo.VerticalAlignment = Element.ALIGN_MIDDLE;
+
+            tableCombineInfo.AddCell(attendeeInfoOne);
+            tableCombineInfo.AddCell(attendeeInfoTwo);
+
+            //tableCombineInfo.AddCell("Building Consultant – Ace Building Consultants");
+            //tableCombineInfo.AddCell("Joe Brandt - Tenant");
             PdfPCell tableCombineLineing = new PdfPCell(tableCombineInfo);
             tableCombineLineing.Padding = 0f;
-            table.AddCell(tableCombineLineing);
+            introTable.AddCell(tableCombineLineing);
 
-            table.AddCell("Inspection date:");
-            table.AddCell("25 June 2019");
-            table.AddCell("Inspection time:");
-            table.AddCell("11:00am");
+            //introTable.AddCell("Inspection date:");
+            //introTable.AddCell("25 June 2019");
+            //introTable.AddCell("Inspection time:");
+            //introTable.AddCell("11:00am");
+
+            string[] introTableInfo = {
+                "Inspection date:", "25 June 2019",
+                "Inspection time:", "11:00am"
+            };
+
+            foreach (string i in introTableInfo)
+            {
+                PdfPCell introRestInfo = new PdfPCell(new Phrase(i));
+                introRestInfo.PaddingTop = 4f;
+                introRestInfo.PaddingBottom = 4f;
+                introTable.AddCell(introRestInfo);
+            }
 
             //Doc.Add(table);
 
@@ -179,14 +236,14 @@ namespace PdfPlayGround
             twoTable.TotalWidth = 820f;
             twoTable.LockedWidth = true;
 
-            PdfPCell twoTableLeft = new PdfPCell(GenerateTestTable(ClaimTable, "JOB DETAILS", 2));
+            PdfPCell twoTableLeft = new PdfPCell(GenerateTestTable(JobDetailsTable, "JOB DETAILS", 2, 406f));
             twoTableLeft.Colspan = 1;
             twoTableLeft.Padding = 0;
             twoTableLeft.Border = Rectangle.NO_BORDER;
 
             //twoTableLeft.PaddingRight = 5f;
 
-            PdfPCell twoTableRight = new PdfPCell(table);
+            PdfPCell twoTableRight = new PdfPCell(introTable);
             twoTableRight.Colspan = 1;
             twoTableRight.Padding = 0;
             twoTableRight.Border = Rectangle.NO_BORDER;
@@ -198,29 +255,41 @@ namespace PdfPlayGround
 
             Doc.Add(twoTable);
             //***********************second part************************//
-            PdfPTable bcdTable = new PdfPTable(4);
+            //PdfPTable bcdTable = new PdfPTable(4);
+            //bcdTable.SpacingBefore = 10f;
+            //bcdTable.TotalWidth = 820f;
+            //bcdTable.LockedWidth = true;
+            //PdfPCell bcdTableHeader = new PdfPCell(new Phrase("BUILDING CONSULTANT’S DETAILS", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
+            //bcdTableHeader.BackgroundColor = new BaseColor(0, 0, 51);
+            //bcdTableHeader.Colspan = 4;
+            //bcdTableHeader.HorizontalAlignment = Element.ALIGN_CENTER;
+
+            //bcdTable.AddCell(bcdTableHeader);
+            //string[] bcdInfo = {
+            //    "Consultant name, phone No", "Building Consultant: 040404040",//line one 
+            //    "Consultant’s reference No:", "ABC 00145",
+            //    "Consultant’s email address:", "Building consulatant@abconsultants.com",//line two
+            //    "Consultant’s license number:", "131490C",
+            //    "Date Consultant appointed:", "20 May 2019",//line three
+            //    "Date Owner contacted:","22 May 2019"
+            //};
+
+            //foreach (string i in bcdInfo)
+            //{
+            //    bcdTable.AddCell(i);
+            //}
+            //Doc.Add(bcdTable);
+            PdfPTable bcdTable = new PdfPTable(1);
             bcdTable.SpacingBefore = 10f;
-            bcdTable.TotalWidth = 820f;
-            bcdTable.LockedWidth = true;
-            PdfPCell bcdTableHeader = new PdfPCell(new Phrase("BUILDING CONSULTANT’S DETAILS", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
-            bcdTableHeader.BackgroundColor = new BaseColor(0, 0, 51);
-            bcdTableHeader.Colspan = 4;
-            bcdTableHeader.HorizontalAlignment = Element.ALIGN_CENTER;
+            bcdTable.DefaultCell.Border = Rectangle.NO_BORDER;
 
-            bcdTable.AddCell(bcdTableHeader);
-            string[] bcdInfo = {
-                "Consultant name, phone No", "Building Consultant: 040404040",//line one 
-                "Consultant’s reference No:", "ABC 00145",
-                "Consultant’s email address:", "Building consulatant@abconsultants.com",//line two
-                "Consultant’s license number:", "131490C",
-                "Date Consultant appointed:", "20 May 2019",//line three
-                "Date Owner contacted:","22 May 2019"
-            };
 
-            foreach (string i in bcdInfo)
-            {
-                bcdTable.AddCell(i);
-            }
+            PdfPCell BuildingConsultantDetail = new PdfPCell(GenerateTestTable(BuildingConsultantDetailTable, "BUILDING CONSULTANT’S DETAILS", 4, 820f));
+            BuildingConsultantDetail.HorizontalAlignment = Element.ALIGN_CENTER;
+            BuildingConsultantDetail.VerticalAlignment = Element.ALIGN_MIDDLE;
+            BuildingConsultantDetail.Border = 0;
+            bcdTable.AddCell(BuildingConsultantDetail);
+
             Doc.Add(bcdTable);
 
             //***********************Third part************************//
@@ -560,14 +629,16 @@ namespace PdfPlayGround
             return GenerateInfoTable(model, columNum, widths, cell, cell);
         }
 
-        protected PdfPTable GenerateTestTable(List<InfoTableMetaData> model, string title, byte columNum = 4, float[] widths = null)
+        protected PdfPTable GenerateTestTable(List<InfoTableMetaData> model, string title, byte columNum = 4, float totalWidths = 0,  float[] widths = null)
         {
             // Set the title cell stylle
             PdfPCell titleCell = new PdfPCell(new Phrase(title, new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)))
             {
                 //BackgroundColor = BaseColor.LightGray,
                 BackgroundColor = new BaseColor(0, 0, 51),
-                HorizontalAlignment = Element.ALIGN_CENTER
+                HorizontalAlignment = Element.ALIGN_CENTER,
+                PaddingTop = 4f,
+                PaddingBottom = 4f,
             };
 
             // Set the config title style
@@ -575,12 +646,22 @@ namespace PdfPlayGround
             //PdfPCell cell = null;
             PdfPCell cell = new PdfPCell()
             {
-                Border = Rectangle.BOX
+                Border = Rectangle.BOX,
+                PaddingTop = 4f,
+                PaddingBottom = 4f,
             };
 
             var table = GenerateInfoTable(model, columNum, widths, headerCell: cell, contentCell: cell, titleCell: titleCell);
             table.HorizontalAlignment = Element.ALIGN_CENTER;
-            table.TotalWidth = 410f;
+            if (totalWidths <= 0)
+            {
+                table.TotalWidth = 820f;
+            }
+            else
+            {
+                table.TotalWidth = totalWidths;
+            }
+            //table.TotalWidth = 410f;
             return table;
         }
 
