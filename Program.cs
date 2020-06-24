@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 
 namespace PdfPlayGround
 {
@@ -7,6 +8,11 @@ namespace PdfPlayGround
     {
         static void Main(string[] args)
         {
+            using (var request = new Model.DataResolver())
+            {
+                var reportFrom = request.GetFormData("Q2xhaW1Kb2I6MjE1Mzk4").Result;
+            }
+
             var a = new PdfTest();
             var file = a.GeneratePdf();
 
