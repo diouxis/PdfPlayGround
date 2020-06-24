@@ -682,7 +682,13 @@ namespace PdfPlayGround
             breach.HorizontalAlignment = Element.ALIGN_LEFT;
             breach.VerticalAlignment = Element.ALIGN_MIDDLE;
 
-            PdfPCell breachInfo = new PdfPCell(new Phrase(
+            Image textImg11 = Image.GetInstance(Path.Combine(FileUtil.ImagePath, "test.jpg"));
+            textImg11.SpacingBefore = 3f;
+            textImg11.SpacingAfter = 5f;
+            textImg11.ScalePercent(40f);
+
+            PdfPCell breachInfo = new PdfPCell();
+            Phrase breachPhrase = new Phrase(
                 "The NSW Office of Fair Trading - Guide to Standards and Tolerances 2017" +
                 ", Clause 11.1 Gaps associated with internal fixing, " +
                 "which states: “Unless documented otherwise, gaps between mouldings or between mouldings and other fixtures, " +
@@ -690,7 +696,9 @@ namespace PdfPlayGround
                 "or exceed 1 mm in width within the first 12 months of completion and are visible from a normal viewing position. " +
                 "After the first 12 months, gaps are defective if they exceed 2 mm in width and are visible from a normal viewing position. " +
                 "Gaps between skirting and flooring are defective if they exceed 2 mm within the first 24 months after handover and are visible from a normal viewing position.”"
-                , new Font(Font.UNDEFINED, 12f, Font.UNDEFINED, BaseColor.Black)));
+                , new Font(Font.UNDEFINED, 12f, Font.UNDEFINED, BaseColor.Black));
+            breachInfo.AddElement(breachPhrase);
+            breachInfo.AddElement(textImg11);
 
             breachInfo.HorizontalAlignment = Element.ALIGN_LEFT;
             breachInfo.Colspan = 6;
