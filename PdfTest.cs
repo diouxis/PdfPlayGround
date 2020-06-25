@@ -9,8 +9,11 @@ using iTextSharp.text.pdf;
 
 namespace PdfPlayGround
 {
+    using Model;
+
     public class PdfTest : PdfBase
     {
+        protected readonly ReportForm Source;
         protected List<InfoTableMetaData> ClaimContent = new List<InfoTableMetaData>();
 
         //Page One 
@@ -21,8 +24,9 @@ namespace PdfPlayGround
         protected List<InfoTableMetaData> ProjectContractDetailTable = new List<InfoTableMetaData>();
         protected List<InfoTableMetaData> ClaimDetailTable = new List<InfoTableMetaData>();
 
-        public PdfTest()
+        public PdfTest(ReportForm reportForm)
         {
+            Source = reportForm;
             PageMargin = new Margin(10, 10, 90, 20);
             PageInfo = new Rectangle(PageSize.A4.Rotate());
         }
@@ -958,7 +962,7 @@ namespace PdfPlayGround
         protected override Font StyleTiltleHeader => FontFactory.GetFont(BaseFont.HELVETICA, 23, Font.BOLD);
         protected override Font StyleHeader => FontFactory.GetFont(BaseFont.HELVETICA, 18, Font.BOLD);
         protected override Font StyleContent => FontFactory.GetFont(BaseFont.HELVETICA, 12);
-        protected override Font StyleContentHeader => FontFactory.GetFont(BaseFont.HELVETICA, 12, Font.UNDEFINED, ThemePrimary);
+        protected override Font StyleContentHeader => FontFactory.GetFont(BaseFont.HELVETICA, 12, Font.BOLD, ThemePrimary);
         protected override Font StyleContentBold => FontFactory.GetFont(BaseFont.HELVETICA, 12, Font.BOLD);
         protected override Font StyleContentSmall => FontFactory.GetFont(BaseFont.HELVETICA, 9);
         protected override Font StyleContentSmallBold => FontFactory.GetFont(BaseFont.HELVETICA, 10, Font.BOLD);

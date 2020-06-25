@@ -8,13 +8,14 @@ namespace PdfPlayGround
     {
         static void Main(string[] args)
         {
+            string file = null;
             using (var request = new Model.DataResolver())
             {
                 var reportFrom = request.GetFormData("Q2xhaW1Kb2I6MjE1Mzk4").Result;
-            }
 
-            var a = new PdfTest();
-            var file = a.GeneratePdf();
+                var a = new PdfTest(reportFrom);
+                file = a.GeneratePdf();
+            }
 
             string pathToAcroRd32 = 
                 Environment.GetEnvironmentVariable("ProgramFiles") 
