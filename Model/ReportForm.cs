@@ -6,24 +6,6 @@ using Newtonsoft.Json.Linq;
 
 namespace PdfPlayGround.Model
 {
-    public class ClaimJob
-    {
-        public ReportForm ReportForm { get; set; }
-        public ReportData ReportData { get; set; }
-
-        public void FillData()
-        {
-            var dataSet = ReportData.Data;
-            foreach (var card in ReportForm.Cards)
-            {
-                foreach(var field in card.Fields)
-                {
-                    field.FillData(dataSet);
-                }
-            }
-        }
-    }
-
     public class ReportData
     {
         public JObject Data { get; set; }

@@ -22,7 +22,7 @@ namespace PdfPlayGround.Model
 			BuildToken();
 		}
 
-		public async Task<ReportForm> GetFormData(string claimId)
+		public async Task<ClaimJob> GetFormData(string claimId)
 		{
 			var request = new GraphQLRequest
 			{
@@ -36,7 +36,7 @@ namespace PdfPlayGround.Model
 			var response = await _client.SendQueryAsync<DataResolveType>(request);
 			var claimJob = response.Data.ClaimJob;
 			claimJob.FillData();
-			return claimJob.ReportForm;
+			return claimJob;
 		}
 
 		private void BuildToken()
@@ -86,6 +86,28 @@ mutation{
         private readonly string _queryFormData = @"
 query ReportQuery($claimId: ID!) {
 	claimJob(where: { id: $claimId }) {
+		insurer{
+		  companyName
+		  companyPhone1
+		  companyPhone2
+		  companyEmail
+		}
+		insured{
+		  name
+		  email
+		}
+		building{
+		  scopingSupplier{
+			companyName
+			companyPhone1
+			companyPhone2
+		  }
+		  authorisedSupplier{
+			companyName
+			companyPhone1
+			companyPhone2
+		  }
+		}
 		reportForm {
 			cards {
 				...ReportCard_cart

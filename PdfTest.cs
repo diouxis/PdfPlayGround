@@ -13,7 +13,7 @@ namespace PdfPlayGround
 
     public class PdfTest : PdfBase
     {
-        protected readonly ReportForm Source;
+        protected readonly ClaimJob Source;
         protected List<InfoTableMetaData> ClaimContent = new List<InfoTableMetaData>();
 
         //Page One 
@@ -24,9 +24,9 @@ namespace PdfPlayGround
         protected List<InfoTableMetaData> ProjectContractDetailTable = new List<InfoTableMetaData>();
         protected List<InfoTableMetaData> ClaimDetailTable = new List<InfoTableMetaData>();
 
-        public PdfTest(ReportForm reportForm)
+        public PdfTest(ClaimJob claimJob)
         {
-            Source = reportForm;
+            Source = claimJob;
             PageMargin = new Margin(10, 10, 90, 20);
             PageInfo = new Rectangle(PageSize.A4.Rotate());
         }

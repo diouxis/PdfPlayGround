@@ -11,9 +11,9 @@ namespace PdfPlayGround
             string file = null;
             using (var request = new Model.DataResolver())
             {
-                var reportFrom = request.GetFormData("Q2xhaW1Kb2I6MjE1Mzk4").Result;
+                var claimJob = request.GetFormData("Q2xhaW1Kb2I6MjE1Mzk4").Result;
 
-                var a = new PdfTest(reportFrom);
+                var a = new PdfTest(claimJob);
                 file = a.GeneratePdf();
             }
 
