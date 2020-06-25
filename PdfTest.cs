@@ -10,6 +10,7 @@ using iTextSharp.text.pdf;
 namespace PdfPlayGround
 {
     using Model;
+    using System.Linq;
 
     public class PdfTest : PdfBase
     {
@@ -24,6 +25,8 @@ namespace PdfPlayGround
         protected List<InfoTableMetaData> ProjectContractDetailTable = new List<InfoTableMetaData>();
         protected List<InfoTableMetaData> ClaimDetailTable = new List<InfoTableMetaData>();
 
+        private Card CoverPageCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Cover Page");
+
         public PdfTest(ClaimJob claimJob)
         {
             Source = claimJob;
@@ -33,11 +36,36 @@ namespace PdfPlayGround
 
         protected override void InitialPdf()
         {
+
+
             ClaimContent = new List<InfoTableMetaData>
             {
-                new InfoTableMetaData("Insurance Ref #:", "Test Claim" ),
+                new InfoTableMetaData("Insurance Ref #:", Source.RefNumber ),
                 new InfoTableMetaData("Event Type:", "Storm" )
             };
+
+            foreach(var card in Source.ReportForm.Cards)
+            {
+                if (cardFormDict.TryGetValue(card.Title, out var componentType))
+                {
+                    foreach (var field in card.Fields)
+                    {
+                        switch (componentType)
+                        {
+
+                        }
+                        switch (field.FieldType)
+                        {
+                            case "FileField":
+                                var valueFiles = field.Value as IEnumerable<string>;
+                                break;
+                            default:
+                                var value = field.Value as string;
+                                break;
+                        }
+                    }
+                }
+            }
 
             JobDetailsTable = new List<InfoTableMetaData>
             {
@@ -134,50 +162,60 @@ namespace PdfPlayGround
             Doc.Add(infoList);
             Doc.Add(emailInfo);
 
-            PdfPTable firstPageTable = new PdfPTable(1);
-            firstPageTable.TotalWidth = 820f;
-            firstPageTable.LockedWidth = true;
-            firstPageTable.SpacingBefore = 10f;
-            firstPageTable.DefaultCell.Border = Rectangle.NO_BORDER;
+            if (CoverPageCard != null)
+            {
+                PdfPTable firstPageTable = new PdfPTable(1);
+                firstPageTable.TotalWidth = 820f;
+                firstPageTable.LockedWidth = true;
+                firstPageTable.SpacingBefore = 10f;
+                firstPageTable.DefaultCell.Border = Rectangle.NO_BORDER;
 
-            PdfPCell firstPageTableHeader = new PdfPCell(new Phrase("TECHNICAL ASSESSMENT & INSPECTION REPORT" + "#1" + 
-                "\n"+ "BUILDERS HOME WARRANTY", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
-            firstPageTableHeader.Colspan = 1;
-            firstPageTableHeader.BackgroundColor = new BaseColor(0, 0, 51);
-            firstPageTableHeader.HorizontalAlignment = Element.ALIGN_CENTER;
-            firstPageTableHeader.Border = Rectangle.NO_BORDER;
+                PdfPCell firstPageTableHeader = new PdfPCell(new Phrase(CoverPageCard.Fields[0].Value.ToString(), new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
+                firstPageTableHeader.Colspan = 1;
+                firstPageTableHeader.BackgroundColor = new BaseColor(0, 0, 51);
+                firstPageTableHeader.HorizontalAlignment = Element.ALIGN_CENTER;
+                firstPageTableHeader.Border = Rectangle.NO_BORDER;
 
-            PdfPCell firstPageTableBody = new PdfPCell(
-                new Phrase("This report has been prepared for the sole use of icare HBCF for the purpose of technical evaluation of alleged defects claimed by the insured. All information has been collected in accordance with National Privacy Principles.",
-                new Font(Font.UNDEFINED, 12f, Font.UNDEFINED, BaseColor.Black)));
-            firstPageTableBody.Border = Rectangle.NO_BORDER;
-            firstPageTableBody.PaddingTop = 10f;
-            firstPageTableBody.PaddingBottom = 10f;
+                PdfPCell firstPageTableBody = new PdfPCell(
+                    new Phrase(CoverPageCard.Fields[1].Value.ToString(),
+                    new Font(Font.UNDEFINED, 12f, Font.UNDEFINED, BaseColor.Black)));
+                firstPageTableBody.Border = Rectangle.NO_BORDER;
+                firstPageTableBody.PaddingTop = 10f;
+                firstPageTableBody.PaddingBottom = 10f;
 
-            //the table img of first page 
-            Image firstPageTableImg = Image.GetInstance(Path.Combine(FileUtil.ImagePath, "firstPageTableImg.jpg"));
-            firstPageTableImg.ScalePercent(30f);
-            //this is the way to center img of itextsharp
-            firstPageTableImg.Alignment = iTextSharp.text.Image.ALIGN_CENTER;
-            Paragraph firstPageTableImgText = new Paragraph("Shows the front Eastern elevation", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black));
-            firstPageTableImgText.Alignment = Element.ALIGN_CENTER;
+                firstPageTable.AddCell(firstPageTableHeader);
+                firstPageTable.AddCell(firstPageTableBody);
 
+                var coverImages = CoverPageCard.Fields[2].Value as IEnumerable<ReportFile>;
+                if (coverImages?.Count() > 0)
+                {
+                    PdfPCell firstPageTableImgInfo = new PdfPCell();
+                    firstPageTableImgInfo.Colspan = 1;
+                    firstPageTableImgInfo.Border = Rectangle.NO_BORDER;
+                    firstPageTableImgInfo.HorizontalAlignment = Element.ALIGN_CENTER;
+                    firstPageTableImgInfo.VerticalAlignment = Element.ALIGN_MIDDLE;
+                    foreach (var imgUrl in coverImages)
+                    {
+                        var coverImg = Image.GetInstance(new Uri(imgUrl.Url));
+                        coverImg.ScalePercent(30f);
+                        coverImg.Alignment = Element.ALIGN_CENTER;
+                        firstPageTableImgInfo.AddElement(coverImg);
 
-            PdfPCell firstPageTableImgInfo = new PdfPCell();
-            firstPageTableImgInfo.Colspan = 1;
-            firstPageTableImgInfo.AddElement(firstPageTableImg);
-            firstPageTableImgInfo.AddElement(firstPageTableImgText);
-            firstPageTableImgInfo.Border = Rectangle.NO_BORDER;
-            firstPageTableImgInfo.HorizontalAlignment = Element.ALIGN_CENTER;
-            firstPageTableImgInfo.VerticalAlignment = Element.ALIGN_MIDDLE;
+                        //imgUrl.Name;
+                        //Paragraph firstPageTableImgText = new Paragraph("Shows the front Eastern elevation", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black));
+                        //firstPageTableImgText.Alignment = Element.ALIGN_CENTER;
 
-            firstPageTable.AddCell(firstPageTableHeader);
-            firstPageTable.AddCell(firstPageTableBody);
-            firstPageTable.AddCell(firstPageTableImgInfo);
+                        //firstPageTableImgInfo.AddElement(firstPageTableImgText);
+                    }
 
-            Doc.Add(firstPageTable);
+                    firstPageTable.AddCell(firstPageTableImgInfo);
+                }
 
+                Doc.Add(firstPageTable);
+
+            }
             Doc.NewPage();
+
 
             //set following to the new page
             //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!page two!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!//
@@ -970,5 +1008,19 @@ namespace PdfPlayGround
         protected override Font StyleAuditBold => FontFactory.GetFont(BaseFont.HELVETICA, 12, Font.BOLD, ThemeAudit);
         protected override Font StyleAuditSmall => FontFactory.GetFont(BaseFont.HELVETICA, 10, ThemeAudit);
         protected override Font StyleAuditSmallBold => FontFactory.GetFont(BaseFont.HELVETICA, 10, Font.BOLD, ThemeAudit);
+
+
+        static Dictionary<string, FormComponentType> cardFormDict = new Dictionary<string, FormComponentType>
+        {
+            { "Cover Page", FormComponentType.CoverPage }
+        };
+
+        enum FormComponentType
+        {
+            CoverPage,
+            NormalTable,
+            ComplexTable,
+            TableAndPicture
+        }
     }
 }

@@ -6,6 +6,7 @@ namespace PdfPlayGround.Model
 {
     public class ClaimJob
     {
+        public string RefNumber { get; set; }
         public Company Insurer { get; set; }
         public ContactDetail Insured { get; set; }
         public Portfolio Building { get; set; }

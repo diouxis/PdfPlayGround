@@ -85,4 +85,10 @@ namespace PdfPlayGround.Model
         public string Label { get; set; }
         public string Value { get; set; }
     }
+
+    public class ReportFile
+    {
+        public string Name { get; set; }
+        public string Url { get; set; }
+    }
 }
