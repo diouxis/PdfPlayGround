@@ -17,11 +17,14 @@ namespace PdfPlayGround.Model
         public void FillData()
         {
             var dataSet = ReportData.Data;
-            foreach (var card in ReportForm.Cards)
+            if (dataSet != null)
             {
-                foreach (var field in card.Fields)
+                foreach (var card in ReportForm.Cards)
                 {
-                    field.FillData(dataSet);
+                    foreach (var field in card.Fields)
+                    {
+                        field.FillData(dataSet);
+                    }
                 }
             }
         }
