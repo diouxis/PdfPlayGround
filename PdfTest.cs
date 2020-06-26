@@ -33,7 +33,7 @@ namespace PdfPlayGround
             JobDetailsTable = new List<InfoTableMetaData> { };
             for (int i = 0; i < JobDetailCard.Fields.Count(); i++)
             {
-                JobDetailsTable[i] = new InfoTableMetaData(JobDetailCard.Fields[i].Label, JobDetailCard.Fields[i].Value.ToString());
+                JobDetailsTable.Add(new InfoTableMetaData(JobDetailCard.Fields[i].Label, JobDetailCard.Fields[i].Value.ToString()));
             }
         }
 
