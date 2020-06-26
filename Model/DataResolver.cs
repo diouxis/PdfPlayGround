@@ -86,6 +86,8 @@ mutation{
         private readonly string _queryFormData = @"
 query ReportQuery($claimId: ID!) {
 	claimJob(where: { id: $claimId }) {
+		id
+		reportFormId
 		refNumber
 		insurer{
 		  companyName

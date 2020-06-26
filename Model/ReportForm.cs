@@ -70,7 +70,10 @@ namespace PdfPlayGround.Model
                         Value = Options.FirstOrDefault(x => x.Value == value.Value<string>());
                         break;
                     case "FileField":
-                        Value = value.Values("url").Select(x => x.Value<string>());
+                        Value = value.Select(x => new ReportFile { 
+                            Name = x.Value<string>("name"),
+                            Url = x.Value<string>("url")
+                        });
                         break;
                     default:
                         Value = value.Value<string>();
