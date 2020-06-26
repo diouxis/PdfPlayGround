@@ -26,6 +26,16 @@ namespace PdfPlayGround
         protected List<InfoTableMetaData> ClaimDetailTable = new List<InfoTableMetaData>();
 
         private Card CoverPageCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Cover Page");
+        private Card JobDetailCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Job Details");
+
+        protected void initialTables() 
+        {
+            JobDetailsTable = new List<InfoTableMetaData> { };
+            for (int i = 0; i < JobDetailCard.Fields.Count(); i++)
+            {
+                JobDetailsTable[i] = new InfoTableMetaData(JobDetailCard.Fields[i].Label, JobDetailCard.Fields[i].Value.ToString());
+            }
+        }
 
         public PdfTest(ClaimJob claimJob)
         {
@@ -36,7 +46,6 @@ namespace PdfPlayGround
 
         protected override void InitialPdf()
         {
-
 
             ClaimContent = new List<InfoTableMetaData>
             {
@@ -69,14 +78,24 @@ namespace PdfPlayGround
 
 
 
-            JobDetailsTable = new List<InfoTableMetaData>
+            if (JobDetailCard != null)
             {
-                new InfoTableMetaData("Building Owner:","Brewster & Lily Hoo"),
-                new InfoTableMetaData("Address:", "12 Sagittarius Drive, Colebee NSW 2761"),
-                new InfoTableMetaData("Client:", "Gallagher Bassett Services Pty Ltd"),
-                new InfoTableMetaData("Our Reference:", "ABC 00145"),
-                new InfoTableMetaData("Client Reference:", "HBCF-CL-00XXXX"),
-            };
+                //JobDetailsTable = new List<InfoTableMetaData>
+                //{
+                //    new InfoTableMetaData("Building Owner:","Brewster & Lily Hoo"),
+                //    new InfoTableMetaData("Address:", "12 Sagittarius Drive, Colebee NSW 2761"),
+                //    new InfoTableMetaData("Client:", "Gallagher Bassett Services Pty Ltd"),
+                //    new InfoTableMetaData("Our Reference:", "ABC 00145"),
+                //    new InfoTableMetaData("Client Reference:", "HBCF-CL-00XXXX"),
+
+                //};
+                //for (int i = 0; i < JobDetailCard.Fields.Count(); i++)
+                //{
+                //    JobDetailsTable[i] = new InfoTableMetaData(JobDetailCard.Fields[i].Label, JobDetailCard.Fields[i].Value.ToString());
+                //}
+                initialTables();
+
+            }
 
             BuildingConsultantDetailTable = new List<InfoTableMetaData>
             {
@@ -1014,15 +1033,30 @@ namespace PdfPlayGround
 
         static Dictionary<string, FormComponentType> cardFormDict = new Dictionary<string, FormComponentType>
         {
-            { "Cover Page", FormComponentType.CoverPage }
+            { "Cover Page", FormComponentType.CoverPage },
+            { "Job Details", FormComponentType.DoubleColTable},
+            { "Introduction", FormComponentType.DoubleColTable},
+            { "Building Consultant's Details", FormComponentType.FourColTable},
+            { "Project and Contact Details", FormComponentType.FourColTable},
+            { "Building Description", FormComponentType.FourColTable},
+            { "Claim Details", FormComponentType.DoubleColTable},
+            { "Instructions from Gallagher Bassett", FormComponentType.SingleColTable},
+            { "Areas of Non-Compliance to BCA(Building Code of Australia)", FormComponentType.SingleColTable},
+            { "Professional Services Engaged by Claimant", FormComponentType.FourColTable},
+            { "Documents relied on in the preparation of this report", FormComponentType.FourColTable},
+            { "Outstanding Mandatory Certification Requirements", FormComponentType.SingleColTable},
+            { "Opinion in relation to Section 95(2) Report", FormComponentType.SingleColTable},
+            { "Schedule of Items", FormComponentType.TableWithPicture},
+
         };
 
         enum FormComponentType
         {
             CoverPage,
-            NormalTable,
-            ComplexTable,
-            TableAndPicture
+            SingleColTable,
+            DoubleColTable,
+            FourColTable,
+            TableWithPicture
         }
     }
 }
