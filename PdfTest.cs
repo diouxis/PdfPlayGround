@@ -10,6 +10,7 @@ using iTextSharp.text.pdf;
 namespace PdfPlayGround
 {
     using Model;
+    using Org.BouncyCastle.Asn1.Cmp;
     using System.Linq;
 
     public class PdfTest : PdfBase
@@ -215,19 +216,19 @@ namespace PdfPlayGround
                     firstPageTableImgInfo.Border = Rectangle.NO_BORDER;
                     firstPageTableImgInfo.HorizontalAlignment = Element.ALIGN_CENTER;
                     firstPageTableImgInfo.VerticalAlignment = Element.ALIGN_MIDDLE;
-                    foreach (var imgUrl in coverImages)
-                    {
-                        var coverImg = Image.GetInstance(new Uri(imgUrl.Url));
-                        coverImg.ScalePercent(30f);
-                        coverImg.Alignment = Element.ALIGN_CENTER;
-                        firstPageTableImgInfo.AddElement(coverImg);
+                    //foreach (var imgUrl in coverImages)
+                    //{
+                    //    var coverImg = Image.GetInstance(new Uri(imgUrl.Url));
+                    //    coverImg.ScalePercent(30f);
+                    //    coverImg.Alignment = Element.ALIGN_CENTER;
+                    //    firstPageTableImgInfo.AddElement(coverImg);
 
-                        //imgUrl.Name;
-                        //Paragraph firstPageTableImgText = new Paragraph("Shows the front Eastern elevation", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black));
-                        //firstPageTableImgText.Alignment = Element.ALIGN_CENTER;
+                    //    //imgUrl.Name;
+                    //    //Paragraph firstPageTableImgText = new Paragraph("Shows the front Eastern elevation", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black));
+                    //    //firstPageTableImgText.Alignment = Element.ALIGN_CENTER;
 
-                        //firstPageTableImgInfo.AddElement(firstPageTableImgText);
-                    }
+                    //    //firstPageTableImgInfo.AddElement(firstPageTableImgText);
+                    //}
 
                     firstPageTable.AddCell(firstPageTableImgInfo);
                 }
@@ -441,211 +442,129 @@ namespace PdfPlayGround
             //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!page Four!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!//
             Doc.NewPage();
 
+            ItemReporData testData = new ItemReporData("ITEM 1");
+            testData.TitleFields.Add(new InfoTableMetaData("Description:", "Architrave cut around light switch", colLable: 2, colData: 4));
+            testData.TitleFields.Add(new InfoTableMetaData("Location:", "Entry", colData: 1));
+
+            testData.Fields.Add(new InfoTableMetaData("Cross Ref:", "11111", colData: 0));
+            testData.Fields.Add(new InfoTableMetaData("Loss type:", "Minor Defect", colData: 2));
+            testData.Fields.Add(new InfoTableMetaData("Completion status:", "N/A", colData: 1));
+            testData.Fields.Add(new InfoTableMetaData("Recommendation:", "Decline", colLable: 2, colData: 1));
+
+            testData.Rows.Add(new InfoTableMetaData("Observation", "The item of claim is unspecific to the precise locations of the scuff marks." + "\n" +
+                "The inspection revealed several minor scuff marks to the internal walls of the residence, consistent with accidental damage." + "\n" +
+                "As the residence was completed in August 2017, and occupied since, and the inspection carried out in July 2019, it cannot be confirmed who caused the damage to the internal walls. " +
+                "There is insufficient evidence to confirm whether the damage to the internal walls was caused by the Builder during the construction works. " +
+                "The damage may have been caused by others during occupation of the residence."));
+            testData.Rows.Add(new InfoTableMetaData("Cause", "Minor building movement and poor fixing"));
+            testData.Rows.Add(new InfoTableMetaData("Breach(es)", "The NSW Office of Fair Trading - Guide to Standards and Tolerances 2017" +
+                ", Clause 11.1 Gaps associated with internal fixing, " +
+                "which states: “Unless documented otherwise, gaps between mouldings or between mouldings and other fixtures, " +
+                "at mitre or butt joints, or at junctions with a wall or other surfaces, are defective if they exist at handover, " +
+                "or exceed 1 mm in width within the first 12 months of completion and are visible from a normal viewing position. " +
+                "After the first 12 months, gaps are defective if they exceed 2 mm in width and are visible from a normal viewing position. " +
+                "Gaps between skirting and flooring are defective if they exceed 2 mm within the first 24 months after handover and are visible from a normal viewing position.”"));
+            testData.Rows.Add(new InfoTableMetaData("Reason for Denial", "N/A"));
+            testData.Rows.Add(new InfoTableMetaData("Suggested Scope of Works", "N/A"));
+
+            testData.Images.Add(new ReportFile {
+                Name = "this is an example",
+                Url = Path.Combine(FileUtil.ImagePath, "test.jpg")
+            });
+            testData.Images.Add(new ReportFile
+            {
+                Name = "this is an example",
+                Url = Path.Combine(FileUtil.ImagePath, "test.jpg")
+            });
+
+            Doc.Add(GenerateItemReportTable(testData, dataColNumber: 9));
+
+            Doc.NewPage();
             CreateTypeThreeTable();
-            //table type 3
+        }
 
-            //PdfPTable table3 = new PdfPTable(9);
-            //table3.TotalWidth = 820f;
-            //table3.LockedWidth = true;
-            //table3.DefaultCell.FixedHeight = 700f;
+        protected PdfPTable GenerateItemReportTable(ItemReporData data, int dataColNumber)
+        {
+            PdfPTable itemReportTable = new PdfPTable(2)
+            {
+                TotalWidth = PageContentWidth,
+                LockedWidth = true
+            };
+            PdfPTable dataTable = new PdfPTable(dataColNumber);
+            PdfPTable imgTable = new PdfPTable(1);
 
-            ////left part of table 3 
+            //dataTable.DefaultCell.FixedHeight = 700f;
+            foreach (var titleFields in data.TitleFields) SetField(titleFields, isTitle: true);
+            foreach (var field in data.Fields) SetField(field, isTitle: false);
+            foreach (var row in data.Rows) SetRow(row);
+            foreach (var file in data.Images) SetImage(file);
 
-            ////left First part of Table 3 
-            //PdfPTable table3Left = new PdfPTable(7);
-            ////item
-            //PdfPCell table3LeftItemNum = new PdfPCell(new Phrase("ITEM 1", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
-            //table3LeftItemNum.BackgroundColor = new BaseColor(0, 0, 51);
-            //table3LeftItemNum.HorizontalAlignment = Element.ALIGN_CENTER;
-            ////description
-            //PdfPCell table3LeftDescription = new PdfPCell(new Phrase("Description: ", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
-            //table3LeftDescription.BackgroundColor = new BaseColor(0, 0, 51);
-            //table3LeftDescription.HorizontalAlignment = Element.ALIGN_CENTER;
-            ////descriptionInfo
-            //PdfPCell table3LeftInfo = new PdfPCell(new Phrase("Architrave cut around light switch", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
-            //table3LeftInfo.BackgroundColor = new BaseColor(0, 0, 51);
-            //table3LeftInfo.Colspan = 3;
-            //table3LeftInfo.HorizontalAlignment = Element.ALIGN_CENTER;
-            ////location
-            //PdfPCell table3LeftLocation = new PdfPCell(new Phrase("Location: ", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
-            //table3LeftLocation.BackgroundColor = new BaseColor(0, 0, 51);
-            //table3LeftLocation.HorizontalAlignment = Element.ALIGN_CENTER;
-            ////locationInfo
-            //PdfPCell table3LeftLocationInfom = new PdfPCell(new Phrase("Entry", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
-            //table3LeftLocationInfom.BackgroundColor = new BaseColor(0, 0, 51);
-            //table3LeftLocationInfom.HorizontalAlignment = Element.ALIGN_CENTER;
+            itemReportTable.SetWidths(new float[] { 8f, 2f });
+            itemReportTable.AddCell(dataTable.GenNestedCell());
+            itemReportTable.AddCell(imgTable.GenNestedCell());
 
-            //table3Left.AddCell(table3LeftItemNum);
-            //table3Left.AddCell(table3LeftDescription);
-            //table3Left.AddCell(table3LeftInfo);
-            //table3Left.AddCell(table3LeftLocation);
-            //table3Left.AddCell(table3LeftLocationInfom);
+            return itemReportTable;
 
-            ////left Second part of table 3 
-            //PdfPCell crossRef = new PdfPCell(new Phrase("Cross Ref:" + "\n" + "11111", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
-            //crossRef.HorizontalAlignment = Element.ALIGN_LEFT;
+            void SetField(InfoTableMetaData metaData, bool isTitle)
+            {
+                BaseColor backGround = isTitle ? ThemeTableHeadShading : BaseColor.White;
+                Font styleHeader = isTitle ? StyleTiltleHeader : StyleContentHeader;
+                Font styleContent = isTitle ? StyleTiltleContent : StyleContent;
 
-            //PdfPCell lossType = new PdfPCell(new Phrase("Loss type: ", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
-            //lossType.HorizontalAlignment = Element.ALIGN_LEFT;
+                PdfPCell titleHeaderCell = new PdfPCell(new Phrase(metaData.Name, styleHeader))
+                {
+                    BackgroundColor = backGround,
+                    HorizontalAlignment = Element.ALIGN_RIGHT,
+                    Colspan = metaData.ColspanLabel,
+                    Padding = 5f
+                };
+                dataTable.AddCell(titleHeaderCell);
+                if (metaData.ColspanContent > 0)
+                {
+                    PdfPCell titleContentCell = new PdfPCell(new Phrase(metaData.Content, styleContent))
+                    {
+                        BackgroundColor = backGround,
+                        HorizontalAlignment = Element.ALIGN_LEFT,
+                        Colspan = metaData.ColspanContent,
+                        Padding = 5f
+                    };
+                    dataTable.AddCell(titleContentCell);
+                }
+                else if (!string.IsNullOrEmpty(metaData.Content))
+                {
+                    titleHeaderCell.Phrase.Add(new Phrase(Environment.NewLine + metaData.Content, styleContent));
+                }
+            }
 
-            //PdfPCell lossTypeInfo = new PdfPCell(new Phrase("Minor Defect ", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
-            //lossTypeInfo.HorizontalAlignment = Element.ALIGN_LEFT;
+            void SetRow(InfoTableMetaData metaData)
+            {
+                PdfPCell rowHeaderCell = new PdfPCell(new Phrase(metaData.Name, StyleContentHeader))
+                {
+                    HorizontalAlignment = Element.ALIGN_CENTER,
+                    Padding = 5f
+                };
+                dataTable.AddCell(rowHeaderCell);
+                PdfPCell rowContentCell = new PdfPCell(new Phrase(metaData.Content, StyleContent))
+                {
+                    HorizontalAlignment = Element.ALIGN_LEFT,
+                    Colspan = dataColNumber - 1,
+                    Padding = 5f
+                };
+                dataTable.AddCell(rowContentCell);
+            }
 
-            //PdfPCell completionStatus = new PdfPCell(new Phrase("Completion status:", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
-            //completionStatus.HorizontalAlignment = Element.ALIGN_LEFT;
-
-            //PdfPCell completionStatusInfo = new PdfPCell(new Phrase("N/A", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
-            //completionStatusInfo.HorizontalAlignment = Element.ALIGN_LEFT;
-
-            //PdfPCell recommendation = new PdfPCell(new Phrase("Recommendation:", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
-            //recommendation.HorizontalAlignment = Element.ALIGN_LEFT;
-
-            //PdfPCell recommendationInfo = new PdfPCell(new Phrase("Decline:", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
-            //recommendationInfo.HorizontalAlignment = Element.ALIGN_LEFT;
-
-            //table3Left.AddCell(crossRef);
-            //table3Left.AddCell(lossType);
-            //table3Left.AddCell(lossTypeInfo);
-            //table3Left.AddCell(completionStatus);
-            //table3Left.AddCell(completionStatusInfo);
-            //table3Left.AddCell(recommendation);
-            //table3Left.AddCell(recommendationInfo);
-
-            ////info from third line to last line 
-            //PdfPCell observation = new PdfPCell(new Phrase("Observation", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
-            //observation.HorizontalAlignment = Element.ALIGN_LEFT;
-            //observation.VerticalAlignment = Element.ALIGN_MIDDLE;
-
-            //PdfPCell observationInfo = new PdfPCell(new Phrase(
-            //    "The item of claim is unspecific to the precise locations of the scuff marks." + "\n" +
-            //    "The inspection revealed several minor scuff marks to the internal walls of the residence, consistent with accidental damage." + "\n" +
-            //    "As the residence was completed in August 2017, and occupied since, and the inspection carried out in July 2019, it cannot be confirmed who caused the damage to the internal walls. " +
-            //    "There is insufficient evidence to confirm whether the damage to the internal walls was caused by the Builder during the construction works. " +
-            //    "The damage may have been caused by others during occupation of the residence."
-            //    , new Font(Font.UNDEFINED, 12f, Font.UNDEFINED, BaseColor.Black)));
-            //observationInfo.HorizontalAlignment = Element.ALIGN_LEFT;
-            //observationInfo.Colspan = 6;
-            //observationInfo.PaddingLeft = 4f;
-
-            //PdfPCell cause = new PdfPCell(new Phrase("Cause", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
-            //cause.HorizontalAlignment = Element.ALIGN_LEFT;
-            //cause.VerticalAlignment = Element.ALIGN_MIDDLE;
-
-            //PdfPCell causeInfo = new PdfPCell(new Phrase("Minor building movement and poor fixing", new Font(Font.UNDEFINED, 12f, Font.UNDEFINED, BaseColor.Black)));
-            //causeInfo.HorizontalAlignment = Element.ALIGN_LEFT;
-            //causeInfo.Colspan = 6;
-            //causeInfo.Padding = 4f;
-
-            //PdfPCell breach = new PdfPCell(new Phrase("Breach(es)", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
-            //breach.HorizontalAlignment = Element.ALIGN_LEFT;
-            //breach.VerticalAlignment = Element.ALIGN_MIDDLE;
-
-            //PdfPCell breachInfo = new PdfPCell(new Phrase(
-            //    "The NSW Office of Fair Trading - Guide to Standards and Tolerances 2017" +
-            //    ", Clause 11.1 Gaps associated with internal fixing, " +
-            //    "which states: “Unless documented otherwise, gaps between mouldings or between mouldings and other fixtures, " +
-            //    "at mitre or butt joints, or at junctions with a wall or other surfaces, are defective if they exist at handover, " +
-            //    "or exceed 1 mm in width within the first 12 months of completion and are visible from a normal viewing position. " +
-            //    "After the first 12 months, gaps are defective if they exceed 2 mm in width and are visible from a normal viewing position. " +
-            //    "Gaps between skirting and flooring are defective if they exceed 2 mm within the first 24 months after handover and are visible from a normal viewing position.”"
-            //    , new Font(Font.UNDEFINED, 12f, Font.UNDEFINED, BaseColor.Black)));
-
-            //breachInfo.HorizontalAlignment = Element.ALIGN_LEFT;
-            //breachInfo.Colspan = 6;
-            ////breachInfo.PaddingTop = 4f;
-            ////breachInfo.PaddingBottom = 4f;
-            //breachInfo.PaddingLeft = 4f;
-
-            //PdfPCell reasonForDenial = new PdfPCell(new Phrase("Reason for Denial", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
-            //reasonForDenial.HorizontalAlignment = Element.ALIGN_LEFT;
-            //reasonForDenial.VerticalAlignment = Element.ALIGN_MIDDLE;
-
-            //PdfPCell reasonForDenialInfo = new PdfPCell(new Phrase("N/A", new Font(Font.UNDEFINED, 12f, Font.UNDEFINED, BaseColor.Black)));
-            //reasonForDenialInfo.HorizontalAlignment = Element.ALIGN_LEFT;
-            //reasonForDenialInfo.Colspan = 6;
-            //reasonForDenialInfo.PaddingLeft = 4f;
-
-            ////list in Suggested Scope of Works
-            //List table3List = new List(List.ORDERED, 15f);
-            //table3List.SetListSymbol("\u2022");
-            //table3List.IndentationLeft = 12f;
-            //string[] listInfo = {
-            //    "Re-orientate the light switch adjacent to the front door vertically to clear the architrave",
-            //    "Replace the cut-out section or architrave with a matching profiled section.",
-            //    "Repair the plasterboard wall lining as part of the switch re-orientation. Work to AS 2589 – Gypsum lining – Application and finishing.",
-            //    "Prepare and paint the affected wall and architrave, to the nearest break or joint using a similar colour and finish to the existing and in accordance with AS 2311 - Guide To The Painting Of Buildings.",
-            //    "Make good all affected surfaces as part of the works, to their prior condition.",
-            //};
-
-            //foreach (string i in listInfo)
-            //{
-            //    iTextSharp.text.ListItem item = new iTextSharp.text.ListItem(i, new Font(Font.UNDEFINED, 12f, Font.UNDEFINED, BaseColor.Black));
-            //    table3List.Add(item);
-            //}
-
-            ////list in Suggested Scope of Works ends
-            //PdfPCell suggestedScopeOfWorks = new PdfPCell(new Phrase("Suggested Scope of Works", 
-            //    new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
-            //suggestedScopeOfWorks.HorizontalAlignment = Element.ALIGN_LEFT;
-            //suggestedScopeOfWorks.VerticalAlignment = Element.ALIGN_MIDDLE;
-
-            //PdfPCell suggestedScopeOfWorksList = new PdfPCell();
-            //suggestedScopeOfWorksList.HorizontalAlignment = Element.ALIGN_LEFT;
-            //suggestedScopeOfWorksList.Colspan = 6;
-            //suggestedScopeOfWorksList.PaddingLeft = 4f;
-
-
-            ////add list title
-            //Phrase listTitle = new Phrase("Allow: ", new Font(Font.UNDEFINED, 12f, Font.UNDEFINED, BaseColor.Black));
-            //Paragraph listTitleNamePah = new Paragraph();
-            //string listTitleNameText = "Entity";
-            //listTitleNamePah.Add(new Phrase(listTitleNameText, new Font(Font.UNDEFINED, 12f, Font.UNDEFINED, BaseColor.Black)));
-            ////listTitleNamePah.Add(listTitleNameText);
-            //listTitleNamePah.IndentationLeft = 12f;
-            //listTitleNamePah.Font.Size = 12f;
-
-            ////Phrase listTitleName = new Phrase(listTitleNamePah, new Font(Font.UNDEFINED, 12f, Font.UNDERLINE, BaseColor.Black));
-
-            //suggestedScopeOfWorksList.AddElement(listTitle);
-            //suggestedScopeOfWorksList.AddElement(listTitleNamePah);
-            //suggestedScopeOfWorksList.AddElement(table3List);
-
-            //table3Left.AddCell(observation);
-            //table3Left.AddCell(observationInfo);
-
-            //table3Left.AddCell(cause);
-            //table3Left.AddCell(causeInfo);
-
-            //table3Left.AddCell(breach);
-            //table3Left.AddCell(breachInfo);
-
-            //table3Left.AddCell(reasonForDenial);
-            //table3Left.AddCell(reasonForDenialInfo);
-
-            //table3Left.AddCell(suggestedScopeOfWorks);
-            //table3Left.AddCell(suggestedScopeOfWorksList);
-
-            //PdfPCell table3Header = new PdfPCell(table3Left);
-            //table3Header.Colspan = 7;
-
-            ////right part of table 3 
-
-            ////image phrase 
-            //Image textImg = Image.GetInstance(Path.Combine(FileUtil.ImagePath, "test.jpg"));
-            //textImg.SpacingAfter = 5f;
-            //textImg.ScalePercent(40f);
-
-            //PdfPCell table3Right = new PdfPCell();
-            //table3Right.AddElement(textImg);
-            //table3Right.Colspan = 2;
-            //table3Right.HorizontalAlignment = Element.ALIGN_LEFT;
-            ////table3Right.Rowspan = 6;
-
-            //table3.AddCell(table3Header);
-            //table3.AddCell(table3Right);
-
-            //Doc.Add(table3);
-        } 
+            void SetImage(ReportFile file)
+            {
+                PdfPCell imgCell = new PdfPCell
+                {
+                    HorizontalAlignment = Element.ALIGN_LEFT,
+                    PaddingBottom = 8f
+                };
+                imgCell.AddElement(Image.GetInstance(file.Url));
+                imgCell.AddElement(new Phrase(file.Name, StyleContentSmall));
+                imgTable.AddCell(imgCell);
+            }
+        }
 
         protected void CreateTypeThreeTable()
         {
@@ -1016,14 +935,15 @@ namespace PdfPlayGround
         }
 
         //Define the style
-        protected override BaseColor ThemeTableHeadShading => BaseColor.White;
+        protected override BaseColor ThemeTableHeadShading => new BaseColor(0, 0, 51);
 
-        protected override Font StyleTiltleHeader => FontFactory.GetFont(BaseFont.HELVETICA, 23, Font.BOLD);
+        protected virtual Font StyleTiltleContent => FontFactory.GetFont(BaseFont.HELVETICA, 11, Font.NORMAL, BaseColor.White);
+        protected override Font StyleTiltleHeader => FontFactory.GetFont(BaseFont.HELVETICA, 11, Font.BOLD, BaseColor.White);
         protected override Font StyleHeader => FontFactory.GetFont(BaseFont.HELVETICA, 18, Font.BOLD);
-        protected override Font StyleContent => FontFactory.GetFont(BaseFont.HELVETICA, 12);
-        protected override Font StyleContentHeader => FontFactory.GetFont(BaseFont.HELVETICA, 12, Font.BOLD, ThemePrimary);
-        protected override Font StyleContentBold => FontFactory.GetFont(BaseFont.HELVETICA, 12, Font.BOLD);
-        protected override Font StyleContentSmall => FontFactory.GetFont(BaseFont.HELVETICA, 9);
+        protected override Font StyleContent => FontFactory.GetFont(BaseFont.HELVETICA, 11);
+        protected override Font StyleContentHeader => FontFactory.GetFont(BaseFont.HELVETICA, 11, Font.BOLD, ThemePrimary);
+        protected override Font StyleContentBold => FontFactory.GetFont(BaseFont.HELVETICA, 11, Font.BOLD);
+        protected override Font StyleContentSmall => FontFactory.GetFont(BaseFont.HELVETICA, 8);
         protected override Font StyleContentSmallBold => FontFactory.GetFont(BaseFont.HELVETICA, 10, Font.BOLD);
         protected override Font StyleAudit => FontFactory.GetFont(BaseFont.HELVETICA, 12, ThemeAudit);
         protected override Font StyleAuditBold => FontFactory.GetFont(BaseFont.HELVETICA, 12, Font.BOLD, ThemeAudit);
@@ -1057,6 +977,25 @@ namespace PdfPlayGround
             DoubleColTable,
             FourColTable,
             TableWithPicture
+        }
+
+        protected struct ItemReporData
+        {
+            public List<InfoTableMetaData> TitleFields { get; set; }
+            public List<InfoTableMetaData> Fields { get; set; }
+            public List<InfoTableMetaData> Rows { get; set; }
+            public List<ReportFile> Images { get; set; }
+
+            public ItemReporData(string name)
+            {
+                TitleFields = new List<InfoTableMetaData>()
+                {
+                    new InfoTableMetaData(name, null, colData: 0)
+                };
+                Fields = new List<InfoTableMetaData>();
+                Rows = new List<InfoTableMetaData>();
+                Images = new List<ReportFile>();
+            }
         }
     }
 }
