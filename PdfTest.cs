@@ -216,19 +216,19 @@ namespace PdfPlayGround
                     firstPageTableImgInfo.Border = Rectangle.NO_BORDER;
                     firstPageTableImgInfo.HorizontalAlignment = Element.ALIGN_CENTER;
                     firstPageTableImgInfo.VerticalAlignment = Element.ALIGN_MIDDLE;
-                    //foreach (var imgUrl in coverImages)
-                    //{
-                    //    var coverImg = Image.GetInstance(new Uri(imgUrl.Url));
-                    //    coverImg.ScalePercent(30f);
-                    //    coverImg.Alignment = Element.ALIGN_CENTER;
-                    //    firstPageTableImgInfo.AddElement(coverImg);
+                    foreach (var imgUrl in coverImages)
+                    {
+                        var coverImg = Image.GetInstance(new Uri(imgUrl.Url));
+                        coverImg.ScalePercent(30f);
+                        coverImg.Alignment = Element.ALIGN_CENTER;
+                        firstPageTableImgInfo.AddElement(coverImg);
 
-                    //    //imgUrl.Name;
-                    //    //Paragraph firstPageTableImgText = new Paragraph("Shows the front Eastern elevation", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black));
-                    //    //firstPageTableImgText.Alignment = Element.ALIGN_CENTER;
+                        //imgUrl.Name;
+                        //Paragraph firstPageTableImgText = new Paragraph("Shows the front Eastern elevation", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black));
+                        //firstPageTableImgText.Alignment = Element.ALIGN_CENTER;
 
-                    //    //firstPageTableImgInfo.AddElement(firstPageTableImgText);
-                    //}
+                        //firstPageTableImgInfo.AddElement(firstPageTableImgText);
+                    }
 
                     firstPageTable.AddCell(firstPageTableImgInfo);
                 }
