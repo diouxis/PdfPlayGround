@@ -28,14 +28,20 @@ namespace PdfPlayGround
 
         private Card CoverPageCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Cover Page");
         private Card JobDetailCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Job Details");
+        private Card BuildingConDetailCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Building Consultant's Details");
+        private Card BuildingDescriptionCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Building Description");
+        private Card ProjectContractDetailCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Project and Contact Details");
+        private Card ClaimDetailCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Claim Details");
 
-        protected void initialTables() 
+
+        protected List<InfoTableMetaData> InitialTables(List<InfoTableMetaData> table, Card card)
         {
-            JobDetailsTable = new List<InfoTableMetaData> { };
-            for (int i = 0; i < JobDetailCard.Fields.Count(); i++)
+            table = new List<InfoTableMetaData> { };
+            for (int i = 0; i < card.Fields.Count(); i++)
             {
-                JobDetailsTable.Add(new InfoTableMetaData(JobDetailCard.Fields[i].Label, JobDetailCard.Fields[i].Value.ToString()));
+                table.Add(new InfoTableMetaData(card.Fields[i].Label, card.Fields[i].Value?.ToString()));
             }
+            return table;
         }
 
         public PdfTest(ClaimJob claimJob)
@@ -77,78 +83,31 @@ namespace PdfPlayGround
                 }
             }
 
-
-
+            //initialize the data of table (two cols and 4 cols)
             if (JobDetailCard != null)
             {
-                //JobDetailsTable = new List<InfoTableMetaData>
-                //{
-                //    new InfoTableMetaData("Building Owner:","Brewster & Lily Hoo"),
-                //    new InfoTableMetaData("Address:", "12 Sagittarius Drive, Colebee NSW 2761"),
-                //    new InfoTableMetaData("Client:", "Gallagher Bassett Services Pty Ltd"),
-                //    new InfoTableMetaData("Our Reference:", "ABC 00145"),
-                //    new InfoTableMetaData("Client Reference:", "HBCF-CL-00XXXX"),
-
-                //};
-                //for (int i = 0; i < JobDetailCard.Fields.Count(); i++)
-                //{
-                //    JobDetailsTable[i] = new InfoTableMetaData(JobDetailCard.Fields[i].Label, JobDetailCard.Fields[i].Value.ToString());
-                //}
-                initialTables();
-
+                JobDetailsTable = InitialTables(JobDetailsTable, JobDetailCard);
             }
 
-            BuildingConsultantDetailTable = new List<InfoTableMetaData>
+            if (BuildingConDetailCard != null)
             {
-                new InfoTableMetaData("Consultant name, phone No", "Building Consultant: 040404040"),
-                new InfoTableMetaData("Consultant’s reference No:", "ABC 00145"),
-                new InfoTableMetaData("Consultant’s email address:", "Building consulatant@abconsultants.com"),
-                new InfoTableMetaData("Consultant’s license number:", "131490C"),
-                new InfoTableMetaData("Date Consultant appointed:", "20 May 2019"),
-                new InfoTableMetaData("Date Owner contacted:", "22 May 2019"),
-            };
+                BuildingConsultantDetailTable = InitialTables(BuildingConsultantDetailTable, BuildingConDetailCard);
+            }
 
-            BuildingDescriptionTable = new List<InfoTableMetaData>
+            if (BuildingDescriptionCard != null)
             {
-                new InfoTableMetaData("Ground floor:", "Concrete Slab"),
-                new InfoTableMetaData("Occupancy:", "August 2017"),
-                new InfoTableMetaData("First floor:", "Residential"),
-                new InfoTableMetaData("Building Usage:", "131490C"),
+                BuildingDescriptionTable = InitialTables(BuildingDescriptionTable, BuildingDescriptionCard);
+            }
 
-                new InfoTableMetaData("External cladding:", "Brick Veneer & Weatherboard"),
-                new InfoTableMetaData("Building Classification:", "Class 1a (House) and Class 10a(Garage)"),
-                new InfoTableMetaData("Roof cladding:", "Concrete Tiles"),
-                new InfoTableMetaData("Orientation:", "East - Sagittarius Drive"),
-                new InfoTableMetaData("No of storeys:", "Two"),
-                new InfoTableMetaData("Site topography:", "Minor downward slope from West to East"),
-                new InfoTableMetaData("Condition:", "Good"),
-                new InfoTableMetaData("Project stage:", "Complete")
-            };
-
-            ProjectContractDetailTable = new List<InfoTableMetaData>
+            if (ProjectContractDetailCard != null)
             {
-                new InfoTableMetaData("Contract Date:", "6 April 2017"),
-                new InfoTableMetaData("Is Project Completed:", "Complete"),
-                new InfoTableMetaData("Contract Type:", "NSW Fair Trading – Fixed Price"),
-                new InfoTableMetaData("Occupation/handover date:", "August 2017"),
-                new InfoTableMetaData("Contract Amount:", "$347,668.00"),
-                new InfoTableMetaData("Builder’s name:", "XXX Building Services Pty Ltd"),
-                new InfoTableMetaData("Variations Amount:", "Nil"),
-                new InfoTableMetaData("Builder’s License No:", "XXXXXXXC")
-            };
+                ProjectContractDetailTable = InitialTables(ProjectContractDetailTable, ProjectContractDetailCard);
+            }
 
-            ClaimDetailTable = new List<InfoTableMetaData>
+            if (ClaimDetailCard != null)
             {
-                new InfoTableMetaData("Date claim was reported (in writing) to Gallagher Bassett", "Claim Form signed 12/04/2019"),
-                new InfoTableMetaData("Age of property at time claim was reported to Gallagher Bassett", "1 year 8 months"),
-                new InfoTableMetaData("Age of property at date claim was first reported to Gallagher Bassett", "1 year 8 months"),
-                new InfoTableMetaData("Is Property in time for Major Defects", "Yes"),
-                new InfoTableMetaData("Is Property in time for other defects", "Yes"),
-                new InfoTableMetaData("Was the Contract Price in line with industry standard", "Yes"),
-                new InfoTableMetaData("Method used to measure contract price", "Rawlinsons Construction Cost Guide"),
-                new InfoTableMetaData("Have any pre-payments been made", "N/A – Contract paid in full"),
-                new InfoTableMetaData("Have any overpayments been identified and how much, if so?", "N/A – Contract paid in full")
-            };
+                ClaimDetailTable = InitialTables(ClaimDetailTable, ClaimDetailCard);
+            }
 
             PdfPageEvent = new ENDataClassicHeader(this);
         }
@@ -215,7 +174,7 @@ namespace PdfPlayGround
                     firstPageTableImgInfo.Colspan = 1;
                     firstPageTableImgInfo.Border = Rectangle.NO_BORDER;
                     firstPageTableImgInfo.HorizontalAlignment = Element.ALIGN_CENTER;
-                    firstPageTableImgInfo.VerticalAlignment = Element.ALIGN_MIDDLE;
+                    //firstPageTableImgInfo.VerticalAlignment = Element.ALIGN_MIDDLE;
                     foreach (var imgUrl in coverImages)
                     {
                         var coverImg = Image.GetInstance(new Uri(imgUrl.Url));
@@ -236,7 +195,7 @@ namespace PdfPlayGround
                 Doc.Add(firstPageTable);
 
             }
-            Doc.NewPage();
+            //Doc.NewPage();
 
 
             //set following to the new page
@@ -480,7 +439,7 @@ namespace PdfPlayGround
             Doc.Add(GenerateItemReportTable(testData, dataColNumber: 9));
 
             Doc.NewPage();
-            CreateTypeThreeTable();
+            //CreateTypeThreeTable();
         }
 
         protected PdfPTable GenerateItemReportTable(ItemReporData data, int dataColNumber)
@@ -813,6 +772,7 @@ namespace PdfPlayGround
             };
 
             var table = GenerateInfoTable(model, columNum, widths, headerCell: cell, contentCell: cell, titleCell: titleCell);
+            table.CompleteRow();
             table.HorizontalAlignment = Element.ALIGN_CENTER;
             if (totalWidths <= 0)
             {

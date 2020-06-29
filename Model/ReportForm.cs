@@ -67,7 +67,7 @@ namespace PdfPlayGround.Model
                         Value = fieldArray;
                         break;
                     case "SelectField":
-                        Value = Options.FirstOrDefault(x => x.Value == value.Value<string>());
+                        Value = Options.FirstOrDefault(x => x.Value == value.Value<string>())?.Label;
                         break;
                     case "FileField":
                         Value = value.Select(x => new ReportFile { 
