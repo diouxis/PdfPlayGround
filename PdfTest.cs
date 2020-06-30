@@ -25,6 +25,8 @@ namespace PdfPlayGround
         protected List<InfoTableMetaData> BuildingDescriptionTable = new List<InfoTableMetaData>();
         protected List<InfoTableMetaData> ProjectContractDetailTable = new List<InfoTableMetaData>();
         protected List<InfoTableMetaData> ClaimDetailTable = new List<InfoTableMetaData>();
+        protected List<InfoTableMetaData> ProfessionalSerEngageTable = new List<InfoTableMetaData>();
+        protected List<InfoTableMetaData> ReferenceCurriVitaeTable = new List<InfoTableMetaData>();
 
         private Card CoverPageCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Cover Page");
         private Card JobDetailCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Job Details");
@@ -32,6 +34,17 @@ namespace PdfPlayGround
         private Card BuildingDescriptionCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Building Description");
         private Card ProjectContractDetailCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Project and Contact Details");
         private Card ClaimDetailCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Claim Details");
+        private Card IntroductionCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Introduction");
+        private Card DutyToTribunalCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Duty To The Tribunal");
+        private Card InstructionCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Instructions from Gallagher Bassett");
+        private Card AreaBCACard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Areas of Non-Compliance to BCA(Building Code of Australia)");
+        private Card ProfessionalSerEngageCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Professional Services Engaged by Claimant");
+        private Card DocumentPreparationCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Documents relied on in the preparation of this report");
+        private Card OutstandingManCerRequirementCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Outstanding Mandatory Certification Requirements");
+        private Card OpinionRelationSectionCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Opinion in relation to Section 95(2) Report");
+        private Card ScheduleItemCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Schedule of Items");
+        private Card ReferenceCurriVitaeCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "References and Curriculum Vitae");
+        private Card SupplementaryCommInConfiReportCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Supplementary Commercial In-Confidence Report");
 
 
         protected List<InfoTableMetaData> InitialTables(List<InfoTableMetaData> table, Card card)
@@ -89,6 +102,11 @@ namespace PdfPlayGround
                 JobDetailsTable = InitialTables(JobDetailsTable, JobDetailCard);
             }
 
+            if (IntroductionCard != null)
+            {
+                IntroductionTable = InitialTables(IntroductionTable, IntroductionCard);
+            }
+
             if (BuildingConDetailCard != null)
             {
                 BuildingConsultantDetailTable = InitialTables(BuildingConsultantDetailTable, BuildingConDetailCard);
@@ -107,6 +125,21 @@ namespace PdfPlayGround
             if (ClaimDetailCard != null)
             {
                 ClaimDetailTable = InitialTables(ClaimDetailTable, ClaimDetailCard);
+            }
+
+            if (ProfessionalSerEngageCard != null)
+            {
+                //var professionalSerEngageInfo = ProfessionalSerEngageCard.Fields[0].Value as IEnumerable<FieldOption>;
+                //foreach (var i in professionalSerEngageInfo)
+                //{
+                    
+                //}
+                ProfessionalSerEngageTable = InitialTables(ProfessionalSerEngageTable, ProfessionalSerEngageCard);
+            }
+
+            if (ReferenceCurriVitaeCard != null)
+            {
+                ReferenceCurriVitaeTable = InitialTables(ReferenceCurriVitaeTable, ReferenceCurriVitaeCard);
             }
 
             PdfPageEvent = new ENDataClassicHeader(this);
@@ -153,13 +186,15 @@ namespace PdfPlayGround
 
                 PdfPCell firstPageTableHeader = new PdfPCell(new Phrase(CoverPageCard.Fields[0].Value.ToString(), new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
                 firstPageTableHeader.Colspan = 1;
+                firstPageTableHeader.PaddingTop = 4f;
+                firstPageTableHeader.PaddingBottom = 4f;
                 firstPageTableHeader.BackgroundColor = new BaseColor(0, 0, 51);
                 firstPageTableHeader.HorizontalAlignment = Element.ALIGN_CENTER;
                 firstPageTableHeader.Border = Rectangle.NO_BORDER;
 
                 PdfPCell firstPageTableBody = new PdfPCell(
                     new Phrase(CoverPageCard.Fields[1].Value.ToString(),
-                    new Font(Font.UNDEFINED, 12f, Font.UNDEFINED, BaseColor.Black)));
+                    new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
                 firstPageTableBody.Border = Rectangle.NO_BORDER;
                 firstPageTableBody.PaddingTop = 10f;
                 firstPageTableBody.PaddingBottom = 10f;
@@ -174,7 +209,6 @@ namespace PdfPlayGround
                     firstPageTableImgInfo.Colspan = 1;
                     firstPageTableImgInfo.Border = Rectangle.NO_BORDER;
                     firstPageTableImgInfo.HorizontalAlignment = Element.ALIGN_CENTER;
-                    //firstPageTableImgInfo.VerticalAlignment = Element.ALIGN_MIDDLE;
                     foreach (var imgUrl in coverImages)
                     {
                         var coverImg = Image.GetInstance(new Uri(imgUrl.Url));
@@ -195,211 +229,264 @@ namespace PdfPlayGround
                 Doc.Add(firstPageTable);
 
             }
-            //Doc.NewPage();
-
 
             //set following to the new page
             //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!page two!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!//
 
             //***********************first part************************//
-            //Table type 2  
-            PdfPTable introTable = new PdfPTable(2);
-            introTable.TotalWidth = 410f;
-            introTable.LockedWidth = true;
-            introTable.SpacingBefore = 20f;
-            //introTable.SpacingBefore = 20;
-            PdfPCell header = new PdfPCell(new Phrase("INTRODUCTION", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
-            header.BackgroundColor = new BaseColor(0, 0, 51);
-            header.Colspan = 2;
-            header.HorizontalAlignment = Element.ALIGN_CENTER;
-            header.PaddingTop = 4f;
-            header.PaddingBottom = 4f;
 
-            //heading spacing
-            introTable.AddCell(header);
-
-            PdfPCell claimType = new PdfPCell(new Phrase("Claim Type: ", new Font(Font.UNDEFINED, 12f, Font.UNDEFINED, BaseColor.Black)));
-            claimType.PaddingTop = 4f;
-            claimType.PaddingBottom = 4f;
-            claimType.VerticalAlignment = Element.ALIGN_MIDDLE;
-            claimType.Colspan = 1;
-
-            PdfPCell claimTypeInfo = new PdfPCell(new Phrase("Incomeplete & Defects", new Font(Font.UNDEFINED, 12f, Font.UNDEFINED, BaseColor.Black))); 
-            claimTypeInfo.PaddingTop = 4f;
-            claimTypeInfo.PaddingBottom = 4f;
-            claimTypeInfo.VerticalAlignment = Element.ALIGN_MIDDLE;
-            claimTypeInfo.Colspan = 1;
-
-            introTable.AddCell(claimType);
-            introTable.AddCell(claimTypeInfo);
-
-            PdfPCell tableCombineLeft = new PdfPCell(new Phrase("Attendees: "));
-            tableCombineLeft.Colspan = 1;
-            tableCombineLeft.Rowspan = 1;
-            tableCombineLeft.PaddingTop = 4f;
-            tableCombineLeft.PaddingBottom = 4f;
-            tableCombineLeft.VerticalAlignment = Element.ALIGN_MIDDLE;
-            introTable.AddCell(tableCombineLeft);
-
-            PdfPTable tableCombineInfo = new PdfPTable(1);
-            PdfPCell attendeeInfoOne = new PdfPCell(new Phrase("Building Consultant – Ace Building Consultants"));
-            attendeeInfoOne.PaddingTop = 4f;
-            attendeeInfoOne.PaddingBottom = 4f;
-            attendeeInfoOne.VerticalAlignment = Element.ALIGN_MIDDLE;
-
-            PdfPCell attendeeInfoTwo = new PdfPCell(new Phrase("Joe Brandt - Tenant"));
-            attendeeInfoTwo.PaddingTop = 4f;
-            attendeeInfoTwo.PaddingBottom = 4f;
-            attendeeInfoTwo.VerticalAlignment = Element.ALIGN_MIDDLE;
-
-            tableCombineInfo.AddCell(attendeeInfoOne);
-            tableCombineInfo.AddCell(attendeeInfoTwo);
-
-            PdfPCell tableCombineLineing = new PdfPCell(tableCombineInfo);
-            tableCombineLineing.Padding = 0f;
-            introTable.AddCell(tableCombineLineing);
-
-
-            string[] introTableInfo = {
-                "Inspection date:", "25 June 2019",
-                "Inspection time:", "11:00am"
-            };
-
-            foreach (string i in introTableInfo)
+            //put two table into one line
+            if (JobDetailsTable != null && IntroductionTable != null)
             {
-                PdfPCell introRestInfo = new PdfPCell(new Phrase(i));
-                introRestInfo.PaddingTop = 4f;
-                introRestInfo.PaddingBottom = 4f;
-                introTable.AddCell(introRestInfo);
+                PdfPTable twoTable = new PdfPTable(2);
+                twoTable.TotalWidth = 820f;
+                twoTable.LockedWidth = true;
+
+                PdfPCell twoTableLeft = new PdfPCell(GenerateTestTable(JobDetailsTable, "JOB DETAILS", 2, 406f));
+                twoTableLeft.Colspan = 1;
+                twoTableLeft.Padding = 0;
+                twoTableLeft.Border = Rectangle.NO_BORDER;
+
+                //twoTableLeft.PaddingRight = 5f;
+
+                //PdfPCell twoTableRight = new PdfPCell(introTable);
+                //twoTableRight.Colspan = 1;
+                //twoTableRight.Padding = 0;
+                //twoTableRight.Border = Rectangle.NO_BORDER;
+
+                PdfPCell twoTableRight = new PdfPCell(GenerateTestTable(IntroductionTable, "Introduction", 2, 406f));
+                twoTableRight.Colspan = 1;
+                twoTableRight.Padding = 0;
+                twoTableRight.Border = Rectangle.NO_BORDER;
+
+
+
+                //twoTableLeft.PaddingLeft = 5f;
+                twoTable.AddCell(twoTableLeft);
+                //twoTable.AddCell("");
+                twoTable.AddCell(twoTableRight);
+
+                Doc.Add(twoTable);
             }
-
-            ////put two table into one line
-
-            PdfPTable twoTable = new PdfPTable(2);
-            twoTable.TotalWidth = 820f;
-            twoTable.LockedWidth = true;
-
-            PdfPCell twoTableLeft = new PdfPCell(GenerateTestTable(JobDetailsTable, "JOB DETAILS", 2, 406f));
-            twoTableLeft.Colspan = 1;
-            twoTableLeft.Padding = 0;
-            twoTableLeft.Border = Rectangle.NO_BORDER;
-
-            //twoTableLeft.PaddingRight = 5f;
-
-            PdfPCell twoTableRight = new PdfPCell(introTable);
-            twoTableRight.Colspan = 1;
-            twoTableRight.Padding = 0;
-            twoTableRight.Border = Rectangle.NO_BORDER;
-
-            //twoTableLeft.PaddingLeft = 5f;
-            twoTable.AddCell(twoTableLeft);
-            //twoTable.AddCell("");
-            twoTable.AddCell(twoTableRight);
-
-            Doc.Add(twoTable);
 
             //***********************second part************************//
             //BuildingConsultantDetailTable
-            PdfPTable bcdTable = new PdfPTable(1);
-            bcdTable.SpacingBefore = 10f;
-            bcdTable.DefaultCell.Border = Rectangle.NO_BORDER;
+            if (BuildingConsultantDetailTable != null)
+            {
+                PdfPTable bcdTable = new PdfPTable(1);
+                bcdTable.SpacingBefore = 10f;
+                bcdTable.DefaultCell.Border = Rectangle.NO_BORDER;
 
+                PdfPCell BuildingConsultantDetail = new PdfPCell(GenerateTestTable(BuildingConsultantDetailTable, "BUILDING CONSULTANT’S DETAILS", 4, 820f));
+                BuildingConsultantDetail.HorizontalAlignment = Element.ALIGN_CENTER;
+                BuildingConsultantDetail.VerticalAlignment = Element.ALIGN_MIDDLE;
+                BuildingConsultantDetail.Border = 0;
+                bcdTable.AddCell(BuildingConsultantDetail);
 
-            PdfPCell BuildingConsultantDetail = new PdfPCell(GenerateTestTable(BuildingConsultantDetailTable, "BUILDING CONSULTANT’S DETAILS", 4, 820f));
-            BuildingConsultantDetail.HorizontalAlignment = Element.ALIGN_CENTER;
-            BuildingConsultantDetail.VerticalAlignment = Element.ALIGN_MIDDLE;
-            BuildingConsultantDetail.Border = 0;
-            bcdTable.AddCell(BuildingConsultantDetail);
-
-            Doc.Add(bcdTable);
-
+                Doc.Add(bcdTable);
+            }
 
             //***********************Third part************************//
             //BuildingDescriptionTable
-            PdfPTable bdTable = new PdfPTable(1);
-            bdTable.SpacingBefore = 10f;
-            bdTable.DefaultCell.Border = Rectangle.NO_BORDER;
+            if (BuildingDescriptionTable != null)
+            {
+                PdfPTable bdTable = new PdfPTable(1);
+                bdTable.SpacingBefore = 10f;
+                bdTable.DefaultCell.Border = Rectangle.NO_BORDER;
 
-            PdfPCell BuildingDescription = new PdfPCell(GenerateTestTable(BuildingDescriptionTable, "BUILDING DESCRIPTION", 4, 820f));
-            BuildingDescription.HorizontalAlignment = Element.ALIGN_CENTER;
-            BuildingDescription.VerticalAlignment = Element.ALIGN_MIDDLE;
-            BuildingDescription.Border = 0;
-            bdTable.AddCell(BuildingDescription);
+                PdfPCell BuildingDescription = new PdfPCell(GenerateTestTable(BuildingDescriptionTable, "BUILDING DESCRIPTION", 4, 820f));
+                BuildingDescription.HorizontalAlignment = Element.ALIGN_CENTER;
+                BuildingDescription.VerticalAlignment = Element.ALIGN_MIDDLE;
+                BuildingDescription.Border = 0;
+                bdTable.AddCell(BuildingDescription);
 
-            Doc.Add(bdTable);
-
+                Doc.Add(bdTable);
+            }
+            
             //***********************Forth part************************//
             //ProjectContractDetailTable
-            PdfPTable rcdTable = new PdfPTable(1);
-            rcdTable.SpacingBefore = 10f;
-            rcdTable.DefaultCell.Border = Rectangle.NO_BORDER;
+            if (ProjectContractDetailTable != null)
+            {
+                PdfPTable rcdTable = new PdfPTable(1);
+                rcdTable.SpacingBefore = 10f;
+                rcdTable.DefaultCell.Border = Rectangle.NO_BORDER;
 
-            PdfPCell ProjectContractDetail = new PdfPCell(GenerateTestTable(ProjectContractDetailTable, "PROJECT & CONTRACT DETAILS", 4, 820f));
-            ProjectContractDetail.HorizontalAlignment = Element.ALIGN_CENTER;
-            ProjectContractDetail.VerticalAlignment = Element.ALIGN_MIDDLE;
-            ProjectContractDetail.Border = 0;
-            rcdTable.AddCell(ProjectContractDetail);
+                PdfPCell ProjectContractDetail = new PdfPCell(GenerateTestTable(ProjectContractDetailTable, "PROJECT & CONTRACT DETAILS", 4, 820f));
+                ProjectContractDetail.HorizontalAlignment = Element.ALIGN_CENTER;
+                ProjectContractDetail.VerticalAlignment = Element.ALIGN_MIDDLE;
+                ProjectContractDetail.Border = 0;
+                rcdTable.AddCell(ProjectContractDetail);
 
 
-            Doc.Add(rcdTable);
-
+                Doc.Add(rcdTable);
+            }
 
             //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!page Three!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!//
             //**********************first table in page three************************//
             //ClaimDetailTable
-            PdfPTable cdTable = new PdfPTable(1);
-            cdTable.DefaultCell.Border = Rectangle.NO_BORDER;
+            if (ClaimDetailTable != null)
+            {
+                PdfPTable cdTable = new PdfPTable(1);
+                cdTable.DefaultCell.Border = Rectangle.NO_BORDER;
 
-            PdfPCell ClaimDetail = new PdfPCell(GenerateTestTable(ClaimDetailTable, "CLAIM DETAILS", 2, 820f));
-            ClaimDetail.HorizontalAlignment = Element.ALIGN_CENTER;
-            ClaimDetail.VerticalAlignment = Element.ALIGN_MIDDLE;
-            ClaimDetail.Border = 0;
-            cdTable.AddCell(ClaimDetail);
+                PdfPCell ClaimDetail = new PdfPCell(GenerateTestTable(ClaimDetailTable, "CLAIM DETAILS", 2, 820f));
+                ClaimDetail.HorizontalAlignment = Element.ALIGN_CENTER;
+                ClaimDetail.VerticalAlignment = Element.ALIGN_MIDDLE;
+                ClaimDetail.Border = 0;
+                cdTable.AddCell(ClaimDetail);
 
-            Doc.Add(cdTable);
+                Doc.Add(cdTable);
+            }
 
             //**********************Second table********************//
+            //Duty to the Tribunal Table 
+            if (DutyToTribunalCard != null)
+            {
+                PdfPTable dutyTable = new PdfPTable(1);
+                dutyTable.TotalWidth = 820f;
+                dutyTable.LockedWidth = true;
+                dutyTable.SpacingBefore = 10f;
 
-            PdfPTable dutyTable = new PdfPTable(1);
-            dutyTable.TotalWidth = 820f;
-            dutyTable.LockedWidth = true;
-            dutyTable.SpacingBefore = 10f;
+                PdfPCell dutyTableHeader = new PdfPCell(new Phrase(DutyToTribunalCard.Title, new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
+                dutyTableHeader.BackgroundColor = new BaseColor(0, 0, 51);
+                dutyTableHeader.HorizontalAlignment = Element.ALIGN_CENTER;
+                dutyTableHeader.PaddingTop = 4f;
+                dutyTableHeader.PaddingBottom = 4f;
+                dutyTable.AddCell(dutyTableHeader);
 
-            PdfPCell dutyTableHeader = new PdfPCell(new Phrase("DUTY TO THE TRIBUNAL", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
-            dutyTableHeader.BackgroundColor = new BaseColor(0, 0, 51);
-            dutyTableHeader.HorizontalAlignment = Element.ALIGN_CENTER;
-            dutyTable.AddCell(dutyTableHeader);
+                PdfPCell dutyTableInfo = new PdfPCell(new Phrase(DutyToTribunalCard.Fields[0].Value.ToString(), new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
+                dutyTableInfo.PaddingTop = 4f;
+                dutyTableInfo.PaddingBottom = 4f;
+                dutyTable.AddCell(dutyTableInfo);
 
-            Paragraph dutyPara = new Paragraph();
-            Phrase dutyPhrase1 = new Phrase("I affirm that I have read the NSW Civil and Administrative Tribunal (NCAT), Expert Witness Code of Conduct NCAT’s Procedural Direction 3 to Expert Witnesses. (See ‘Annexure B’)", new Font(Font.UNDEFINED, 12f, Font.UNDEFINED, BaseColor.Black));
-            Phrase dutyPhrase2 = new Phrase("This report has been prepared in accordance with that Code and those directions.", new Font(Font.UNDEFINED, 12f, Font.UNDEFINED, BaseColor.Black));
-            Phrase dutyPhrase3 = new Phrase("In accordance with those directions, I confirm it is my duty to assist the Tribunal and not act as an advocate for any party in this matter.", new Font(Font.UNDEFINED, 12f, Font.UNDEFINED, BaseColor.Black));
-            dutyPara.Add(dutyPhrase1);
-            dutyPara.Add("\n");
-            dutyPara.Add(dutyPhrase2);
-            dutyPara.Add("\n");
-            dutyPara.Add(dutyPhrase3);
-            dutyPara.Leading = 60;
+                Doc.Add(dutyTable);
+            }
 
-            PdfPCell dutyTableInfo = new PdfPCell(
-                //new Phrase(
-                //"I affirm that I have read the NSW Civil and Administrative Tribunal (NCAT), " +
-                //"Expert Witness Code of Conduct NCAT’s Procedural Direction 3 to Expert Witnesses. (See ‘Annexure B’)" +
-                //"\n" + "This report has been prepared in accordance with that Code and those directions." +
-                //"\n" + "In accordance with those directions, I confirm it is my duty to assist the Tribunal and not act as an advocate for any party in this matter.",
-                //new Font(Font.UNDEFINED, 12f, Font.UNDEFINED, BaseColor.Black)
-                //)
-                dutyPara
-                );
-            dutyTableInfo.PaddingTop = 10f;
-            dutyTableInfo.PaddingBottom = 10f;
+            //instruction table
+            if (InstructionCard != null)
+            {
+                PdfPTable instructionTable = new PdfPTable(1);
+                instructionTable.TotalWidth = 820f;
+                instructionTable.LockedWidth = true;
+                instructionTable.SpacingBefore = 10f;
 
-            dutyTable.AddCell(dutyTableInfo);
+                PdfPCell instructionHeader = new PdfPCell(new Phrase(InstructionCard.Title, new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
+                instructionHeader.BackgroundColor = new BaseColor(0, 0, 51);
+                instructionHeader.HorizontalAlignment = Element.ALIGN_CENTER;
+                instructionHeader.PaddingTop = 4f;
+                instructionHeader.PaddingBottom = 4f;
+                instructionTable.AddCell(instructionHeader);
 
-            Doc.Add(dutyTable);
+                PdfPCell instructionInfo = new PdfPCell(new Phrase(InstructionCard.Fields[0].Value.ToString(), new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
+                instructionInfo.PaddingTop = 4f;
+                instructionInfo.PaddingBottom = 4f;
+                instructionTable.AddCell(instructionInfo);
+
+                Doc.Add(instructionTable);
+            }
+
+            //Professional Services Engaged by Claimant Table 
+            if (ProfessionalSerEngageCard != null)
+            {
+                PdfPTable pscTable = new PdfPTable(1);
+                pscTable.SpacingBefore = 10f;
+                pscTable.DefaultCell.Border = Rectangle.NO_BORDER;
+
+                PdfPCell ProfessionalSerEngageDetail = new PdfPCell(GenerateTestTable(ProfessionalSerEngageTable, "Professional Services Engaged by Claimant", 4, 820f));
+                ProfessionalSerEngageDetail.HorizontalAlignment = Element.ALIGN_CENTER;
+                ProfessionalSerEngageDetail.VerticalAlignment = Element.ALIGN_MIDDLE;
+                ProfessionalSerEngageDetail.Border = 0;
+                pscTable.AddCell(ProfessionalSerEngageDetail);
+
+                Doc.Add(pscTable);
+            }
+
+            //Areas of Non-Compliance to BCA Table
+            if (AreaBCACard != null)
+            {
+                PdfPTable AreaBCATable = new PdfPTable(1);
+                AreaBCATable.TotalWidth = 820f;
+                AreaBCATable.LockedWidth = true;
+                AreaBCATable.SpacingBefore = 10f;
+
+                PdfPCell AreaBCAHeader = new PdfPCell(new Phrase(AreaBCACard.Title, new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
+                AreaBCAHeader.BackgroundColor = new BaseColor(0, 0, 51);
+                AreaBCAHeader.HorizontalAlignment = Element.ALIGN_CENTER;
+                AreaBCAHeader.PaddingTop = 4f;
+                AreaBCAHeader.PaddingBottom = 4f;
+                AreaBCATable.AddCell(AreaBCAHeader);
+
+                PdfPCell AreaBCAInfo = new PdfPCell(new Phrase(AreaBCACard.Fields[0].Value.ToString(), new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
+                AreaBCAInfo.PaddingTop = 4f;
+                AreaBCAInfo.PaddingBottom = 4f;
+                AreaBCATable.AddCell(AreaBCAInfo);
+
+                Doc.Add(AreaBCATable);
+            }
+
+            if (OutstandingManCerRequirementCard != null)
+            {
+                PdfPTable OutstandingManCerRequirementTable = new PdfPTable(1);
+                OutstandingManCerRequirementTable.TotalWidth = 820f;
+                OutstandingManCerRequirementTable.LockedWidth = true;
+                OutstandingManCerRequirementTable.SpacingBefore = 10f;
+
+                PdfPCell OutstandingManCerRequirementHeader = new PdfPCell(new Phrase(OutstandingManCerRequirementCard.Title, new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
+                OutstandingManCerRequirementHeader.BackgroundColor = new BaseColor(0, 0, 51);
+                OutstandingManCerRequirementHeader.HorizontalAlignment = Element.ALIGN_CENTER;
+                OutstandingManCerRequirementHeader.PaddingTop = 4f;
+                OutstandingManCerRequirementHeader.PaddingBottom = 4f;
+                OutstandingManCerRequirementTable.AddCell(OutstandingManCerRequirementHeader);
+
+                PdfPCell OutstandingManCerRequirementInfo = new PdfPCell(new Phrase(OutstandingManCerRequirementCard.Fields[0].Value.ToString(), new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
+                OutstandingManCerRequirementInfo.PaddingTop = 4f;
+                OutstandingManCerRequirementInfo.PaddingBottom = 4f;
+                OutstandingManCerRequirementTable.AddCell(OutstandingManCerRequirementInfo);
+
+                Doc.Add(OutstandingManCerRequirementTable);
+            }
+
+            if (OpinionRelationSectionCard != null)
+            {
+                PdfPTable OpinionRelationSectionTable = new PdfPTable(1);
+                OpinionRelationSectionTable.TotalWidth = 820f;
+                OpinionRelationSectionTable.LockedWidth = true;
+                OpinionRelationSectionTable.SpacingBefore = 10f;
+
+                PdfPCell OpinionRelationSectionHeader = new PdfPCell(new Phrase(OpinionRelationSectionCard.Title, new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
+                OpinionRelationSectionHeader.BackgroundColor = new BaseColor(0, 0, 51);
+                OpinionRelationSectionHeader.HorizontalAlignment = Element.ALIGN_CENTER;
+                OpinionRelationSectionHeader.PaddingTop = 4f;
+                OpinionRelationSectionHeader.PaddingBottom = 4f;
+                OpinionRelationSectionTable.AddCell(OpinionRelationSectionHeader);
+
+                PdfPCell OpinionRelationSectionInfo = new PdfPCell(new Phrase(OpinionRelationSectionCard.Fields[0].Value.ToString(), new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
+                OpinionRelationSectionInfo.PaddingTop = 4f;
+                OpinionRelationSectionInfo.PaddingBottom = 4f;
+                OpinionRelationSectionTable.AddCell(OpinionRelationSectionInfo);
+
+                Doc.Add(OpinionRelationSectionTable);
+            }
+
+            if (ReferenceCurriVitaeCard != null)
+            {
+                PdfPTable rcvTable = new PdfPTable(1);
+                rcvTable.DefaultCell.Border = Rectangle.NO_BORDER;
+                rcvTable.SpacingBefore = 10f;
+
+                PdfPCell ReferenceDetail = new PdfPCell(GenerateTestTable(ReferenceCurriVitaeTable, "Reference", 2, 820f));
+                ReferenceDetail.HorizontalAlignment = Element.ALIGN_CENTER;
+                ReferenceDetail.VerticalAlignment = Element.ALIGN_MIDDLE;
+                ReferenceDetail.Border = 0;
+                rcvTable.AddCell(ReferenceDetail);
+
+                Doc.Add(rcvTable);
+            }
+
+            Doc.NewPage();
 
             //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!page Four!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!//
-            Doc.NewPage();
+            //Doc.NewPage();
 
             ItemReporData testData = new ItemReporData("ITEM 1");
             testData.TitleFields.Add(new InfoTableMetaData("Description:", "Architrave cut around light switch", colLable: 2, colData: 4));
