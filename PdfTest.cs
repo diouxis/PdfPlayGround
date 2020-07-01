@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Globalization;
 using System.IO;
+
 using System.Security.Claims;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
@@ -27,6 +28,7 @@ namespace PdfPlayGround
         protected List<InfoTableMetaData> ProjectContractDetailTable = new List<InfoTableMetaData>();
         protected List<InfoTableMetaData> ClaimDetailTable = new List<InfoTableMetaData>();
         protected List<InfoTableMetaData> ProfessionalSerEngageTable = new List<InfoTableMetaData>();
+        protected List<InfoTableMetaData> DocumentPreparationTable = new List<InfoTableMetaData>();
         protected List<InfoTableMetaData> ReferenceCurriVitaeTable = new List<InfoTableMetaData>();
 
         private Card CoverPageCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Cover Page");
@@ -70,6 +72,30 @@ namespace PdfPlayGround
                     {
                         table.Add(new InfoTableMetaData(field[i].Value?.ToString(), field[i + 1].Value?.ToString()));
                     }
+                }
+            }
+            return table;
+        }
+
+        //
+        protected List<InfoTableMetaData> InitialTableDocumentReliedOnTable(Card card)
+        {
+            var table = new List<InfoTableMetaData> { };
+            var fields = card.Fields.FirstOrDefault().Value as List<List<Field>>;
+            if (fields != null)
+            {
+                for (int i = 0; i < fields.Count; i += 2)
+                {
+                    if (i == fields.Count && i + 1 > fields.Count && fields[i][0] != null)
+                    {
+                        table.Add(new InfoTableMetaData(fields[i][0].Value?.ToString(), ""));
+                        break;
+                    }
+                    else if (fields[i][0] != null && fields[i + 1][0] != null && i + 1 < fields.Count)
+                    {
+                        table.Add(new InfoTableMetaData(fields[i][0].Value?.ToString(), fields[i + 1][0]?.Value?.ToString()));
+                    }
+
                 }
             }
             return table;
@@ -164,6 +190,11 @@ namespace PdfPlayGround
                     
                 //}
                 ProfessionalSerEngageTable = InitialTableForProfessionalServicesEngaged(ProfessionalSerEngageCard);
+            }
+
+            if (DocumentPreparationCard != null)
+            {
+                DocumentPreparationTable = InitialTableDocumentReliedOnTable(DocumentPreparationCard);
             }
 
             if (ReferenceCurriVitaeCard != null)
@@ -473,6 +504,21 @@ namespace PdfPlayGround
                 OutstandingManCerRequirementTable.AddCell(OutstandingManCerRequirementInfo);
 
                 Doc.Add(OutstandingManCerRequirementTable);
+            }
+
+            if (DocumentPreparationCard != null)
+            {
+                PdfPTable dpTable = new PdfPTable(1);
+                dpTable.DefaultCell.Border = Rectangle.NO_BORDER;
+                dpTable.SpacingBefore = 10f;
+
+                PdfPCell DpDetail = new PdfPCell(GenerateTestTable(DocumentPreparationTable, "Documents relied on in the preparation of this report", 2, 820f));
+                DpDetail.HorizontalAlignment = Element.ALIGN_CENTER;
+                DpDetail.VerticalAlignment = Element.ALIGN_MIDDLE;
+                DpDetail.Border = 0;
+                dpTable.AddCell(DpDetail);
+
+                Doc.Add(dpTable);
             }
 
             if (OpinionRelationSectionCard != null)
