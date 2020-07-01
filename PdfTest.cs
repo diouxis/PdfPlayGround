@@ -17,9 +17,10 @@ namespace PdfPlayGround
     {
         protected readonly ClaimJob Source;
         protected List<InfoTableMetaData> ClaimContent = new List<InfoTableMetaData>();
+        protected List<InfoTableMetaData> JobDetailContent = new List<InfoTableMetaData>();
 
         //Page One 
-        protected List<InfoTableMetaData> JobDetailsTable = new List<InfoTableMetaData>();
+        //protected List<InfoTableMetaData> JobDetailsTable = new List<InfoTableMetaData>();
         protected List<InfoTableMetaData> IntroductionTable = new List<InfoTableMetaData>();
         protected List<InfoTableMetaData> BuildingConsultantDetailTable = new List<InfoTableMetaData>();
         protected List<InfoTableMetaData> BuildingDescriptionTable = new List<InfoTableMetaData>();
@@ -29,7 +30,7 @@ namespace PdfPlayGround
         protected List<InfoTableMetaData> ReferenceCurriVitaeTable = new List<InfoTableMetaData>();
 
         private Card CoverPageCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Cover Page");
-        private Card JobDetailCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Job Details");
+        //private Card JobDetailCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Job Details");
         private Card BuildingConDetailCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Building Consultant's Details");
         private Card BuildingDescriptionCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Building Description");
         private Card ProjectContractDetailCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Project and Contact Details");
@@ -73,7 +74,15 @@ namespace PdfPlayGround
                 new InfoTableMetaData("Event Type:", "Storm" )
             };
 
-            foreach(var card in Source.ReportForm.Cards)
+            JobDetailContent = new List<InfoTableMetaData>
+            {
+                new InfoTableMetaData("Building Owner:", Source.Insured.Name),
+                new InfoTableMetaData("Address:", Source.Insured.Name),
+                new InfoTableMetaData("Our Reference:", BuildingConDetailCard.Fields[0].Value.ToString()),
+                new InfoTableMetaData("Client Reference:", Source.RefNumber)
+            };
+
+            foreach (var card in Source.ReportForm.Cards)
             {
                 if (cardFormDict.TryGetValue(card.Title, out var componentType))
                 {
@@ -94,13 +103,15 @@ namespace PdfPlayGround
                         }
                     }
                 }
-            }
+            };
+
+
 
             //initialize the data of table (two cols and 4 cols)
-            if (JobDetailCard != null)
-            {
-                JobDetailsTable = InitialTables(JobDetailsTable, JobDetailCard);
-            }
+            //if (JobDetailCard != null)
+            //{
+            //    JobDetailsTable = InitialTables(JobDetailsTable, JobDetailCard);
+            //}
 
             if (IntroductionCard != null)
             {
@@ -236,13 +247,13 @@ namespace PdfPlayGround
             //***********************first part************************//
 
             //put two table into one line
-            if (JobDetailsTable != null && IntroductionTable != null)
+            if (JobDetailContent != null && IntroductionTable != null)
             {
                 PdfPTable twoTable = new PdfPTable(2);
                 twoTable.TotalWidth = 820f;
                 twoTable.LockedWidth = true;
 
-                PdfPCell twoTableLeft = new PdfPCell(GenerateTestTable(JobDetailsTable, "JOB DETAILS", 2, 406f));
+                PdfPCell twoTableLeft = new PdfPCell(GenerateTestTable(JobDetailContent, "JOB DETAILS", 2, 406f));
                 twoTableLeft.Colspan = 1;
                 twoTableLeft.Padding = 0;
                 twoTableLeft.Border = Rectangle.NO_BORDER;
