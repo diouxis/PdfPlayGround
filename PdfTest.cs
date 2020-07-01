@@ -143,14 +143,6 @@ namespace PdfPlayGround
                 }
             };
 
-
-
-            //initialize the data of table (two cols and 4 cols)
-            //if (JobDetailCard != null)
-            //{
-            //    JobDetailsTable = InitialTables(JobDetailsTable, JobDetailCard);
-            //}
-
             if (IntroductionCard != null)
             {
                 IntroductionTable = InitialTables(IntroductionTable, IntroductionCard);
@@ -178,11 +170,6 @@ namespace PdfPlayGround
 
             if (ProfessionalSerEngageCard != null)
             {
-                //var professionalSerEngageInfo = ProfessionalSerEngageCard.Fields[0].Value as IEnumerable<FieldOption>;
-                //foreach (var i in professionalSerEngageInfo)
-                //{
-                    
-                //}
                 ProfessionalSerEngageTable = InitialTableForProfessionalServicesEngaged(ProfessionalSerEngageCard);
             }
 
@@ -556,46 +543,60 @@ namespace PdfPlayGround
 
             //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!page Four!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!//
             //Doc.NewPage();
-
-            ItemReporData testData = new ItemReporData("ITEM 1");
-            testData.TitleFields.Add(new InfoTableMetaData("Description:", "Architrave cut around light switch", colLable: 2, colData: 4));
-            testData.TitleFields.Add(new InfoTableMetaData("Location:", "Entry", colData: 1));
-
-            testData.Fields.Add(new InfoTableMetaData("Cross Ref:", "11111", colData: 0));
-            testData.Fields.Add(new InfoTableMetaData("Loss type:", "Minor Defect", colData: 2));
-            testData.Fields.Add(new InfoTableMetaData("Completion status:", "N/A", colData: 1));
-            testData.Fields.Add(new InfoTableMetaData("Recommendation:", "Decline", colLable: 2, colData: 1));
-
-            testData.Rows.Add(new InfoTableMetaData("Observation", "The item of claim is unspecific to the precise locations of the scuff marks." + "\n" +
-                "The inspection revealed several minor scuff marks to the internal walls of the residence, consistent with accidental damage." + "\n" +
-                "As the residence was completed in August 2017, and occupied since, and the inspection carried out in July 2019, it cannot be confirmed who caused the damage to the internal walls. " +
-                "There is insufficient evidence to confirm whether the damage to the internal walls was caused by the Builder during the construction works. " +
-                "The damage may have been caused by others during occupation of the residence."));
-            testData.Rows.Add(new InfoTableMetaData("Cause", "Minor building movement and poor fixing"));
-            testData.Rows.Add(new InfoTableMetaData("Breach(es)", "The NSW Office of Fair Trading - Guide to Standards and Tolerances 2017" +
-                ", Clause 11.1 Gaps associated with internal fixing, " +
-                "which states: “Unless documented otherwise, gaps between mouldings or between mouldings and other fixtures, " +
-                "at mitre or butt joints, or at junctions with a wall or other surfaces, are defective if they exist at handover, " +
-                "or exceed 1 mm in width within the first 12 months of completion and are visible from a normal viewing position. " +
-                "After the first 12 months, gaps are defective if they exceed 2 mm in width and are visible from a normal viewing position. " +
-                "Gaps between skirting and flooring are defective if they exceed 2 mm within the first 24 months after handover and are visible from a normal viewing position.”"));
-            testData.Rows.Add(new InfoTableMetaData("Reason for Denial", "N/A"));
-            testData.Rows.Add(new InfoTableMetaData("Suggested Scope of Works", "N/A"));
-
-            testData.Images.Add(new ReportFile {
-                Name = "this is an example",
-                Url = Path.Combine(FileUtil.ImagePath, "test.jpg")
-            });
-            testData.Images.Add(new ReportFile
+            if (ScheduleItemCard != null)
             {
-                Name = "this is an example",
-                Url = Path.Combine(FileUtil.ImagePath, "test.jpg")
-            });
+                var fields = ScheduleItemCard.Fields.FirstOrDefault().Value as List<List<Field>>;
+                foreach (var field in fields)
+                {
+                    var itemNumValue = field.FirstOrDefault(x => x.Label == "Item Number");
+                    var descValue = field.FirstOrDefault(x => x.Label == "Description");
+                    var locationValue = field.FirstOrDefault(x => x.Label == "Location");
+                    var crossRefValue = field.FirstOrDefault(x => x.Label == "Cross Ref");
+                    var estimateCostValue = field.FirstOrDefault(x => x.Label == "Estimate Cost");
+                    var lossTypeValue = field.FirstOrDefault(x => x.Label == "Loss Type");
+                    var compStatusValue = field.FirstOrDefault(x => x.Label == "Completion Status");
+                    var recomValue = field.FirstOrDefault(x => x.Label == "Recommendation");
+                    var ReasonDenValue = field.FirstOrDefault(x => x.Label == "Reason for Denial");
+                    var itemPhotos = field.FirstOrDefault(x => x.Label == "Item Photo(s)");
+                    var observationValue = field.FirstOrDefault(x => x.Label == "Observation");
+                    var causeValue = field.FirstOrDefault(x => x.Label == "Cause");
+                    var breachValue = field.FirstOrDefault(x => x.Label == "Breach(es)");
+                    var suggestScopeValue = field.FirstOrDefault(x => x.Label == "Suggested Scope of Works");
 
-            Doc.Add(GenerateItemReportTable(testData, dataColNumber: 9));
+                    ItemReporData testData = new ItemReporData("ITEM " + itemNumValue.Value.ToString());
+                    testData.TitleFields.Add(new InfoTableMetaData("Description:", descValue.Value.ToString(), colLable: 2, colData: 4));
+                    testData.TitleFields.Add(new InfoTableMetaData("Location:", locationValue.Value.ToString(), colData: 1));
 
-            Doc.NewPage();
-            //CreateTypeThreeTable();
+                    testData.Fields.Add(new InfoTableMetaData("Cross Ref:", crossRefValue.Value.ToString(), colData: 0));
+                    testData.Fields.Add(new InfoTableMetaData("Loss type:", lossTypeValue.Value.ToString(), colData: 2));
+                    testData.Fields.Add(new InfoTableMetaData("Completion status:", compStatusValue.Value.ToString(), colData: 1));
+                    testData.Fields.Add(new InfoTableMetaData("Recommendation:", recomValue.Value.ToString(), colLable: 2, colData: 1));
+
+                    testData.Rows.Add(new InfoTableMetaData("Observation", observationValue.Value.ToString()));
+                    testData.Rows.Add(new InfoTableMetaData("Cause", causeValue.Value.ToString()));
+                    testData.Rows.Add(new InfoTableMetaData("Breach(es)", breachValue.Value.ToString()));
+                    testData.Rows.Add(new InfoTableMetaData("Reason for Denial", ReasonDenValue.Value.ToString()));
+                    testData.Rows.Add(new InfoTableMetaData("Suggested Scope of Works", suggestScopeValue.Value.ToString()));
+
+                    testData.Images.Add(new ReportFile
+                    {
+                        Name = "this is an example",
+                        Url = Path.Combine(FileUtil.ImagePath, "test.jpg")
+                    });
+                    testData.Images.Add(new ReportFile
+                    {
+                        Name = "this is an example",
+                        Url = Path.Combine(FileUtil.ImagePath, "test.jpg")
+                    });
+
+                    Doc.Add(GenerateItemReportTable(testData, dataColNumber: 9));
+
+                    Doc.NewPage();
+                    //CreateTypeThreeTable();
+                }
+            }
+
+            
         }
 
         protected PdfPTable GenerateItemReportTable(ItemReporData data, int dataColNumber)
