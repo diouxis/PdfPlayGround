@@ -58,6 +58,23 @@ namespace PdfPlayGround
             return table;
         }
 
+        protected List<InfoTableMetaData> InitialTableForProfessionalServicesEngaged(Card card)
+        {
+            var table = new List<InfoTableMetaData> { };
+            var fields = card.Fields.FirstOrDefault().Value as List<List<Field>>;
+            if (fields != null)
+            {
+                foreach (var field in fields)
+                {
+                    for (int i = 0; i < field.Count; i += 2)
+                    {
+                        table.Add(new InfoTableMetaData(field[i].Value?.ToString(), field[i + 1].Value?.ToString()));
+                    }
+                }
+            }
+            return table;
+        }
+
         public PdfTest(ClaimJob claimJob)
         {
             Source = claimJob;
@@ -145,7 +162,7 @@ namespace PdfPlayGround
                 //{
                     
                 //}
-                ProfessionalSerEngageTable = InitialTables(ProfessionalSerEngageTable, ProfessionalSerEngageCard);
+                ProfessionalSerEngageTable = InitialTableForProfessionalServicesEngaged(ProfessionalSerEngageCard);
             }
 
             if (ReferenceCurriVitaeCard != null)
