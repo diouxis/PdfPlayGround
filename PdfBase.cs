@@ -141,10 +141,17 @@ namespace PdfPlayGround
             {
                 foreach (var item in model)
                 {
-                    table.AddCell(cellHeader.SetContent(new Phrase(item.Name, StyleContentHeader), item.ColspanLabel));
-                    table.AddCell(cellContent.SetContent(new Phrase(item.Content, StyleContent), item.ColspanContent));
+                    if (item.ColspanLabel > 0) 
+                    {
+                        table.AddCell(cellHeader.SetContent(new Phrase(item.Name, StyleContentHeader), item.ColspanLabel));
+                    }
+                    if (item.ColspanContent > 0)
+                    {
+                        table.AddCell(cellContent.SetContent(new Phrase(item.Content, StyleContent), item.ColspanContent));
+                    }
                 }
             }
+            table.CompleteRow();
             return table;
         }
 

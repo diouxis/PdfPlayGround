@@ -81,21 +81,15 @@ namespace PdfPlayGround
         protected List<InfoTableMetaData> InitialTableDocumentReliedOnTable(Card card)
         {
             var table = new List<InfoTableMetaData> { };
-            var fields = card.Fields.FirstOrDefault().Value as List<List<Field>>;
-            if (fields != null)
+            if (card.Fields.FirstOrDefault().Value is List<List<Field>> fields)
             {
-                for (int i = 0; i < fields.Count; i += 2)
+                foreach (var field in fields.Select(x => x.FirstOrDefault()))
                 {
-                    if (i == fields.Count && i + 1 > fields.Count && fields[i][0] != null)
+                    if (field?.Value != null)
                     {
-                        table.Add(new InfoTableMetaData(fields[i][0].Value?.ToString(), ""));
-                        break;
+                        var metaData = new InfoTableMetaData(field.Name, field.Value.ToString(), colLable: 0);
+                        table.Add(metaData);
                     }
-                    else if (fields[i][0] != null && fields[i + 1][0] != null && i + 1 < fields.Count)
-                    {
-                        table.Add(new InfoTableMetaData(fields[i][0].Value?.ToString(), fields[i + 1][0]?.Value?.ToString()));
-                    }
-
                 }
             }
             return table;
@@ -934,7 +928,6 @@ namespace PdfPlayGround
             };
 
             var table = GenerateInfoTable(model, columNum, widths, headerCell: cell, contentCell: cell, titleCell: titleCell);
-            table.CompleteRow();
             table.HorizontalAlignment = Element.ALIGN_CENTER;
             if (totalWidths <= 0)
             {
