@@ -86,6 +86,7 @@ namespace PdfPlayGround
         {
 
             ClaimContent = new List<InfoTableMetaData>
+
             {
                 new InfoTableMetaData("Insurance Ref #:", Source.RefNumber ),
                 new InfoTableMetaData("Event Type:", "Storm" )
