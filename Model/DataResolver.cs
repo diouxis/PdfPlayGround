@@ -22,7 +22,7 @@ namespace PdfPlayGround.Model
 			BuildToken();
 		}
 
-		public async Task<ClaimJob> GetFormData(string claimId)
+		public async Task<ClaimJobReportForm> GetFormData(string claimId)
 		{
 			var request = new GraphQLRequest
 			{
@@ -194,6 +194,6 @@ fragment ArrayField_data on GroupField {
 
 	internal class DataResolveType
     {
-		public ClaimJob ClaimJob { get; set; }
+		public ClaimJobReportForm ClaimJob { get; set; }
     }
 }
