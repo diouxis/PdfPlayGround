@@ -557,7 +557,7 @@ namespace PdfPlayGround
                 }
 
                 Doc.NewPage();
-                Doc.Add(new Phrase("SCHEDULE OF ITEMS – Recommended for DENIAL oF DEFECTIVE WORK", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
+                Doc.Add(new Phrase("SCHEDULE OF ITEMS – Recommended for DENIAL oF DEFECTIVE WORK", new Font(Font.BOLD, 12f, Font.UNDEFINED, BaseColor.Black)));
                 foreach (var field in fields)
                 {
                     if (field.FirstOrDefault(x => x.Label == "Recommendation").Value.ToString() == "Decline")
@@ -565,6 +565,15 @@ namespace PdfPlayGround
                         createScheduleItem(field);
                     }
                 }
+            }
+
+            if (JobDetailContent != null)
+            {
+                Phrase reportTitle = new Phrase("REPORT SUMMARY", new Font(Font.BOLD, 14f, Font.BOLD));
+                PdfPTable ReportSummaryTable = new PdfPTable(2);
+                ReportSummaryTable.TotalWidth = 800f;
+                ReportSummaryTable.LockedWidth = true;
+
             }
 
         }
