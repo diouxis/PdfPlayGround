@@ -546,57 +546,27 @@ namespace PdfPlayGround
             if (ScheduleItemCard != null)
             {
                 var fields = ScheduleItemCard.Fields.FirstOrDefault().Value as List<List<Field>>;
+
+                Doc.Add(new Phrase("Schedule of Items – Recommended for ACCEPTANCE of DEFECTIVE WORK", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
                 foreach (var field in fields)
                 {
-                    var itemNumValue = field.FirstOrDefault(x => x.Label == "Item Number");
-                    var descValue = field.FirstOrDefault(x => x.Label == "Description");
-                    var locationValue = field.FirstOrDefault(x => x.Label == "Location");
-                    var crossRefValue = field.FirstOrDefault(x => x.Label == "Cross Ref");
-                    var estimateCostValue = field.FirstOrDefault(x => x.Label == "Estimate Cost");
-                    var lossTypeValue = field.FirstOrDefault(x => x.Label == "Loss Type");
-                    var compStatusValue = field.FirstOrDefault(x => x.Label == "Completion Status");
-                    var recomValue = field.FirstOrDefault(x => x.Label == "Recommendation");
-                    var ReasonDenValue = field.FirstOrDefault(x => x.Label == "Reason for Denial");
-                    var itemPhotos = field.FirstOrDefault(x => x.Label == "Item Photo(s)");
-                    var observationValue = field.FirstOrDefault(x => x.Label == "Observation");
-                    var causeValue = field.FirstOrDefault(x => x.Label == "Cause");
-                    var breachValue = field.FirstOrDefault(x => x.Label == "Breach(es)");
-                    var suggestScopeValue = field.FirstOrDefault(x => x.Label == "Suggested Scope of Works");
-
-                    ItemReporData testData = new ItemReporData("ITEM " + itemNumValue.Value.ToString());
-                    testData.TitleFields.Add(new InfoTableMetaData("Description:", descValue.Value.ToString(), colLable: 2, colData: 4));
-                    testData.TitleFields.Add(new InfoTableMetaData("Location:", locationValue.Value.ToString(), colData: 1));
-
-                    testData.Fields.Add(new InfoTableMetaData("Cross Ref:", crossRefValue.Value.ToString(), colData: 0));
-                    testData.Fields.Add(new InfoTableMetaData("Loss type:", lossTypeValue.Value.ToString(), colData: 2));
-                    testData.Fields.Add(new InfoTableMetaData("Completion status:", compStatusValue.Value.ToString(), colData: 1));
-                    testData.Fields.Add(new InfoTableMetaData("Recommendation:", recomValue.Value.ToString(), colLable: 2, colData: 1));
-
-                    testData.Rows.Add(new InfoTableMetaData("Observation", observationValue.Value.ToString()));
-                    testData.Rows.Add(new InfoTableMetaData("Cause", causeValue.Value.ToString()));
-                    testData.Rows.Add(new InfoTableMetaData("Breach(es)", breachValue.Value.ToString()));
-                    testData.Rows.Add(new InfoTableMetaData("Reason for Denial", ReasonDenValue.Value.ToString()));
-                    testData.Rows.Add(new InfoTableMetaData("Suggested Scope of Works", suggestScopeValue.Value.ToString()));
-
-                    testData.Images.Add(new ReportFile
+                    if (field.FirstOrDefault(x => x.Label == "Recommendation").Value.ToString() == "Accept")
                     {
-                        Name = "this is an example",
-                        Url = Path.Combine(FileUtil.ImagePath, "test.jpg")
-                    });
-                    testData.Images.Add(new ReportFile
+                        createScheduleItem(field);
+                    }
+                }
+
+                Doc.NewPage();
+                Doc.Add(new Phrase("SCHEDULE OF ITEMS – Recommended for DENIAL oF DEFECTIVE WORK", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
+                foreach (var field in fields)
+                {
+                    if (field.FirstOrDefault(x => x.Label == "Recommendation").Value.ToString() == "Decline")
                     {
-                        Name = "this is an example",
-                        Url = Path.Combine(FileUtil.ImagePath, "test.jpg")
-                    });
-
-                    Doc.Add(GenerateItemReportTable(testData, dataColNumber: 9));
-
-                    Doc.NewPage();
-                    //CreateTypeThreeTable();
+                        createScheduleItem(field);
+                    }
                 }
             }
 
-            
         }
 
         protected PdfPTable GenerateItemReportTable(ItemReporData data, int dataColNumber)
@@ -680,6 +650,50 @@ namespace PdfPlayGround
                 imgCell.AddElement(new Phrase(file.Name, StyleContentSmall));
                 imgTable.AddCell(imgCell);
             }
+        }
+
+        protected void createScheduleItem(List<Field> field)
+        {
+            var itemNumValue = field.FirstOrDefault(x => x.Label == "Item Number");
+            var descValue = field.FirstOrDefault(x => x.Label == "Description");
+            var locationValue = field.FirstOrDefault(x => x.Label == "Location");
+            var crossRefValue = field.FirstOrDefault(x => x.Label == "Cross Ref");
+            var estimateCostValue = field.FirstOrDefault(x => x.Label == "Estimate Cost");
+            var lossTypeValue = field.FirstOrDefault(x => x.Label == "Loss Type");
+            var compStatusValue = field.FirstOrDefault(x => x.Label == "Completion Status");
+            var recomValue = field.FirstOrDefault(x => x.Label == "Recommendation");
+            var ReasonDenValue = field.FirstOrDefault(x => x.Label == "Reason for Denial");
+            var itemPhotos = field.FirstOrDefault(x => x.Label == "Item Photo(s)");
+            var observationValue = field.FirstOrDefault(x => x.Label == "Observation");
+            var causeValue = field.FirstOrDefault(x => x.Label == "Cause");
+            var breachValue = field.FirstOrDefault(x => x.Label == "Breach(es)");
+            var suggestScopeValue = field.FirstOrDefault(x => x.Label == "Suggested Scope of Works");
+
+            ItemReporData testData = new ItemReporData("ITEM " + itemNumValue.Value.ToString());
+            testData.TitleFields.Add(new InfoTableMetaData("Description:", descValue.Value.ToString(), colLable: 2, colData: 4));
+            testData.TitleFields.Add(new InfoTableMetaData("Location:", locationValue.Value.ToString(), colData: 1));
+            testData.Fields.Add(new InfoTableMetaData("Cross Ref:", crossRefValue.Value.ToString(), colData: 0));
+            testData.Fields.Add(new InfoTableMetaData("Loss type:", lossTypeValue.Value.ToString(), colData: 2));
+            testData.Fields.Add(new InfoTableMetaData("Completion status:", compStatusValue.Value.ToString(), colData: 1));
+            testData.Fields.Add(new InfoTableMetaData("Recommendation:", recomValue.Value.ToString(), colLable: 2, colData: 1));
+            testData.Rows.Add(new InfoTableMetaData("Observation", observationValue.Value.ToString()));
+            testData.Rows.Add(new InfoTableMetaData("Cause", causeValue.Value.ToString()));
+            testData.Rows.Add(new InfoTableMetaData("Breach(es)", breachValue.Value.ToString()));
+            testData.Rows.Add(new InfoTableMetaData("Reason for Denial", ReasonDenValue.Value.ToString()));
+            testData.Rows.Add(new InfoTableMetaData("Suggested Scope of Works", suggestScopeValue.Value.ToString()));
+
+            testData.Images.Add(new ReportFile
+            {
+                Name = "this is an example",
+                Url = Path.Combine(FileUtil.ImagePath, "test.jpg")
+            });
+            testData.Images.Add(new ReportFile
+            {
+                Name = "this is an example",
+                Url = Path.Combine(FileUtil.ImagePath, "test.jpg")
+            });
+
+            Doc.Add(GenerateItemReportTable(testData, dataColNumber: 9));
         }
 
         protected void CreateTypeThreeTable()
