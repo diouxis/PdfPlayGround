@@ -95,6 +95,20 @@ namespace PdfPlayGround
             return table;
         }
 
+        protected List<InfoTableMetaData> InitialTableReferenceTable(Card card)
+        {
+            var table = new List<InfoTableMetaData> { };
+            if (card.Fields[1].Value is List<List<Field>> fields && card.Fields[1].Value != null)
+            {
+                foreach (var field in fields.Select(x => x.FirstOrDefault()))
+                {
+                    var metaData = new InfoTableMetaData(field.Name, field.Value.ToString(), colLable: 0);
+                    table.Add(metaData);
+                }
+            }
+            return table;
+        }
+
         public PdfTest(ClaimJobReportForm claimJob)
         {
             Source = claimJob;
@@ -181,7 +195,7 @@ namespace PdfPlayGround
 
             if (ReferenceCurriVitaeCard != null)
             {
-                ReferenceCurriVitaeTable = InitialTables(ReferenceCurriVitaeTable, ReferenceCurriVitaeCard);
+                ReferenceCurriVitaeTable = InitialTableReferenceTable(ReferenceCurriVitaeCard);
             }
 
             PdfPageEvent = new ENDataClassicHeader(this);
@@ -382,21 +396,21 @@ namespace PdfPlayGround
 
             //**********************Second table********************//
             //Duty to the Tribunal Table 
-            if (DutyToTribunalCard != null)
+            if (AreaBCACard != null)
             {
                 PdfPTable dutyTable = new PdfPTable(1);
                 dutyTable.TotalWidth = 820f;
                 dutyTable.LockedWidth = true;
                 dutyTable.SpacingBefore = 10f;
 
-                PdfPCell dutyTableHeader = new PdfPCell(new Phrase(DutyToTribunalCard.Title, new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
+                PdfPCell dutyTableHeader = new PdfPCell(new Phrase("DUTY TO THE TRIBUNAL", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
                 dutyTableHeader.BackgroundColor = new BaseColor(0, 0, 51);
                 dutyTableHeader.HorizontalAlignment = Element.ALIGN_CENTER;
                 dutyTableHeader.PaddingTop = 4f;
                 dutyTableHeader.PaddingBottom = 4f;
                 dutyTable.AddCell(dutyTableHeader);
 
-                PdfPCell dutyTableInfo = new PdfPCell(new Phrase(DutyToTribunalCard.Fields[0].Value.ToString(), new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
+                PdfPCell dutyTableInfo = new PdfPCell(new Phrase(AreaBCACard.Fields[1].Value.ToString(), new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
                 dutyTableInfo.PaddingTop = 4f;
                 dutyTableInfo.PaddingBottom = 4f;
                 dutyTable.AddCell(dutyTableInfo);
