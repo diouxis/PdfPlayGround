@@ -16,7 +16,7 @@ namespace PdfPlayGround
 
     public class PdfTest : PdfBase
     {
-        protected readonly ClaimJob Source;
+        protected readonly ClaimJobReportForm Source;
         protected List<InfoTableMetaData> ClaimContent = new List<InfoTableMetaData>();
         protected List<InfoTableMetaData> JobDetailContent = new List<InfoTableMetaData>();
 
@@ -95,7 +95,7 @@ namespace PdfPlayGround
             return table;
         }
 
-        public PdfTest(ClaimJob claimJob)
+        public PdfTest(ClaimJobReportForm claimJob)
         {
             Source = claimJob;
             PageMargin = new Margin(10, 10, 90, 20);

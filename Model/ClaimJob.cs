@@ -4,7 +4,7 @@ using System.Text;
 
 namespace PdfPlayGround.Model
 {
-    public class ClaimJob
+    public class ClaimJobReportForm
     {
         public string RefNumber { get; set; }
         public Company Insurer { get; set; }
