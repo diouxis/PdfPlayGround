@@ -30,6 +30,7 @@ namespace PdfPlayGround
         protected List<InfoTableMetaData> ProfessionalSerEngageTable = new List<InfoTableMetaData>();
         protected List<InfoTableMetaData> DocumentPreparationTable = new List<InfoTableMetaData>();
         protected List<InfoTableMetaData> ReferenceCurriVitaeTable = new List<InfoTableMetaData>();
+        protected List<InfoTableMetaData> SupplementaryCommInConfiReportTable = new List<InfoTableMetaData>();
 
         private Card CoverPageCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Cover Page");
         //private Card JobDetailCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Job Details");
@@ -38,7 +39,6 @@ namespace PdfPlayGround
         private Card ProjectContractDetailCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Project and Contact Details");
         private Card ClaimDetailCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Claim Details");
         private Card IntroductionCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Introduction");
-        private Card DutyToTribunalCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Duty To The Tribunal");
         private Card InstructionCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Instructions from Gallagher Bassett");
         private Card AreaBCACard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Areas of Non-Compliance to BCA(Building Code of Australia)");
         private Card ProfessionalSerEngageCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Professional Services Engaged by Claimant");
@@ -76,7 +76,6 @@ namespace PdfPlayGround
             }
             return table;
         }
-
         //
         protected List<InfoTableMetaData> InitialTableDocumentReliedOnTable(Card card)
         {
@@ -196,6 +195,12 @@ namespace PdfPlayGround
             if (ReferenceCurriVitaeCard != null)
             {
                 ReferenceCurriVitaeTable = InitialTableReferenceTable(ReferenceCurriVitaeCard);
+            }
+
+            if (SupplementaryCommInConfiReportCard != null)
+            {
+                SupplementaryCommInConfiReportTable = InitialTables(SupplementaryCommInConfiReportTable, SupplementaryCommInConfiReportCard);
+
             }
 
             PdfPageEvent = new ENDataClassicHeader(this);
@@ -517,6 +522,77 @@ namespace PdfPlayGround
                 Doc.Add(dpTable);
             }
 
+            if (ReferenceCurriVitaeCard != null)
+            {
+                PdfPTable rcvTable = new PdfPTable(1);
+                rcvTable.DefaultCell.Border = Rectangle.NO_BORDER;
+                rcvTable.SpacingBefore = 10f;
+
+                PdfPCell ReferenceDetail = new PdfPCell(GenerateTestTable(ReferenceCurriVitaeTable, "Reference", 2, 820f));
+                ReferenceDetail.HorizontalAlignment = Element.ALIGN_CENTER;
+                ReferenceDetail.VerticalAlignment = Element.ALIGN_MIDDLE;
+                ReferenceDetail.Border = 0;
+                rcvTable.AddCell(ReferenceDetail);
+
+                Doc.Add(rcvTable);
+            }
+
+            if (SupplementaryCommInConfiReportCard != null)
+            {
+                PdfPTable sccTable = new PdfPTable(1);
+                sccTable.SpacingBefore = 10f;
+                sccTable.DefaultCell.Border = Rectangle.NO_BORDER;
+
+                PdfPCell SupplementaryCommInConfiReportDetail = new PdfPCell(GenerateTestTable(SupplementaryCommInConfiReportTable, "Supplementary Commercial In-Confidence Report", 4, 820f));
+                SupplementaryCommInConfiReportDetail.HorizontalAlignment = Element.ALIGN_CENTER;
+                SupplementaryCommInConfiReportDetail.VerticalAlignment = Element.ALIGN_MIDDLE;
+                SupplementaryCommInConfiReportDetail.Border = 0;
+                sccTable.AddCell(SupplementaryCommInConfiReportDetail);
+
+                Doc.Add(sccTable);
+            }
+
+            // photograph static table
+            PdfPTable PhotoGraphTable = new PdfPTable(1);
+            PhotoGraphTable.TotalWidth = 820f;
+            PhotoGraphTable.LockedWidth = true;
+            PhotoGraphTable.SpacingBefore = 10f;
+
+            PdfPCell PhotoGraphHeader = new PdfPCell(new Phrase("Photographs", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
+            PhotoGraphHeader.BackgroundColor = new BaseColor(0, 0, 51);
+            PhotoGraphHeader.HorizontalAlignment = Element.ALIGN_CENTER;
+            PhotoGraphHeader.PaddingTop = 4f;
+            PhotoGraphHeader.PaddingBottom = 4f;
+            PhotoGraphTable.AddCell(PhotoGraphHeader);
+
+            PdfPCell PhotoGraphInfo = new PdfPCell(new Phrase("Photographs taken during inspection of this property are set out in the item detail sections.", new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
+            PhotoGraphInfo.PaddingTop = 4f;
+            PhotoGraphInfo.PaddingBottom = 4f;
+            PhotoGraphTable.AddCell(PhotoGraphInfo);
+
+            Doc.Add(PhotoGraphTable);
+
+            //schedule of work static table
+            PdfPTable ScheduleWorkTable = new PdfPTable(1);
+            ScheduleWorkTable.TotalWidth = 820f;
+            ScheduleWorkTable.LockedWidth = true;
+            ScheduleWorkTable.SpacingBefore = 10f;
+
+            PdfPCell ScheduleWorkHeader = new PdfPCell(new Phrase("Schedule of Works", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
+            ScheduleWorkHeader.BackgroundColor = new BaseColor(0, 0, 51);
+            ScheduleWorkHeader.HorizontalAlignment = Element.ALIGN_CENTER;
+            ScheduleWorkHeader.PaddingTop = 4f;
+            ScheduleWorkHeader.PaddingBottom = 4f;
+            ScheduleWorkTable.AddCell(ScheduleWorkHeader);
+
+            PdfPCell ScheduleWorkInfo = new PdfPCell(new Phrase("A recommended Schedule of Works is set out under each item of this report", new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
+            ScheduleWorkInfo.PaddingTop = 4f;
+            ScheduleWorkInfo.PaddingBottom = 4f;
+            ScheduleWorkTable.AddCell(ScheduleWorkInfo);
+
+            Doc.Add(ScheduleWorkTable);
+
+
             if (OpinionRelationSectionCard != null)
             {
                 PdfPTable OpinionRelationSectionTable = new PdfPTable(1);
@@ -537,21 +613,6 @@ namespace PdfPlayGround
                 OpinionRelationSectionTable.AddCell(OpinionRelationSectionInfo);
 
                 Doc.Add(OpinionRelationSectionTable);
-            }
-
-            if (ReferenceCurriVitaeCard != null)
-            {
-                PdfPTable rcvTable = new PdfPTable(1);
-                rcvTable.DefaultCell.Border = Rectangle.NO_BORDER;
-                rcvTable.SpacingBefore = 10f;
-
-                PdfPCell ReferenceDetail = new PdfPCell(GenerateTestTable(ReferenceCurriVitaeTable, "Reference", 2, 820f));
-                ReferenceDetail.HorizontalAlignment = Element.ALIGN_CENTER;
-                ReferenceDetail.VerticalAlignment = Element.ALIGN_MIDDLE;
-                ReferenceDetail.Border = 0;
-                rcvTable.AddCell(ReferenceDetail);
-
-                Doc.Add(rcvTable);
             }
 
             Doc.NewPage();
@@ -581,7 +642,6 @@ namespace PdfPlayGround
                     }
                 }
             }
-
 
             //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!finish the pdf!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             //report summary
