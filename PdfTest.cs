@@ -115,7 +115,8 @@ namespace PdfPlayGround
             JobDetailContent = new List<InfoTableMetaData>
             {
                 new InfoTableMetaData("Building Owner:", Source.Insured.Name),
-                new InfoTableMetaData("Address:", Source.Insured.Name),
+                new InfoTableMetaData("Address:", " "),
+                new InfoTableMetaData("Client", Source.Insurer.CompanyName),
                 new InfoTableMetaData("Our Reference:", BuildingConDetailCard.Fields[0].Value.ToString()),
                 new InfoTableMetaData("Client Reference:", Source.RefNumber)
             };
@@ -205,7 +206,7 @@ namespace PdfPlayGround
 
             Phrase email = new Phrase("builderswarrantyclaims@gbtpa.com.au", new Font(Font.UNDEFINED, 12f, Font.UNDERLINE, BaseColor.Blue));
 
-            Phrase infoList = new Phrase("Attention: Andrew Robinson" + "\n" + 
+            Phrase infoList = new Phrase("Attention: " + Source.Insured.Name + "\n" + 
                 "Gallagher Bassett Services Pty Ltd" + "\n" + 
                 "Locked Bag 912, North Sydney NSW 2060" + "\n" + "Email: ",
                 new Font(Font.UNDEFINED, 12f, Font.UNDEFINED, BaseColor.Black
@@ -250,24 +251,25 @@ namespace PdfPlayGround
                     firstPageTableImgInfo.Colspan = 1;
                     firstPageTableImgInfo.Border = Rectangle.NO_BORDER;
                     firstPageTableImgInfo.HorizontalAlignment = Element.ALIGN_CENTER;
-                    foreach (var imgUrl in coverImages)
-                    {
-                        var coverImg = Image.GetInstance(new Uri(imgUrl.Url));
-                        coverImg.ScalePercent(30f);
-                        coverImg.Alignment = Element.ALIGN_CENTER;
-                        firstPageTableImgInfo.AddElement(coverImg);
-
-                        //imgUrl.Name;
-                        //Paragraph firstPageTableImgText = new Paragraph("Shows the front Eastern elevation", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black));
-                        //firstPageTableImgText.Alignment = Element.ALIGN_CENTER;
-
-                        //firstPageTableImgInfo.AddElement(firstPageTableImgText);
-                    }
+                    firstPageTableImgInfo.PaddingTop = 10f;
+                    //foreach (var imgUrl in coverImages)
+                    //{
+                    //    var coverImg = Image.GetInstance(new Uri(imgUrl.Url));
+                    //    coverImg.ScalePercent(30f);
+                    //    coverImg.Alignment = Element.ALIGN_CENTER;
+                    //    firstPageTableImgInfo.AddElement(coverImg);
+                    //}
+                    var coverImg = Image.GetInstance(new Uri(coverImages.FirstOrDefault().Url));
+                    var imgName = coverImages.FirstOrDefault().Url.ToString();
+                    coverImg.ScalePercent(30f);
+                    coverImg.Alignment = Element.ALIGN_CENTER;
+                    firstPageTableImgInfo.AddElement(coverImg);
 
                     firstPageTable.AddCell(firstPageTableImgInfo);
                 }
 
                 Doc.Add(firstPageTable);
+                Doc.NewPage();
 
             }
 
@@ -275,7 +277,6 @@ namespace PdfPlayGround
             //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!page two!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!//
 
             //***********************first part************************//
-
             //put two table into one line
             if (JobDetailContent != null && IntroductionTable != null)
             {
@@ -557,7 +558,7 @@ namespace PdfPlayGround
                 }
 
                 Doc.NewPage();
-                Doc.Add(new Phrase("SCHEDULE OF ITEMS – Recommended for DENIAL oF DEFECTIVE WORK", new Font(Font.BOLD, 12f, Font.UNDEFINED, BaseColor.Black)));
+                Doc.Add(new Phrase("SCHEDULE OF ITEMS – Recommended for DENIAL oF DEFECTIVE WORK", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
                 foreach (var field in fields)
                 {
                     if (field.FirstOrDefault(x => x.Label == "Recommendation").Value.ToString() == "Decline")
@@ -567,13 +568,114 @@ namespace PdfPlayGround
                 }
             }
 
+
+            //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!finish the pdf!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            //report summary
             if (JobDetailContent != null)
             {
-                Phrase reportTitle = new Phrase("REPORT SUMMARY", new Font(Font.BOLD, 14f, Font.BOLD));
+                Doc.NewPage();
+                Paragraph reportTitleCell = new Paragraph("REPORT SUMMARY", new Font(Font.BOLD, 14f, Font.BOLD, BaseColor.Black));
+                Doc.Add(reportTitleCell);
+                Paragraph reportTitleTime = new Paragraph("Completed on the date of " + 
+                    DateTime.Now.Day.ToString() + " " + month + " " + DateTime.Now.Year.ToString(), 
+                    new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black));
+                reportTitleTime.Alignment = Element.ALIGN_CENTER;
+                Doc.Add(reportTitleTime);
                 PdfPTable ReportSummaryTable = new PdfPTable(2);
-                ReportSummaryTable.TotalWidth = 800f;
+                ReportSummaryTable.SpacingBefore = 10f;
+                ReportSummaryTable.SpacingAfter = 15f;
+                ReportSummaryTable.TotalWidth = 700f;
                 ReportSummaryTable.LockedWidth = true;
+                var buildingOwner = JobDetailContent.FirstOrDefault(x => x.Name == "Building Owner:");
+                var lossAddress = "";
+                var client = Source.Insurer.CompanyName;
+                var buildingConRef = BuildingConDetailCard.Fields.FirstOrDefault(x => x.Name == "ourReference");
+                var clientRef = Source.RefNumber;
+                string[] reportSumInfo = {
+                    "Building Owner:", buildingOwner.Content,
+                    "Loss Address:", "",
+                    "Client:", client,
+                    "Building Consultant’s Reference No:", buildingConRef.Value.ToString(),
+                    "Client’s Reference No (Claim No):", clientRef
+                };
+                foreach (var cell in reportSumInfo)
+                {
+                    PdfPCell newcell = new PdfPCell(new Phrase(cell));
+                    newcell.Colspan = 1;
+                    ReportSummaryTable.AddCell(newcell);
+                }
+                Doc.Add(ReportSummaryTable);
 
+                List reportSummaryList = new List(List.ORDERED, 20f);
+                reportSummaryList.SetListSymbol("\u2022");
+                reportSummaryList.IndentationLeft = 15f;
+                string[] reportSummaryListInfo = {
+                    //1
+                    "This report contains a suggested scope of works, based on the site inspection. It is not a strict or exact detail of the work required. The tendering builders are to provide their tender on the basis of the scope of works that they receive from the owner.",
+                    //2
+                    "All works are to comply with SafeWork requirements (should this be , current Australian Standards, National Construction Code, Manufacturer's Installation Requirements and Standards, NSW Guide to Standards and Tolerances, and all relevant state and federal Government law and other requirements.",
+                    //3
+                    "The Tenderer is to allow for all required fall arrest and/or scaffolding as required in the tender price to complete the works in a safe manner.",
+                    //4
+                    "Prior to commencement of the works, it is recommended that a mutually agreeable and industry recognised building contract be entered between the Builder and the Owner. A clear progress payment schedule is to be included within the contract, progress payment amounts are not to exceed the actual stage of works completed.",
+                    //5
+                    "Unless noted otherwise, all finishes and materials are to match existing as close as practical. Where painting and rendering repairs are carried out, unless noted otherwise these must extend to the nearest possible architectural break.",
+                    //6
+                    "The Tenderer is to provide the estimated lead in time, and time of completion from the date of commencement.",
+                    //7
+                    "The Tenderer shall include within their offer all costs for Labour, Material, Plant and the associated Fees necessary to complete the Scope of Work to the required level of finish, trade quality and in compliance with statutory obligations.",
+                    //8
+                    "If chosen by the Home Owner, the successful Tenderer is to obtain and provide evidence of all required Insurances.",
+                    //9
+                    "During the works, the Principal Contractor is responsible for damage caused by any person under his care, custody and control, to the existing structure, services, paving, road, adjoining properties, etc. and will make good the damage at his/her own cost.",
+                    //10
+                    "The Tenderer shall allow for all required costs to protect all surfaces for the durations of the works. Where required this may include moving and storing furniture and plant items to allow for successful execution of the projects.",
+                    //11
+                    "All disturbed areas to be made good to match existing, and on completion, clean all areas and remove all building rubbish from site.",
+                    //12
+                    "At hand-over of the noted works, provide all warranties, insurance certificates and documentation relative to the project.",
+                    //13
+                    "Where necessary, a Final Occupation Certificate and/or other relevant certificates is/are to be provided to the Owner, Claims Administrator and Local Government Authority at completion sign off; final progress payment will be withheld without this documentation in place.",
+                    //14
+                    "The council regulations, such as the complying development consent, DA and CC, must be complied with."
+                };
+
+                foreach (string list in reportSummaryListInfo)
+                {
+                    iTextSharp.text.ListItem item = new iTextSharp.text.ListItem(list, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black));
+
+                    reportSummaryList.Add(item);
+                }
+                Doc.Add(reportSummaryList);
+
+                Paragraph signPara = new Paragraph("With their signature below, the Claimant confirms that they accept the independent building consultant’s recommendations set out above and that the next step be quantification of the loss by obtaining quotations from independent licensed building contractor/s.",
+                    new Font(Font.UNDEFINED, 12f, Font.UNDEFINED, BaseColor.Black));
+                signPara.SpacingBefore = 25f;
+                Doc.Add(signPara);
+
+                PdfPTable signatureTable = new PdfPTable(2);
+                signatureTable.TotalWidth = 820f;
+                signatureTable.LockedWidth = true;
+                signatureTable.DefaultCell.Border = Rectangle.NO_BORDER;
+                signatureTable.SpacingBefore = 20f;
+
+                string[] signInfo = {
+                    "Name of Claimant: ……………………………………………………………………",
+                    "Signature of the Claimant: ……………………………………………………………",
+                    "Date signed: ……………………………………………………………………",
+                    ""
+                };
+
+                foreach (var item in signInfo)
+                {
+                    PdfPCell cell = new PdfPCell(new Phrase(item, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
+                    cell.Border = 0;
+                    cell.PaddingTop = 10f;
+                    cell.PaddingBottom = 10f;
+                    signatureTable.AddCell(cell);
+                }
+
+                Doc.Add(signatureTable);
             }
 
         }
@@ -782,18 +884,6 @@ namespace PdfPlayGround
 
             public override void OnStartPage(PdfWriter writer, Document document)
             {
-                //base.OnStartPage(writer, document);
-
-                //ColumnText.ShowTextAligned(writer.DirectContent, Element.ALIGN_LEFT,
-                //    PDFHeader_Title,
-                //    ThisDocument.PageMargin.Left,
-                //    ThisDocument.PageInfo.Height - 36f, 0);
-
-                //ColumnText.ShowTextAligned(writer.DirectContent, Element.ALIGN_RIGHT,
-                //    new Phrase("Page " + writer.PageNumber.ToString(), StyleFooterAndPageNumber),
-                //    ThisDocument.PageInfo.Width - ThisDocument.PageMargin.Right,
-                //    ThisDocument.PageInfo.Height - 20f, 0);
-
                 // create header table
                 PdfPTable headerTable = new PdfPTable(2);
                 headerTable.TotalWidth = 820f;
