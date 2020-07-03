@@ -552,46 +552,7 @@ namespace PdfPlayGround
                 Doc.Add(sccTable);
             }
 
-            // photograph static table
-            PdfPTable PhotoGraphTable = new PdfPTable(1);
-            PhotoGraphTable.TotalWidth = 820f;
-            PhotoGraphTable.LockedWidth = true;
-            PhotoGraphTable.SpacingBefore = 10f;
-
-            PdfPCell PhotoGraphHeader = new PdfPCell(new Phrase("Photographs", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
-            PhotoGraphHeader.BackgroundColor = new BaseColor(0, 0, 51);
-            PhotoGraphHeader.HorizontalAlignment = Element.ALIGN_CENTER;
-            PhotoGraphHeader.PaddingTop = 4f;
-            PhotoGraphHeader.PaddingBottom = 4f;
-            PhotoGraphTable.AddCell(PhotoGraphHeader);
-
-            PdfPCell PhotoGraphInfo = new PdfPCell(new Phrase("Photographs taken during inspection of this property are set out in the item detail sections.", new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
-            PhotoGraphInfo.PaddingTop = 4f;
-            PhotoGraphInfo.PaddingBottom = 4f;
-            PhotoGraphTable.AddCell(PhotoGraphInfo);
-
-            Doc.Add(PhotoGraphTable);
-
-            //schedule of work static table
-            PdfPTable ScheduleWorkTable = new PdfPTable(1);
-            ScheduleWorkTable.TotalWidth = 820f;
-            ScheduleWorkTable.LockedWidth = true;
-            ScheduleWorkTable.SpacingBefore = 10f;
-
-            PdfPCell ScheduleWorkHeader = new PdfPCell(new Phrase("Schedule of Works", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
-            ScheduleWorkHeader.BackgroundColor = new BaseColor(0, 0, 51);
-            ScheduleWorkHeader.HorizontalAlignment = Element.ALIGN_CENTER;
-            ScheduleWorkHeader.PaddingTop = 4f;
-            ScheduleWorkHeader.PaddingBottom = 4f;
-            ScheduleWorkTable.AddCell(ScheduleWorkHeader);
-
-            PdfPCell ScheduleWorkInfo = new PdfPCell(new Phrase("A recommended Schedule of Works is set out under each item of this report", new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
-            ScheduleWorkInfo.PaddingTop = 4f;
-            ScheduleWorkInfo.PaddingBottom = 4f;
-            ScheduleWorkTable.AddCell(ScheduleWorkInfo);
-
-            Doc.Add(ScheduleWorkTable);
-
+            createPhotoAndScheduleTable();
 
             if (OpinionRelationSectionCard != null)
             {
@@ -752,6 +713,263 @@ namespace PdfPlayGround
                 Doc.Add(signatureTable);
             }
 
+            if (ReferenceCurriVitaeCard != null)
+            {
+                Doc.NewPage();
+                createAnnexureA();
+                createAnnexureB();
+            }
+
+        }
+
+        protected void createAnnexureA()
+        {
+            PdfPTable annexureATable = new PdfPTable(1);
+            annexureATable.TotalWidth = 800f;
+            annexureATable.LockedWidth = true;
+            annexureATable.DefaultCell.Border = Rectangle.NO_BORDER;
+            PdfPCell annexureATitle1 = new PdfPCell(new Paragraph("‘Annexure A’" , new Font(Font.BOLD, 11f, Font.BOLD, BaseColor.Black)));
+            PdfPCell annexureATitle2 = new PdfPCell(new Paragraph("CURRICULUM VITAE-" + Source.Building.ScopingSupplier.CompanyName, new Font(Font.BOLD, 11f, Font.BOLD, BaseColor.Black)));
+            PdfPCell annexureATitle3 = new PdfPCell(new Paragraph("LICENSED BUILDER / BUILDING CONSULTANT", new Font(Font.BOLD, 11f, Font.BOLD, BaseColor.Black)));
+            annexureATitle1.Border = 0;
+            annexureATitle1.HorizontalAlignment = Element.ALIGN_CENTER;
+            annexureATitle2.Border = 0;
+            annexureATitle2.HorizontalAlignment = Element.ALIGN_CENTER;
+            annexureATitle3.Border = 0;
+            annexureATitle3.HorizontalAlignment = Element.ALIGN_CENTER;
+
+            annexureATable.AddCell(annexureATitle1);
+            annexureATable.AddCell(annexureATitle2);
+            annexureATable.AddCell(annexureATitle3);
+
+            PdfPCell annexureAInfo = new PdfPCell(new Phrase(ReferenceCurriVitaeCard.Fields[0]?.Value.ToString(), new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            annexureAInfo.HorizontalAlignment = Element.ALIGN_LEFT;
+            annexureAInfo.Border = 0;
+
+            annexureATable.AddCell(annexureAInfo);
+            Doc.Add(annexureATable);
+        }
+
+        protected void createAnnexureB()
+        {
+            Doc.NewPage();
+            PdfPTable annexureBTable = new PdfPTable(1);
+            annexureBTable.TotalWidth = 800f;
+            annexureBTable.LockedWidth = true;
+            annexureBTable.DefaultCell.Border = Rectangle.NO_BORDER;
+            PdfPCell annexureBTitle1 = new PdfPCell(new Paragraph("‘Annexure B’", new Font(Font.BOLD, 11f, Font.BOLD, BaseColor.Black)));
+            PdfPCell annexureBTitle2 = new PdfPCell(new Paragraph("NCAT Procedural Direction 3", new Font(Font.BOLD, 11f, Font.BOLD, BaseColor.Black)));
+            PdfPCell annexureBTitle3 = new PdfPCell(new Paragraph("EXPERT WITNESSES", new Font(Font.BOLD, 11f, Font.BOLD, BaseColor.Black)));
+            annexureBTitle1.Border = 0;
+            annexureBTitle1.HorizontalAlignment = Element.ALIGN_CENTER;
+            annexureBTitle2.Border = 0;
+            annexureBTitle2.HorizontalAlignment = Element.ALIGN_RIGHT;
+            annexureBTitle3.Border = 0;
+            annexureBTitle3.HorizontalAlignment = Element.ALIGN_CENTER;
+
+            annexureBTable.AddCell(annexureBTitle1);
+            annexureBTable.AddCell(annexureBTitle2);
+            annexureBTable.AddCell(annexureBTitle3);
+
+            PdfPTable expertWitnessTable = new PdfPTable(4);
+            expertWitnessTable.SpacingBefore = 10f;
+            expertWitnessTable.DefaultCell.Border = Rectangle.NO_BORDER;
+            expertWitnessTable.TotalWidth = 800f;
+            expertWitnessTable.LockedWidth = true;
+            PdfPCell expertWitnessTableCell = new PdfPCell();
+            expertWitnessTableCell.Border = 0;
+            expertWitnessTableCell.PaddingTop = 10f;
+
+            PdfPCell proceduralDirection = new PdfPCell(new Phrase("This Procedural Direction applies to:", new Font(Font.BOLD, 10f, Font.BOLD)));
+            proceduralDirection.Colspan = 1;
+            proceduralDirection.Border = 0;
+            PdfPCell proceduralDirectionInfo = new PdfPCell(new Phrase("Proceedings in all Divisions", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED)));
+            proceduralDirectionInfo.Colspan = 3;
+            proceduralDirectionInfo.Border = 0;
+
+            PdfPCell effectiveDate = new PdfPCell(new Phrase("Effective Date", new Font(Font.BOLD, 10f, Font.BOLD)));
+            effectiveDate.Colspan = 1;
+            effectiveDate.Border = 0;
+            PdfPCell effectiveDateInfo = new PdfPCell(new Phrase("7 February 2014", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED)));
+            effectiveDateInfo.Colspan = 3;
+            effectiveDateInfo.Border = 0;
+
+            PdfPCell replacesProceduralDirection = new PdfPCell(new Phrase("Replaces Procedural Direction:", new Font(Font.BOLD, 10f, Font.BOLD)));
+            replacesProceduralDirection.Colspan = 1;
+            replacesProceduralDirection.Border = 0;
+            PdfPCell replacesProceduralDirectionInfo = new PdfPCell(new Phrase("NCAT Procedural Direction 3 (20 December 2013)", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED)));
+            replacesProceduralDirectionInfo.Colspan = 3;
+            replacesProceduralDirectionInfo.Border = 0;
+
+            PdfPCell Notes = new PdfPCell(new Phrase("Notes:", new Font(Font.BOLD, 10f, Font.BOLD)));
+            Notes.Colspan = 1;
+            Notes.Border = 0;
+            PdfPCell NotesInfo = new PdfPCell(new Phrase("You should ensure that you are using the current version of this Procedural Direction. A complete set of Procedural Directions and Guidelines is available on the Tribunal website at www.ncat.nsw.gov.au", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED)));
+            NotesInfo.Colspan = 3;
+            NotesInfo.Border = 0;
+
+            expertWitnessTable.AddCell(proceduralDirection);
+            expertWitnessTable.AddCell(proceduralDirectionInfo);
+            expertWitnessTable.AddCell(effectiveDate);
+            expertWitnessTable.AddCell(effectiveDateInfo);
+            expertWitnessTable.AddCell(replacesProceduralDirection);
+            expertWitnessTable.AddCell(replacesProceduralDirectionInfo);
+            expertWitnessTable.AddCell(Notes);
+            expertWitnessTable.AddCell(NotesInfo);
+
+            expertWitnessTableCell.AddElement(expertWitnessTable);
+
+            annexureBTable.AddCell(expertWitnessTableCell);
+
+            PdfPCell introductionCell = new PdfPCell(new Paragraph("Introduction", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
+            introductionCell.HorizontalAlignment = Element.ALIGN_LEFT;
+            introductionCell.Border = 0;
+            PdfPCell introductionInfo = new PdfPCell();
+            introductionInfo.PaddingTop = 10f;
+
+            RomanList romanlist1 = new RomanList(true, 20);
+            romanlist1.Add(new ListItem("A code of conduct for expert witnesses (based upon Schedule 7 to the Uniform Civil Procedure Rules 2005); and", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            romanlist1.Add(new ListItem("Information on how experts may be required to give evidence.", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+
+            List list1 = new List(List.ORDERED, 20f);
+            list1.SetListSymbol("\u2022");
+            list1.IndentationLeft = 20f;
+            list1.First = 1;
+            list1.Add(new ListItem ("The Tribunal may rely on evidence from expert witnesses to reach a conclusion about a technical matter or area of specialised knowledge that is relevant to an issue to be determined in proceedings. It is important that experts’ opinions are soundly based, complete and reliable", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            list1.Add(new ListItem ("This Procedural Direction sets out:", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            list1.Add(romanlist1);
+            
+            introductionInfo.AddElement(list1);
+            introductionInfo.Border = 0;
+            annexureBTable.AddCell(introductionCell);
+            annexureBTable.AddCell(introductionInfo);
+
+            PdfPCell complianceCell = new PdfPCell(new Paragraph("Compliance and other matters", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
+            complianceCell.HorizontalAlignment = Element.ALIGN_LEFT;
+            complianceCell.Border = 0;
+            complianceCell.PaddingTop = 10f;
+            PdfPCell complianceInfo = new PdfPCell();
+            complianceInfo.PaddingTop = 10f;
+
+            List list2 = new List(List.ORDERED, 20f);
+            list2.SetListSymbol("\u2022");
+            list2.IndentationLeft = 20f;
+            list2.First = 3;
+            list2.Add(new ListItem("The Tribunal may excuse an expert witness or any other person from complying with this Procedural Direction before or after the time for compliance", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            list2.Add(new ListItem("Nothing in this Procedural Direction prevents the Tribunal from giving any directions concerning expert witnesses or expert evidence that the Tribunal considers appropriate in any particular proceedings before the Tribunal", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            list2.Add(new ListItem("This Procedural Direction is made by the President under s 26 of the Civil and Administrative Tribunal Act 2013.", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+
+            complianceInfo.AddElement(list2);
+            complianceInfo.Border = 0;
+            annexureBTable.AddCell(complianceCell);
+            annexureBTable.AddCell(complianceInfo);
+
+            PdfPCell definitionsCell = new PdfPCell(new Paragraph("Definitions", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
+            definitionsCell.HorizontalAlignment = Element.ALIGN_LEFT;
+            definitionsCell.Border = 0;
+            definitionsCell.PaddingTop = 10f;
+            definitionsCell.PaddingBottom = 10f;
+
+            PdfPTable definitionsTable = new PdfPTable(8);
+            definitionsTable.TotalWidth = 750f;
+            definitionsTable.LockedWidth = true;
+
+            PdfPCell wordCell = new PdfPCell(new Phrase("Word", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            wordCell.Colspan = 1;
+            wordCell.PaddingTop = 4f;
+            wordCell.PaddingBottom = 4f;
+            PdfPCell wordInfo = new PdfPCell(new Phrase("Definition", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            wordInfo.Colspan = 7;
+            wordInfo.PaddingTop = 4f;
+            wordInfo.PaddingBottom = 4f;
+
+            PdfPCell act = new PdfPCell(new Phrase("Act", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            act.Colspan = 1;
+            act.PaddingTop = 4f;
+            act.PaddingBottom = 4f;
+            PdfPCell actInfo = new PdfPCell(new Phrase("Civil and Administrative Tribunal Act 2013", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            actInfo.Colspan = 7;
+            actInfo.PaddingTop = 4f;
+            actInfo.PaddingBottom = 4f;
+
+            PdfPCell rules = new PdfPCell(new Phrase("Rules", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            rules.Colspan = 1;
+            rules.PaddingTop = 4f;
+            rules.PaddingBottom = 4f;
+            PdfPCell rulesInfo = new PdfPCell(new Phrase("Civil and Administrative Tribunal Rules 2014", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            rulesInfo.Colspan = 7;
+            rulesInfo.PaddingTop = 4f;
+            rulesInfo.PaddingBottom = 4f;
+
+            PdfPCell expressWitness = new PdfPCell(new Phrase("Expert Witness", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            expressWitness.Colspan = 1;
+            expressWitness.PaddingTop = 4f;
+            expressWitness.PaddingBottom = 4f;
+            PdfPCell expressWitnessInfo = new PdfPCell(new Phrase("A person who has specialised knowledge based on the person’s training, study or experience and who give evidence of an opinion based wholly or substantially on that knowledge", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            expressWitnessInfo.Colspan = 7;
+            expressWitnessInfo.PaddingTop = 4f;
+            expressWitnessInfo.PaddingBottom = 4f;
+
+            definitionsTable.AddCell(wordCell);
+            definitionsTable.AddCell(wordInfo);
+
+            definitionsTable.AddCell(act);
+            definitionsTable.AddCell(actInfo);
+
+            definitionsTable.AddCell(rules);
+            definitionsTable.AddCell(rulesInfo);
+
+            definitionsTable.AddCell(expressWitness);
+            definitionsTable.AddCell(expressWitnessInfo);
+
+
+            annexureBTable.AddCell(definitionsCell);
+            annexureBTable.AddCell(definitionsTable);
+
+            Doc.Add(annexureBTable);
+        }
+
+        protected void createPhotoAndScheduleTable()
+        {
+            // photograph static table
+            PdfPTable PhotoGraphTable = new PdfPTable(1);
+            PhotoGraphTable.TotalWidth = 820f;
+            PhotoGraphTable.LockedWidth = true;
+            PhotoGraphTable.SpacingBefore = 10f;
+
+            PdfPCell PhotoGraphHeader = new PdfPCell(new Phrase("Photographs", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
+            PhotoGraphHeader.BackgroundColor = new BaseColor(0, 0, 51);
+            PhotoGraphHeader.HorizontalAlignment = Element.ALIGN_CENTER;
+            PhotoGraphHeader.PaddingTop = 4f;
+            PhotoGraphHeader.PaddingBottom = 4f;
+            PhotoGraphTable.AddCell(PhotoGraphHeader);
+
+            PdfPCell PhotoGraphInfo = new PdfPCell(new Phrase("Photographs taken during inspection of this property are set out in the item detail sections.", new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
+            PhotoGraphInfo.PaddingTop = 4f;
+            PhotoGraphInfo.PaddingBottom = 4f;
+            PhotoGraphTable.AddCell(PhotoGraphInfo);
+
+            Doc.Add(PhotoGraphTable);
+
+            //schedule of work static table
+            PdfPTable ScheduleWorkTable = new PdfPTable(1);
+            ScheduleWorkTable.TotalWidth = 820f;
+            ScheduleWorkTable.LockedWidth = true;
+            ScheduleWorkTable.SpacingBefore = 10f;
+
+            PdfPCell ScheduleWorkHeader = new PdfPCell(new Phrase("Schedule of Works", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
+            ScheduleWorkHeader.BackgroundColor = new BaseColor(0, 0, 51);
+            ScheduleWorkHeader.HorizontalAlignment = Element.ALIGN_CENTER;
+            ScheduleWorkHeader.PaddingTop = 4f;
+            ScheduleWorkHeader.PaddingBottom = 4f;
+            ScheduleWorkTable.AddCell(ScheduleWorkHeader);
+
+            PdfPCell ScheduleWorkInfo = new PdfPCell(new Phrase("A recommended Schedule of Works is set out under each item of this report", new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
+            ScheduleWorkInfo.PaddingTop = 4f;
+            ScheduleWorkInfo.PaddingBottom = 4f;
+            ScheduleWorkTable.AddCell(ScheduleWorkInfo);
+
+            Doc.Add(ScheduleWorkTable);
         }
 
         protected PdfPTable GenerateItemReportTable(ItemReporData data, int dataColNumber)
@@ -961,7 +1179,6 @@ namespace PdfPlayGround
                 // create header table
                 PdfPTable headerTable = new PdfPTable(2);
                 headerTable.TotalWidth = 820f;
-                //headerTable.TotalWidth = document.PageSize.Width - document.LeftMargin - document.RightMargin; //this centers [table]
                 headerTable.LockedWidth = true;
                 headerTable.DefaultCell.Border = Rectangle.NO_BORDER;
 
@@ -993,21 +1210,11 @@ namespace PdfPlayGround
             {
                 base.OnEndPage(writer, document);
 
-                //ColumnText.ShowTextAligned(writer.DirectContent, Element.ALIGN_CENTER,
-                //    PDFFooter_Date,
-                //    ThisDocument.PageMargin.Left,
-                //    10f, 0);
-                //ColumnText.ShowTextAligned(writer.DirectContent, Element.ALIGN_RIGHT,
-                //    new Phrase("Page " + writer.PageNumber.ToString(), StyleFooterAndPageNumber),
-                //    ThisDocument.PageInfo.Width - ThisDocument.PageMargin.Right,
-                //    ThisDocument.PageInfo.Height - 20f, 0);
-
                 PdfPTable footerTable = new PdfPTable(1);
                 footerTable.TotalWidth = 820f;
                 footerTable.LockedWidth = true;
                 footerTable.DefaultCell.Border = Rectangle.NO_BORDER;
                 PdfPCell footerPageNum = new PdfPCell(new Phrase("Page " + writer.PageNumber.ToString(),
-                    //new Font(Font.UNDEFINED, 8f, Font.UNDEFINED, BaseColor.Black)
                     StyleFooterAndPageNumber
                     ));
                 footerPageNum.HorizontalAlignment = Element.ALIGN_CENTER;
