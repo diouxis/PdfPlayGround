@@ -821,6 +821,7 @@ namespace PdfPlayGround
 
             annexureBTable.AddCell(expertWitnessTableCell);
 
+            //introduction
             PdfPCell introductionCell = new PdfPCell(new Paragraph("Introduction", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
             introductionCell.HorizontalAlignment = Element.ALIGN_LEFT;
             introductionCell.Border = 0;
@@ -844,6 +845,7 @@ namespace PdfPlayGround
             annexureBTable.AddCell(introductionCell);
             annexureBTable.AddCell(introductionInfo);
 
+            //Compliance and other matters
             PdfPCell complianceCell = new PdfPCell(new Paragraph("Compliance and other matters", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
             complianceCell.HorizontalAlignment = Element.ALIGN_LEFT;
             complianceCell.Border = 0;
@@ -864,6 +866,7 @@ namespace PdfPlayGround
             annexureBTable.AddCell(complianceCell);
             annexureBTable.AddCell(complianceInfo);
 
+            //definition
             PdfPCell definitionsCell = new PdfPCell(new Paragraph("Definitions", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
             definitionsCell.HorizontalAlignment = Element.ALIGN_LEFT;
             definitionsCell.Border = 0;
@@ -922,9 +925,250 @@ namespace PdfPlayGround
             definitionsTable.AddCell(expressWitness);
             definitionsTable.AddCell(expressWitnessInfo);
 
-
             annexureBTable.AddCell(definitionsCell);
             annexureBTable.AddCell(definitionsTable);
+
+            List list3 = new List(List.ORDERED, 20f);
+            list3.SetListSymbol("\u2022");
+            list3.IndentationLeft = 20f;
+            list3.First = 6;
+            list3.Add(new ListItem("Words used in this Procedural Direction have the same meaning as defined in the Act and the Rules.", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+
+            //Application
+            PdfPCell applicationCell = new PdfPCell(new Paragraph("Application", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
+            applicationCell.HorizontalAlignment = Element.ALIGN_LEFT;
+            applicationCell.Border = 0;
+            applicationCell.PaddingTop = 10f;
+            applicationCell.PaddingBottom = 10f;
+            annexureBTable.AddCell(applicationCell);
+
+            PdfPCell applicationInfo = new PdfPCell();
+            applicationInfo.PaddingTop = 10f;
+            applicationInfo.Border = 0;
+
+            RomanList romanList2 = new RomanList(true, 20);
+            romanList2.Add(new ListItem("any evidence given by an expert witness in the Tribunal;", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            romanList2.Add(new ListItem("any arrangement between an expert and a party for the expert to provide evidence or a report for the purposes of proceedings or proposed proceedings in the Tribunal; and", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            romanList2.Add(new ListItem("any arrangements for Tribunal appointed experts,", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+
+            List list4 = new List(List.ORDERED, 20f);
+            list4.SetListSymbol("\u2022");
+            list4.IndentationLeft = 20f;
+            list4.First = 7;
+            list4.Add(new ListItem("This Procedural Direction applies to:", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            list4.Add(romanList2);
+            applicationInfo.AddElement(list4);
+
+            annexureBTable.AddCell(applicationInfo);
+            PdfPCell applicationListInfo = new PdfPCell(new Paragraph("except that this Procedural Direction does not apply to evidence obtained from treating doctors, other health professionals or hospitals (who might otherwise fall within the definition of expert witness), unless the Tribunal otherwise directs", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            applicationListInfo.Border = 0;
+            applicationListInfo.PaddingTop = 10f;
+            annexureBTable.AddCell(applicationListInfo);
+
+            //Parties’ and Experts’ Duties
+            PdfPCell partAndExpCell = new PdfPCell(new Paragraph("Parties’ and Experts’ Duties", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
+            partAndExpCell.HorizontalAlignment = Element.ALIGN_LEFT;
+            partAndExpCell.Border = 0;
+            partAndExpCell.PaddingTop = 10f;
+            partAndExpCell.PaddingBottom = 10f;
+            annexureBTable.AddCell(partAndExpCell);
+            PdfPCell partAndExpInfo = new PdfPCell();
+            partAndExpInfo.Border = 0;
+
+            List list5 = new List(List.ORDERED, 20f);
+            list5.SetListSymbol("\u2022");
+            list5.IndentationLeft = 20f;
+            list5.First = 8;
+            list5.Add(new ListItem("Any party who retains an expert to provide evidence or a report for the purposes of proceedings or proposed proceedings in the Tribunal must bring to the expert’s attention the contents of this Procedural Direction, including the experts’ code of conduct.", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            list5.Add(new ListItem("Where an expert is unable to comply with the experts’ code of conduct, whether because of a conflict of interest or otherwise, the expert is not to give evidence or provide an expert’s report for use in proceedings in the Tribunal, unless the expert raises the inability with the Tribunal and the Tribunal expressly permits the expert to give evidence or provide a report.", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            partAndExpInfo.AddElement(list5);
+
+            annexureBTable.AddCell(partAndExpInfo);
+
+            PdfPCell expertCodeConCell = new PdfPCell(new Paragraph("Experts’ Code of Conduct", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
+            expertCodeConCell.HorizontalAlignment = Element.ALIGN_LEFT;
+            expertCodeConCell.Border = 0;
+            expertCodeConCell.PaddingTop = 10f;
+            expertCodeConCell.PaddingBottom = 10f;
+            annexureBTable.AddCell(expertCodeConCell);
+
+            PdfPCell applicationCodeCell = new PdfPCell(new Paragraph("Application of code", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
+            applicationCodeCell.HorizontalAlignment = Element.ALIGN_LEFT;
+            applicationCodeCell.Border = 0;
+            applicationCodeCell.PaddingTop = 10f;
+            applicationCodeCell.PaddingBottom = 10f;
+            annexureBTable.AddCell(applicationCodeCell);
+
+            PdfPCell applicationCodeInfo = new PdfPCell();
+            applicationCodeInfo.Border = 0;
+
+            RomanList romanList3 = new RomanList(true, 20);
+            romanList3.Add(new ListItem("provides an expert’s report for use as evidence in proceedings or proposed proceedings in the Tribunal, or", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            romanList3.Add(new ListItem("gives opinion evidence in proceedings in the Tribunal.", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            List list6 = new List(List.ORDERED, 20f);
+            list6.SetListSymbol("\u2022");
+            list6.IndentationLeft = 20f;
+            list6.First = 10;
+            list6.Add(new ListItem("Subject to paragraph 7, this experts’ code of conduct applies to any expert witness who:", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            list6.Add(romanList3);
+            applicationCodeInfo.AddElement(list6);
+
+            annexureBTable.AddCell(applicationCodeInfo);
+
+            PdfPCell generalDutyTriCell = new PdfPCell(new Paragraph("General duty to the Tribunal", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
+            generalDutyTriCell.HorizontalAlignment = Element.ALIGN_LEFT;
+            generalDutyTriCell.Border = 0;
+            generalDutyTriCell.PaddingTop = 10f;
+            generalDutyTriCell.PaddingBottom = 10f;
+            annexureBTable.AddCell(generalDutyTriCell);
+
+            PdfPCell generalDutyTriInfo = new PdfPCell();
+            generalDutyTriInfo.Border = 0;
+
+            RomanList romanList4 = new RomanList(true, 20);
+            romanList4.Add(new ListItem("provides an expert’s report for use as evidence in proceedings or proposed proceedings in the Tribunal, or", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            romanList4.Add(new ListItem("gives opinion evidence in proceedings in the Tribunal.", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+
+            List list7 = new List(List.ORDERED, 20f);
+            list7.SetListSymbol("\u2022");
+            list7.IndentationLeft = 20f;
+            list7.First = 11;
+            list7.Add(new ListItem("Subject to paragraph 7, this experts’ code of conduct applies to any expert witness who:", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            list7.Add(romanList4);
+            list7.Add(new ListItem("An expert witness’s paramount duty is to the Tribunal and not to any party to the proceedings (including the person retaining the expert witness).", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            list7.Add(new ListItem("An expert witness is not an advocate for a party.", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            list7.Add(new ListItem("An expert witness must abide by any direction given by the Tribunal.", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+
+            generalDutyTriInfo.AddElement(list7);
+            annexureBTable.AddCell(generalDutyTriInfo);
+
+            PdfPCell dutyWorkCooperCell = new PdfPCell(new Paragraph("Duty to work co-operatively with other expert witnesses", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
+            dutyWorkCooperCell.HorizontalAlignment = Element.ALIGN_LEFT;
+            dutyWorkCooperCell.Border = 0;
+            dutyWorkCooperCell.PaddingTop = 10f;
+            dutyWorkCooperCell.PaddingBottom = 10f;
+            annexureBTable.AddCell(dutyWorkCooperCell);
+
+            PdfPCell dutyWorkCooperInfo = new PdfPCell();
+            dutyWorkCooperInfo.Border = 0;
+
+            RomanList romanList5 = new RomanList(true, 20);
+            romanList5.Add(new ListItem("exercise his or her independent, professional judgment in relation to that issue;", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            romanList5.Add(new ListItem("endeavour to reach agreement with any other expert witness on that issue; and", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            romanList5.Add(new ListItem("not act on any instruction or request to withhold or avoid agreement with any other expert witness.", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+
+            List list8 = new List(List.ORDERED, 20f);
+            list8.SetListSymbol("\u2022");
+            list8.IndentationLeft = 20f;
+            list8.First = 15;
+            list8.Add(new ListItem("An expert witness, when complying with any direction of the Tribunal to confer with another expert witness or to prepare a joint report with another expert witness in relation to any issue must:", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            list8.Add(romanList5);
+            dutyWorkCooperInfo.AddElement(list8);
+            annexureBTable.AddCell(dutyWorkCooperInfo);
+
+            //Experts’ reports
+            PdfPCell expertsReportsCell = new PdfPCell(new Paragraph("Experts’ reports", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
+            expertsReportsCell.HorizontalAlignment = Element.ALIGN_LEFT;
+            expertsReportsCell.Border = 0;
+            expertsReportsCell.PaddingTop = 10f;
+            expertsReportsCell.PaddingBottom = 10f;
+            annexureBTable.AddCell(expertsReportsCell);
+
+            PdfPCell expertsReportsInfo = new PdfPCell();
+            expertsReportsInfo.Border = 0;
+
+            RomanList romanList6 = new RomanList(true, 20);
+            romanList6.Add(new ListItem("the expert’s qualifications as an expert on the issue the subject of the report;", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            romanList6.Add(new ListItem("the facts, and assumptions of fact, on which the opinions in the report are based (a letter of instructions may be annexed);", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            romanList6.Add(new ListItem("the expert’s reasons for each opinion expressed;", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            romanList6.Add(new ListItem("if applicable, that a particular issue falls outside the expert’s field of expertise;", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            romanList6.Add(new ListItem("any literature or other materials used in support of the opinions.", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            romanList6.Add(new ListItem("any examinations, tests or other investigations on which the expert has relied, including details of the qualifications of the person who carried them out;", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            romanList6.Add(new ListItem("in the case of a report that is lengthy or complex, a brief summary of the report (to be located at the beginning of the report);", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            romanList6.Add(new ListItem("an acknowledgement that the expert has read the experts’ code of conduct and agrees to be bound by it.", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+
+            List list9 = new List(List.ORDERED, 20f);
+            list9.SetListSymbol("\u2022");
+            list9.IndentationLeft = 20f;
+            list9.First = 16;
+            list9.Add(new ListItem("An expert witness, when complying with any direction of the Tribunal to confer with another expert witness or to prepare a joint report with another expert witness in relation to any issue must:", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            list9.Add(romanList6);
+            list9.Add(new ListItem("If an expert witness who prepares an expert’s report believes that it may be incomplete or inaccurate without some qualification, the qualification must be stated in the report.", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            list9.Add(new ListItem("If an expert witness considers that his or her opinion is not a concluded opinion because of insufficient research or insufficient data or for any other reason, this must be stated when the opinion is expressed.", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            list9.Add(new ListItem("If an expert witness changes his or her opinion on a material matter after providing a report, the expert witness must immediately provide a supplementary report to that effect containing such of the information referred to in paragraph 16 as is appropriate.", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+
+            expertsReportsInfo.AddElement(list9);
+            annexureBTable.AddCell(expertsReportsInfo);
+
+            PdfPCell expertsConferenceCell = new PdfPCell(new Paragraph("Experts’ conference", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
+            expertsConferenceCell.HorizontalAlignment = Element.ALIGN_LEFT;
+            expertsConferenceCell.Border = 0;
+            expertsConferenceCell.PaddingTop = 10f;
+            expertsConferenceCell.PaddingBottom = 10f;
+            annexureBTable.AddCell(expertsConferenceCell);
+
+            PdfPCell expertsConferenceInfo = new PdfPCell();
+            expertsConferenceInfo.Border = 0;
+
+            RomanList romanList7 = new RomanList(true, 20);
+            romanList7.Add(new ListItem("to confer with any other expert witness;", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            romanList7.Add(new ListItem("to endeavour to reach agreement on any matters in issue;", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            romanList7.Add(new ListItem("to prepare a joint report, specifying matters agreed and matters not agreed and any reasons for any disagreement; and", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            romanList7.Add(new ListItem("to base any joint report on specified facts or assumptions of fact.", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+
+            List list10 = new List(List.ORDERED, 20f);
+            list10.SetListSymbol("\u2022");
+            list10.IndentationLeft = 20f;
+            list10.First = 20;
+            list10.Add(new ListItem("An expert witness must abide by any direction of the Tribunal:", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            list10.Add(romanList7);
+            list10.Add(new ListItem("An expert witness must exercise his or her independent, professional judgment in relation to such a conference and joint report, and must not act on any instruction or request to withhold or avoid agreement.", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            expertsConferenceInfo.AddElement(list10);
+            annexureBTable.AddCell(expertsConferenceInfo);
+
+            PdfPCell howManyExpertEvidenceCell = new PdfPCell(new Paragraph("How may expert evidence be given?", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
+            howManyExpertEvidenceCell.HorizontalAlignment = Element.ALIGN_LEFT;
+            howManyExpertEvidenceCell.Border = 0;
+            howManyExpertEvidenceCell.PaddingTop = 10f;
+            howManyExpertEvidenceCell.PaddingBottom = 10f;
+            annexureBTable.AddCell(howManyExpertEvidenceCell);
+
+            PdfPCell howManyExpertEvidenceInfo = new PdfPCell();
+            howManyExpertEvidenceInfo.Border = 0;
+
+            RomanList romanList8 = new RomanList(true, 20);
+            romanList8.Add(new ListItem("requiring expert evidence to be given by written report;", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            romanList8.Add(new ListItem("requiring expert witnesses to confer and prepare a joint report, specifying matters agreed and matters not agreed and reasons for any disagreement;", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            romanList8.Add(new ListItem("specifying when and in what order expert evidence at a hearing will be given;", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            romanList8.Add(new ListItem("controlling the form and duration of cross examination of expert witnesses; and", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            romanList8.Add(new ListItem("requiring expert witnesses to give evidence at a hearing concurrently.", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            RomanList romanList9 = new RomanList(true, 20);
+            romanList9.Add(new ListItem("sitting together in the witness box or some other convenient place in the hearing room;", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            romanList9.Add(new ListItem("being asked questions by the Tribunal;", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            romanList9.Add(new ListItem("being asked questions by the parties or their representatives (if any);", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            romanList9.Add(new ListItem("being given the opportunity to respond to the other witness’s evidence, as that evidence is given; and", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            romanList9.Add(new ListItem("being given the opportunity to ask any questions of the other witness, as the evidence is being given, where those questions might assist the Tribunal in determining the matter.", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+
+            List list11 = new List(List.ORDERED, 20f);
+            list11.SetListSymbol("\u2022");
+            list11.IndentationLeft = 20f;
+            list11.First = 22;
+            list11.Add(new ListItem("The Tribunal may regulate the conduct of proceedings involving expert witnesses including by:", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            list11.Add(romanList8);
+            list11.Add(new ListItem("If the Tribunal requires or permits expert witnesses to give evidence concurrently this will usually involve the expert witnesses in one particular field of expertise:", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            list11.Add(romanList9);
+            howManyExpertEvidenceInfo.AddElement(list11);
+            annexureBTable.AddCell(howManyExpertEvidenceInfo);
+
+            PdfPCell endingCell = new PdfPCell();
+            endingCell.Border = 0;
+            PdfPTable endingTable = new PdfPTable(1);
+            endingTable.HorizontalAlignment = Element.ALIGN_LEFT;
+            endingTable.SpacingBefore = 30f;
+            endingTable.DefaultCell.Border = Rectangle.NO_BORDER;
+            endingTable.AddCell(new Paragraph("Wright J" + "\n" + "President" + "\n" + "7 February 2014", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            endingCell.AddElement(endingTable);
+            annexureBTable.AddCell(endingCell);
 
             Doc.Add(annexureBTable);
         }
