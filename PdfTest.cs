@@ -308,19 +308,10 @@ namespace PdfPlayGround
                 twoTableLeft.Padding = 0;
                 twoTableLeft.Border = Rectangle.NO_BORDER;
 
-                //twoTableLeft.PaddingRight = 5f;
-
-                //PdfPCell twoTableRight = new PdfPCell(introTable);
-                //twoTableRight.Colspan = 1;
-                //twoTableRight.Padding = 0;
-                //twoTableRight.Border = Rectangle.NO_BORDER;
-
                 PdfPCell twoTableRight = new PdfPCell(GenerateTestTable(IntroductionTable, "Introduction", 2, 406f));
                 twoTableRight.Colspan = 1;
                 twoTableRight.Padding = 0;
                 twoTableRight.Border = Rectangle.NO_BORDER;
-
-
 
                 //twoTableLeft.PaddingLeft = 5f;
                 twoTable.AddCell(twoTableLeft);
@@ -537,20 +528,20 @@ namespace PdfPlayGround
                 Doc.Add(rcvTable);
             }
 
-            if (SupplementaryCommInConfiReportCard != null)
-            {
-                PdfPTable sccTable = new PdfPTable(1);
-                sccTable.SpacingBefore = 10f;
-                sccTable.DefaultCell.Border = Rectangle.NO_BORDER;
+            //if (SupplementaryCommInConfiReportCard != null)
+            //{
+            //    PdfPTable sccTable = new PdfPTable(1);
+            //    sccTable.SpacingBefore = 10f;
+            //    sccTable.DefaultCell.Border = Rectangle.NO_BORDER;
 
-                PdfPCell SupplementaryCommInConfiReportDetail = new PdfPCell(GenerateTestTable(SupplementaryCommInConfiReportTable, "Supplementary Commercial In-Confidence Report", 4, 820f));
-                SupplementaryCommInConfiReportDetail.HorizontalAlignment = Element.ALIGN_CENTER;
-                SupplementaryCommInConfiReportDetail.VerticalAlignment = Element.ALIGN_MIDDLE;
-                SupplementaryCommInConfiReportDetail.Border = 0;
-                sccTable.AddCell(SupplementaryCommInConfiReportDetail);
+            //    PdfPCell SupplementaryCommInConfiReportDetail = new PdfPCell(GenerateTestTable(SupplementaryCommInConfiReportTable, "Supplementary Commercial In-Confidence Report", 4, 820f));
+            //    SupplementaryCommInConfiReportDetail.HorizontalAlignment = Element.ALIGN_CENTER;
+            //    SupplementaryCommInConfiReportDetail.VerticalAlignment = Element.ALIGN_MIDDLE;
+            //    SupplementaryCommInConfiReportDetail.Border = 0;
+            //    sccTable.AddCell(SupplementaryCommInConfiReportDetail);
 
-                Doc.Add(sccTable);
-            }
+            //    Doc.Add(sccTable);
+            //}
 
             createPhotoAndScheduleTable();
 
@@ -590,16 +581,17 @@ namespace PdfPlayGround
                     if (field.FirstOrDefault(x => x.Label == "Recommendation").Value.ToString() == "Accept")
                     {
                         CreateScheduleItem(field);
+                        Doc.NewPage();
                     }
                 }
 
-                Doc.NewPage();
-                Doc.Add(new Phrase("SCHEDULE OF ITEMS – Recommended for DENIAL oF DEFECTIVE WORK", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
+                Doc.Add(new Phrase("Schedule of Items – Recommended for DENIAL oF DEFECTIVE WORK", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
                 foreach (var field in fields)
                 {
                     if (field.FirstOrDefault(x => x.Label == "Recommendation").Value.ToString() == "Decline")
                     {
                         CreateScheduleItem(field);
+                        Doc.NewPage();
                     }
                 }
             }
@@ -608,7 +600,6 @@ namespace PdfPlayGround
             //report summary
             if (JobDetailContent != null)
             {
-                Doc.NewPage();
                 Paragraph reportTitleCell = new Paragraph("REPORT SUMMARY", new Font(Font.BOLD, 14f, Font.BOLD, BaseColor.Black));
                 Doc.Add(reportTitleCell);
                 Paragraph reportTitleTime = new Paragraph("Completed on the date of " + 
@@ -718,6 +709,119 @@ namespace PdfPlayGround
                 Doc.NewPage();
                 createAnnexureA();
                 createAnnexureB();
+            }
+
+            //SUPPLEMENTARY COMMERCIAL IN-CONFIDENCE REPORT page 1
+            PdfPTable supplementaryComInConfiReportTable = new PdfPTable(1);
+            supplementaryComInConfiReportTable.DefaultCell.Border = Rectangle.NO_BORDER;
+            supplementaryComInConfiReportTable.TotalWidth = 820f;
+            supplementaryComInConfiReportTable.LockedWidth = true;
+            PdfPCell supplementaryComInConfiReportCell = new PdfPCell(new Phrase("SUPPLEMENTARY COMMERCIAL IN-CONFIDENCE REPORT", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
+            supplementaryComInConfiReportCell.HorizontalAlignment = Element.ALIGN_CENTER;
+            supplementaryComInConfiReportCell.Border = 0;
+            supplementaryComInConfiReportTable.AddCell(supplementaryComInConfiReportCell);
+
+            PdfPCell supplementaryComInConfiReportInfoCell = new PdfPCell(new Phrase("The report below:", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            supplementaryComInConfiReportInfoCell.HorizontalAlignment = Element.ALIGN_LEFT;
+            supplementaryComInConfiReportInfoCell.Border = 0;
+            supplementaryComInConfiReportTable.AddCell(supplementaryComInConfiReportInfoCell);
+
+            PdfPCell supplementaryComInConfiReportListCell = new PdfPCell();
+            List supplementaryComInConfiReportList = new List(List.UNORDERED, 10f);
+            supplementaryComInConfiReportList.SetListSymbol("\u2022");
+            supplementaryComInConfiReportList.IndentationLeft = 15f;
+            supplementaryComInConfiReportList.Add("Is ancillary to the Technical Assessment and Inspection Report dated" + System.DateTime.Now.ToString("dd/MM/yyyy").Replace("-", "/") + "and should be read in accordance with it");
+            supplementaryComInConfiReportList.Add("Should be used for underwriters’ internal purposes only and not relied upon for use in making decisions on the claim");
+            supplementaryComInConfiReportListCell.AddElement(supplementaryComInConfiReportList);
+
+            if (SupplementaryCommInConfiReportCard != null)
+            {
+                var policyContent = SupplementaryCommInConfiReportCard.Fields.FirstOrDefault(x => x.Name == "policy").Value.ToString();
+                var nonCompletionContent = SupplementaryCommInConfiReportCard.Fields.FirstOrDefault(x => x.Name == "nonCompletion").Value.ToString();
+                var confidenceDetailsContent = SupplementaryCommInConfiReportCard.Fields.FirstOrDefault(x => x.Name == "confidenceDetails").Value.ToString();
+                var additionalCommentsContent = SupplementaryCommInConfiReportCard.Fields.FirstOrDefault(x => x.Name == "addComments").Value.ToString();
+                var potentialRecovertContent = SupplementaryCommInConfiReportCard.Fields.FirstOrDefault(x => x.Name == "potentialRecovert").Value.ToString();
+
+                PdfPTable policyTable = new PdfPTable(1);
+                policyTable.TotalWidth = 820f;
+                policyTable.LockedWidth = true;
+                PdfPCell policyTableTitle = new PdfPCell(new Phrase("POLICY", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
+                policyTableTitle.BackgroundColor = new BaseColor(0, 0, 51);
+                policyTableTitle.HorizontalAlignment = Element.ALIGN_CENTER;
+                policyTable.AddCell(policyTableTitle);
+
+                PdfPCell policyTableInfo = new PdfPCell(new Phrase(policyContent, new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            }
+
+            if (ScheduleItemCard != null)
+            {
+                Doc.NewPage();
+                PdfPTable summaryAllAcceptWorkEstimate = new PdfPTable(6);
+                summaryAllAcceptWorkEstimate.TotalWidth = 820f;
+                summaryAllAcceptWorkEstimate.LockedWidth = true;
+                PdfPCell summaryAllAcceptWorkEstimateTitle = new PdfPCell(new Phrase("SUMMARY OF ALL ACCEPTED WORKS & ESTIMATES", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
+                summaryAllAcceptWorkEstimateTitle.BackgroundColor = new BaseColor(0, 0, 51);
+                summaryAllAcceptWorkEstimateTitle.HorizontalAlignment = Element.ALIGN_CENTER;
+                summaryAllAcceptWorkEstimateTitle.Colspan = 6;
+                summaryAllAcceptWorkEstimate.AddCell(summaryAllAcceptWorkEstimateTitle);
+                PdfPCell itemNo = new PdfPCell(new Phrase("ITEM NO", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
+                itemNo.HorizontalAlignment = Element.ALIGN_CENTER;
+                itemNo.Colspan = 1;
+                summaryAllAcceptWorkEstimate.AddCell(itemNo);
+                PdfPCell description = new PdfPCell(new Phrase("DESCRIPTION", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
+                description.HorizontalAlignment = Element.ALIGN_CENTER;
+                description.Colspan = 3;
+                summaryAllAcceptWorkEstimate.AddCell(description);
+                PdfPCell location = new PdfPCell(new Phrase("LOCATION", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
+                location.HorizontalAlignment = Element.ALIGN_CENTER;
+                location.Colspan = 1;
+                summaryAllAcceptWorkEstimate.AddCell(location);
+                PdfPCell estimate = new PdfPCell(new Phrase("ESTIMATE", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
+                estimate.HorizontalAlignment = Element.ALIGN_CENTER;
+                estimate.Colspan = 1;
+                summaryAllAcceptWorkEstimate.AddCell(estimate);
+
+                var fields = ScheduleItemCard.Fields.FirstOrDefault().Value as List<List<Field>>;
+                double totalEstimate = 0;
+                foreach (var field in fields)
+                {
+                    if (field.FirstOrDefault(x => x.Label == "Recommendation").Value.ToString() == "Accept")
+                    {
+                        var itemNumValue = field.FirstOrDefault(x => x.Name == "itemNumber").Value.ToString();
+                        var descValue = field.FirstOrDefault(x => x.Name == "itemDescription").Value.ToString();
+                        var locationValue = field.FirstOrDefault(x => x.Name == "itemLocation").Value.ToString();
+                        var estimateCostValue = field.FirstOrDefault(x => x.Name == "costEstimate").Value.ToString();
+                        var estNum = Convert.ToDouble(estimateCostValue);
+                        totalEstimate += estNum;
+
+                        PdfPCell itemNoInfo = new PdfPCell(new Phrase(itemNumValue));
+                        itemNoInfo.HorizontalAlignment = Element.ALIGN_CENTER;
+                        itemNoInfo.Colspan = 1;
+                        summaryAllAcceptWorkEstimate.AddCell(itemNoInfo);
+                        PdfPCell descInfo = new PdfPCell(new Phrase(descValue));
+                        descInfo.HorizontalAlignment = Element.ALIGN_CENTER;
+                        descInfo.Colspan = 3;
+                        summaryAllAcceptWorkEstimate.AddCell(descInfo);
+                        PdfPCell locationInfo = new PdfPCell(new Phrase(locationValue));
+                        locationInfo.HorizontalAlignment = Element.ALIGN_CENTER;
+                        locationInfo.Colspan = 1;
+                        summaryAllAcceptWorkEstimate.AddCell(locationInfo);
+                        PdfPCell estimateInfo = new PdfPCell(new Phrase(estimateCostValue));
+                        estimateInfo.HorizontalAlignment = Element.ALIGN_CENTER;
+                        estimateInfo.Colspan = 1;
+                        summaryAllAcceptWorkEstimate.AddCell(estimateInfo);
+                    }
+                }
+                PdfPCell total = new PdfPCell(new Phrase("TOTAL", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+                total.Colspan = 5;
+                total.HorizontalAlignment = Element.ALIGN_CENTER;
+                summaryAllAcceptWorkEstimate.AddCell(total);
+                PdfPCell totalEstInfo = new PdfPCell(new Phrase(totalEstimate.ToString(), new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+                totalEstInfo.Colspan = 1;
+                totalEstInfo.HorizontalAlignment = Element.ALIGN_CENTER;
+                summaryAllAcceptWorkEstimate.AddCell(totalEstInfo);
+
+                Doc.Add(summaryAllAcceptWorkEstimate);
             }
 
         }
@@ -1162,13 +1266,17 @@ namespace PdfPlayGround
 
             PdfPCell endingCell = new PdfPCell();
             endingCell.Border = 0;
+            endingCell.PaddingTop = 30f;
             PdfPTable endingTable = new PdfPTable(1);
             endingTable.HorizontalAlignment = Element.ALIGN_LEFT;
-            endingTable.SpacingBefore = 30f;
             endingTable.DefaultCell.Border = Rectangle.NO_BORDER;
             endingTable.AddCell(new Paragraph("Wright J" + "\n" + "President" + "\n" + "7 February 2014", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
             endingCell.AddElement(endingTable);
             annexureBTable.AddCell(endingCell);
+
+            //end of Annexure B 
+
+            //SUPPLEMENTARY COMMERCIAL IN-CONFIDENCE REPORT
 
             Doc.Add(annexureBTable);
         }
