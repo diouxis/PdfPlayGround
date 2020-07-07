@@ -33,7 +33,6 @@ namespace PdfPlayGround
         protected List<InfoTableMetaData> SupplementaryCommInConfiReportTable = new List<InfoTableMetaData>();
 
         private Card CoverPageCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Cover Page");
-        //private Card JobDetailCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Job Details");
         private Card BuildingConDetailCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Building Consultant's Details");
         private Card BuildingDescriptionCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Building Description");
         private Card ProjectContractDetailCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Project and Contact Details");
@@ -48,7 +47,7 @@ namespace PdfPlayGround
         private Card ScheduleItemCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Schedule of Items");
         private Card ReferenceCurriVitaeCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "References and Curriculum Vitae");
         private Card SupplementaryCommInConfiReportCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Supplementary Commercial In-Confidence Report");
-
+        private Card DefectEvaluationCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Defect Evaluation");
 
         protected List<InfoTableMetaData> InitialTables(List<InfoTableMetaData> table, Card card)
         {
@@ -271,13 +270,6 @@ namespace PdfPlayGround
                     firstPageTableImgInfo.Border = Rectangle.NO_BORDER;
                     firstPageTableImgInfo.HorizontalAlignment = Element.ALIGN_CENTER;
                     firstPageTableImgInfo.PaddingTop = 10f;
-                    //foreach (var imgUrl in coverImages)
-                    //{
-                    //    var coverImg = Image.GetInstance(new Uri(imgUrl.Url));
-                    //    coverImg.ScalePercent(30f);
-                    //    coverImg.Alignment = Element.ALIGN_CENTER;
-                    //    firstPageTableImgInfo.AddElement(coverImg);
-                    //}
                     var coverImg = Image.GetInstance(new Uri(coverImages.FirstOrDefault().Url));
                     var imgName = coverImages.FirstOrDefault().Url.ToString();
                     coverImg.ScalePercent(30f);
@@ -528,21 +520,6 @@ namespace PdfPlayGround
                 Doc.Add(rcvTable);
             }
 
-            //if (SupplementaryCommInConfiReportCard != null)
-            //{
-            //    PdfPTable sccTable = new PdfPTable(1);
-            //    sccTable.SpacingBefore = 10f;
-            //    sccTable.DefaultCell.Border = Rectangle.NO_BORDER;
-
-            //    PdfPCell SupplementaryCommInConfiReportDetail = new PdfPCell(GenerateTestTable(SupplementaryCommInConfiReportTable, "Supplementary Commercial In-Confidence Report", 4, 820f));
-            //    SupplementaryCommInConfiReportDetail.HorizontalAlignment = Element.ALIGN_CENTER;
-            //    SupplementaryCommInConfiReportDetail.VerticalAlignment = Element.ALIGN_MIDDLE;
-            //    SupplementaryCommInConfiReportDetail.Border = 0;
-            //    sccTable.AddCell(SupplementaryCommInConfiReportDetail);
-
-            //    Doc.Add(sccTable);
-            //}
-
             createPhotoAndScheduleTable();
 
             if (OpinionRelationSectionCard != null)
@@ -712,6 +689,8 @@ namespace PdfPlayGround
             }
 
             //SUPPLEMENTARY COMMERCIAL IN-CONFIDENCE REPORT page 1
+            Doc.NewPage();
+
             PdfPTable supplementaryComInConfiReportTable = new PdfPTable(1);
             supplementaryComInConfiReportTable.DefaultCell.Border = Rectangle.NO_BORDER;
             supplementaryComInConfiReportTable.TotalWidth = 820f;
@@ -721,18 +700,22 @@ namespace PdfPlayGround
             supplementaryComInConfiReportCell.Border = 0;
             supplementaryComInConfiReportTable.AddCell(supplementaryComInConfiReportCell);
 
-            PdfPCell supplementaryComInConfiReportInfoCell = new PdfPCell(new Phrase("The report below:", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            PdfPCell supplementaryComInConfiReportInfoCell = new PdfPCell(new Phrase("The report below:", new Font(Font.UNDEFINED, 12f, Font.UNDEFINED, BaseColor.Black)));
             supplementaryComInConfiReportInfoCell.HorizontalAlignment = Element.ALIGN_LEFT;
             supplementaryComInConfiReportInfoCell.Border = 0;
+            supplementaryComInConfiReportInfoCell.PaddingTop = 20f;
             supplementaryComInConfiReportTable.AddCell(supplementaryComInConfiReportInfoCell);
 
             PdfPCell supplementaryComInConfiReportListCell = new PdfPCell();
+            supplementaryComInConfiReportListCell.Border = 0;
             List supplementaryComInConfiReportList = new List(List.UNORDERED, 10f);
-            supplementaryComInConfiReportList.SetListSymbol("\u2022");
-            supplementaryComInConfiReportList.IndentationLeft = 15f;
+            //supplementaryComInConfiReportList.SetListSymbol("\u2022");
+            supplementaryComInConfiReportList.IndentationLeft = 10f;
             supplementaryComInConfiReportList.Add("Is ancillary to the Technical Assessment and Inspection Report dated" + System.DateTime.Now.ToString("dd/MM/yyyy").Replace("-", "/") + "and should be read in accordance with it");
             supplementaryComInConfiReportList.Add("Should be used for underwriters’ internal purposes only and not relied upon for use in making decisions on the claim");
             supplementaryComInConfiReportListCell.AddElement(supplementaryComInConfiReportList);
+            supplementaryComInConfiReportTable.AddCell(supplementaryComInConfiReportListCell);
+            Doc.Add(supplementaryComInConfiReportTable);
 
             if (SupplementaryCommInConfiReportCard != null)
             {
@@ -742,20 +725,64 @@ namespace PdfPlayGround
                 var additionalCommentsContent = SupplementaryCommInConfiReportCard.Fields.FirstOrDefault(x => x.Name == "addComments").Value.ToString();
                 var potentialRecovertContent = SupplementaryCommInConfiReportCard.Fields.FirstOrDefault(x => x.Name == "potentialRecovert").Value.ToString();
 
+                //policy
                 PdfPTable policyTable = new PdfPTable(1);
                 policyTable.TotalWidth = 820f;
                 policyTable.LockedWidth = true;
+                policyTable.SpacingBefore = 15f;
+                policyTable.SpacingAfter = 15f;
                 PdfPCell policyTableTitle = new PdfPCell(new Phrase("POLICY", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
                 policyTableTitle.BackgroundColor = new BaseColor(0, 0, 51);
                 policyTableTitle.HorizontalAlignment = Element.ALIGN_CENTER;
                 policyTable.AddCell(policyTableTitle);
-
                 PdfPCell policyTableInfo = new PdfPCell(new Phrase(policyContent, new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+                policyTableInfo.PaddingTop = 4f;
+                policyTableInfo.PaddingBottom = 4f;
+                policyTable.AddCell(policyTableInfo);
+                Doc.Add(policyTable);
+
+                //non-completion
+                PdfPTable nonCompletionTable = new PdfPTable(1);
+                nonCompletionTable.TotalWidth = 820f;
+                nonCompletionTable.LockedWidth = true;
+                nonCompletionTable.SpacingAfter = 15f;
+                PdfPCell nonCompletionTitle = new PdfPCell(new Phrase("NON-COMPLETION", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
+                nonCompletionTitle.BackgroundColor = new BaseColor(0, 0, 51);
+                nonCompletionTitle.HorizontalAlignment = Element.ALIGN_CENTER;
+                nonCompletionTable.AddCell(nonCompletionTitle);
+                PdfPCell nonCompletionInfo = new PdfPCell(new Phrase(nonCompletionContent, new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+                nonCompletionTable.AddCell(nonCompletionInfo);
+                Doc.Add(nonCompletionTable);
+
+                //additional comments
+                PdfPTable additionalCommentTable = new PdfPTable(1);
+                additionalCommentTable.TotalWidth = 820f;
+                additionalCommentTable.LockedWidth = true;
+                additionalCommentTable.SpacingAfter = 15f;
+                PdfPCell additionalCommentTitle = new PdfPCell(new Phrase("ADDITIONAL COMMENTS", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
+                additionalCommentTitle.BackgroundColor = new BaseColor(0, 0, 51);
+                additionalCommentTitle.HorizontalAlignment = Element.ALIGN_CENTER;
+                additionalCommentTable.AddCell(additionalCommentTitle);
+                PdfPCell additionalCommentInfo = new PdfPCell(new Phrase(additionalCommentsContent, new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+                additionalCommentTable.AddCell(additionalCommentInfo);
+                Doc.Add(additionalCommentTable);
+
+                //comment on potential recovery
+                PdfPTable commentOnPotentialRecoveryTable = new PdfPTable(1);
+                commentOnPotentialRecoveryTable.TotalWidth = 820f;
+                commentOnPotentialRecoveryTable.LockedWidth = true;
+                commentOnPotentialRecoveryTable.SpacingAfter = 15f;
+                PdfPCell commentOnPotentialRecoveryTitle = new PdfPCell(new Phrase("COMMENT ON POTENTIAL RECOVERY", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
+                commentOnPotentialRecoveryTitle.BackgroundColor = new BaseColor(0, 0, 51);
+                commentOnPotentialRecoveryTitle.HorizontalAlignment = Element.ALIGN_CENTER;
+                commentOnPotentialRecoveryTable.AddCell(commentOnPotentialRecoveryTitle);
+                PdfPCell commentOnPotentialRecoveryInfo = new PdfPCell(new Phrase(potentialRecovertContent, new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+                commentOnPotentialRecoveryTable.AddCell(commentOnPotentialRecoveryInfo);
+                Doc.Add(commentOnPotentialRecoveryTable);
             }
 
             if (ScheduleItemCard != null)
             {
-                Doc.NewPage();
                 PdfPTable summaryAllAcceptWorkEstimate = new PdfPTable(6);
                 summaryAllAcceptWorkEstimate.TotalWidth = 820f;
                 summaryAllAcceptWorkEstimate.LockedWidth = true;
@@ -765,18 +792,22 @@ namespace PdfPlayGround
                 summaryAllAcceptWorkEstimateTitle.Colspan = 6;
                 summaryAllAcceptWorkEstimate.AddCell(summaryAllAcceptWorkEstimateTitle);
                 PdfPCell itemNo = new PdfPCell(new Phrase("ITEM NO", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
+                itemNo.Padding = 4f;
                 itemNo.HorizontalAlignment = Element.ALIGN_CENTER;
                 itemNo.Colspan = 1;
                 summaryAllAcceptWorkEstimate.AddCell(itemNo);
                 PdfPCell description = new PdfPCell(new Phrase("DESCRIPTION", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
+                description.Padding = 4f;
                 description.HorizontalAlignment = Element.ALIGN_CENTER;
                 description.Colspan = 3;
                 summaryAllAcceptWorkEstimate.AddCell(description);
                 PdfPCell location = new PdfPCell(new Phrase("LOCATION", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
+                location.Padding = 4f;
                 location.HorizontalAlignment = Element.ALIGN_CENTER;
                 location.Colspan = 1;
                 summaryAllAcceptWorkEstimate.AddCell(location);
                 PdfPCell estimate = new PdfPCell(new Phrase("ESTIMATE", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
+                estimate.Padding = 4f;
                 estimate.HorizontalAlignment = Element.ALIGN_CENTER;
                 estimate.Colspan = 1;
                 summaryAllAcceptWorkEstimate.AddCell(estimate);
@@ -812,16 +843,63 @@ namespace PdfPlayGround
                         summaryAllAcceptWorkEstimate.AddCell(estimateInfo);
                     }
                 }
-                PdfPCell total = new PdfPCell(new Phrase("TOTAL", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+                PdfPCell total = new PdfPCell(new Phrase("TOTAL", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
                 total.Colspan = 5;
                 total.HorizontalAlignment = Element.ALIGN_CENTER;
                 summaryAllAcceptWorkEstimate.AddCell(total);
-                PdfPCell totalEstInfo = new PdfPCell(new Phrase(totalEstimate.ToString(), new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+                PdfPCell totalEstInfo = new PdfPCell(new Phrase(totalEstimate.ToString(), new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
                 totalEstInfo.Colspan = 1;
                 totalEstInfo.HorizontalAlignment = Element.ALIGN_CENTER;
                 summaryAllAcceptWorkEstimate.AddCell(totalEstInfo);
-
                 Doc.Add(summaryAllAcceptWorkEstimate);
+
+                PdfPTable defectEvaluationTable = new PdfPTable(4);
+                defectEvaluationTable.SpacingBefore = 10f;
+                defectEvaluationTable.DefaultCell.Border = Rectangle.NO_BORDER;
+                defectEvaluationTable.TotalWidth = 820f;
+                defectEvaluationTable.LockedWidth = true;
+                PdfPCell defectEvaluationTitle = new PdfPCell(new Phrase("Defect Evaluation", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
+                defectEvaluationTitle.BackgroundColor = new BaseColor(0, 0, 51);
+                defectEvaluationTitle.Colspan = 4;
+                defectEvaluationTitle.HorizontalAlignment = Element.ALIGN_CENTER;
+                defectEvaluationTable.AddCell(defectEvaluationTitle);
+                PdfPCell defectTypeTitle = new PdfPCell(new Phrase("Defect Type", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
+                defectTypeTitle.Colspan = 3;
+                defectTypeTitle.HorizontalAlignment = Element.ALIGN_CENTER;
+                defectEvaluationTable.AddCell(defectTypeTitle);
+                PdfPCell estimatedValueTitle = new PdfPCell(new Phrase("Estimated value", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
+                estimatedValueTitle.Colspan = 1;
+                estimatedValueTitle.HorizontalAlignment = Element.ALIGN_CENTER;
+                defectEvaluationTable.AddCell(estimatedValueTitle);
+
+                double totalEstimatevalue = 0;
+                if (DefectEvaluationCard.Fields is List<Field> defectFields)
+                {
+                    foreach (var field in defectFields)
+                    {
+                        PdfPCell defectTypeCell = new PdfPCell(new Phrase(field.Label.ToString(), new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+                        defectTypeCell.Colspan = 3;
+                        defectTypeCell.HorizontalAlignment = Element.ALIGN_LEFT;
+                        defectEvaluationTable.AddCell(defectTypeCell);
+
+                        PdfPCell estimateValueCell = new PdfPCell(new Phrase(field.Value.ToString(), new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+                        estimateValueCell.Colspan = 1;
+                        estimateValueCell.HorizontalAlignment = Element.ALIGN_LEFT;
+                        defectEvaluationTable.AddCell(estimateValueCell);
+
+                        totalEstimatevalue += Convert.ToDouble(field.Value); 
+                    }
+                }
+                PdfPCell totalCell = new PdfPCell(new Phrase("TOTAL", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
+                totalCell.Colspan = 3;
+                totalCell.HorizontalAlignment = Element.ALIGN_CENTER;
+                defectEvaluationTable.AddCell(totalCell);
+                PdfPCell totalValue = new PdfPCell(new Phrase(totalEstimatevalue.ToString(), new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
+                totalValue.Colspan = 1;
+                totalValue.HorizontalAlignment = Element.ALIGN_CENTER;
+                defectEvaluationTable.AddCell(totalValue);
+
+                Doc.Add(defectEvaluationTable);
             }
 
         }
