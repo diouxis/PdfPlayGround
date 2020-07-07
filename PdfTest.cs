@@ -783,6 +783,7 @@ namespace PdfPlayGround
 
             if (ScheduleItemCard != null)
             {
+                Doc.NewPage();
                 PdfPTable summaryAllAcceptWorkEstimate = new PdfPTable(6);
                 summaryAllAcceptWorkEstimate.TotalWidth = 820f;
                 summaryAllAcceptWorkEstimate.LockedWidth = true;
@@ -822,8 +823,11 @@ namespace PdfPlayGround
                         var descValue = field.FirstOrDefault(x => x.Name == "itemDescription").Value.ToString();
                         var locationValue = field.FirstOrDefault(x => x.Name == "itemLocation").Value.ToString();
                         var estimateCostValue = field.FirstOrDefault(x => x.Name == "costEstimate").Value.ToString();
-                        var estNum = Convert.ToDouble(estimateCostValue);
-                        totalEstimate += estNum;
+
+                        if (double.TryParse(estimateCostValue, out var estNum))
+                        {
+                            totalEstimate += estNum;
+                        }
 
                         PdfPCell itemNoInfo = new PdfPCell(new Phrase(itemNumValue));
                         itemNoInfo.HorizontalAlignment = Element.ALIGN_CENTER;
@@ -853,6 +857,7 @@ namespace PdfPlayGround
                 summaryAllAcceptWorkEstimate.AddCell(totalEstInfo);
                 Doc.Add(summaryAllAcceptWorkEstimate);
 
+                Doc.NewPage();
                 PdfPTable defectEvaluationTable = new PdfPTable(4);
                 defectEvaluationTable.SpacingBefore = 10f;
                 defectEvaluationTable.DefaultCell.Border = Rectangle.NO_BORDER;
@@ -887,7 +892,10 @@ namespace PdfPlayGround
                         estimateValueCell.HorizontalAlignment = Element.ALIGN_LEFT;
                         defectEvaluationTable.AddCell(estimateValueCell);
 
-                        totalEstimatevalue += Convert.ToDouble(field.Value); 
+                        if (double.TryParse(field.Value.ToString(), out var estimatevalue))
+                        {
+                            totalEstimatevalue += estimatevalue;
+                        }
                     }
                 }
                 PdfPCell totalCell = new PdfPCell(new Phrase("TOTAL", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
