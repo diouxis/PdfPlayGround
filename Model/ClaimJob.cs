@@ -16,7 +16,7 @@ namespace PdfPlayGround.Model
 
         public void FillData()
         {
-            var dataSet = ReportData.Data;
+            var dataSet = ReportData?.Data;
             if (dataSet != null)
             {
                 foreach (var card in ReportForm.Cards)
