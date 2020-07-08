@@ -31,6 +31,8 @@ namespace PdfPlayGround.Model
         public List<Field> Fields { get; set; }
         public List<FieldOption> Options { get; set; }
 
+        public string ValueString => Value?.ToString();
+
         public Field() { }
         public Field(Field field)
         {
