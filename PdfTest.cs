@@ -116,7 +116,6 @@ namespace PdfPlayGround
 
         protected override void InitialPdf()
         {
-
             ClaimContent = new List<InfoTableMetaData>
 
             {
@@ -212,7 +211,7 @@ namespace PdfPlayGround
             Doc.AddCreator("ENData for example");
             Doc.AddKeywords("This is an report");
             Doc.AddSubject("Test");
-            Doc.AddTitle("XXX Report");
+            Doc.AddTitle(System.DateTime.Now.ToString("dd/MM/yyyy").Replace("-", " ") + "Report");
 
 
             //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!page one!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!//
@@ -1648,15 +1647,22 @@ namespace PdfPlayGround
             {
                 base.OnEndPage(writer, document);
 
-                PdfPTable footerTable = new PdfPTable(1);
+                PdfPTable footerTable = new PdfPTable(2);
                 footerTable.TotalWidth = 820f;
                 footerTable.LockedWidth = true;
                 footerTable.DefaultCell.Border = Rectangle.NO_BORDER;
-                PdfPCell footerPageNum = new PdfPCell(new Phrase("Page " + writer.PageNumber.ToString(),
+                PdfPCell printDate = new PdfPCell(new Phrase("Print on " + System.DateTime.Now.ToString("dd/MM/yyyy"), StyleFooterAndPageNumber));
+                printDate.HorizontalAlignment = Element.ALIGN_LEFT;
+                printDate.Border = Rectangle.NO_BORDER;
+                printDate.Colspan = 1;
+                footerTable.AddCell(printDate);
+                int pageNo = writer.PageNumber;
+                PdfPCell footerPageNum = new PdfPCell(new Phrase("Page " + writer.PageNumber.ToString() + " of  " + pageNo.ToString(),
                     StyleFooterAndPageNumber
                     ));
-                footerPageNum.HorizontalAlignment = Element.ALIGN_CENTER;
+                footerPageNum.HorizontalAlignment = Element.ALIGN_RIGHT;
                 footerPageNum.Border = Rectangle.NO_BORDER;
+                footerPageNum.Colspan = 1;
                 footerTable.AddCell(footerPageNum);
 
                 footerTable.WriteSelectedRows(0, -1, 10, 20f, writer.DirectContent);
