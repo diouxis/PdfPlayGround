@@ -54,7 +54,7 @@ namespace PdfPlayGround
             table = new List<InfoTableMetaData> { };
             for (int i = 0; i < card.Fields.Count(); i++)
             {
-                table.Add(new InfoTableMetaData(card.Fields[i].Label, card.Fields[i].Value?.ToString()));
+                table.Add(new InfoTableMetaData(card.Fields[i].Label, card.Fields[i].ValueString));
             }
             return table;
         }
@@ -69,7 +69,7 @@ namespace PdfPlayGround
                 {
                     for (int i = 0; i < field.Count; i += 2)
                     {
-                        table.Add(new InfoTableMetaData(field[i].Value?.ToString(), field[i + 1].Value?.ToString()));
+                        table.Add(new InfoTableMetaData(field[i].ValueString, field[i + 1].ValueString));
                     }
                 }
             }
@@ -128,7 +128,7 @@ namespace PdfPlayGround
                 new InfoTableMetaData("Building Owner:", Source.Insured.Name),
                 new InfoTableMetaData("Address:", " "),
                 new InfoTableMetaData("Client", Source.Insurer.CompanyName),
-                new InfoTableMetaData("Our Reference:", BuildingConDetailCard.Fields[0].Value?.ToString()),
+                new InfoTableMetaData("Our Reference:", BuildingConDetailCard.Fields[0].ValueString),
                 new InfoTableMetaData("Client Reference:", Source.RefNumber)
             };
 
@@ -243,7 +243,7 @@ namespace PdfPlayGround
                 firstPageTable.SpacingBefore = 10f;
                 firstPageTable.DefaultCell.Border = Rectangle.NO_BORDER;
 
-                PdfPCell firstPageTableHeader = new PdfPCell(new Phrase(CoverPageCard.Fields[0].Value?.ToString(), new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
+                PdfPCell firstPageTableHeader = new PdfPCell(new Phrase(CoverPageCard.Fields[0].ValueString, new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
                 firstPageTableHeader.Colspan = 1;
                 firstPageTableHeader.PaddingTop = 4f;
                 firstPageTableHeader.PaddingBottom = 4f;
@@ -252,7 +252,7 @@ namespace PdfPlayGround
                 firstPageTableHeader.Border = Rectangle.NO_BORDER;
 
                 PdfPCell firstPageTableBody = new PdfPCell(
-                    new Phrase(CoverPageCard.Fields[1].Value?.ToString(),
+                    new Phrase(CoverPageCard.Fields[1].ValueString,
                     new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
                 firstPageTableBody.Border = Rectangle.NO_BORDER;
                 firstPageTableBody.PaddingTop = 10f;
@@ -397,7 +397,7 @@ namespace PdfPlayGround
                 dutyTableHeader.PaddingBottom = 4f;
                 dutyTable.AddCell(dutyTableHeader);
 
-                PdfPCell dutyTableInfo = new PdfPCell(new Phrase(AreaBCACard.Fields[1].Value?.ToString(), new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
+                PdfPCell dutyTableInfo = new PdfPCell(new Phrase(AreaBCACard.Fields[1].ValueString, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
                 dutyTableInfo.PaddingTop = 4f;
                 dutyTableInfo.PaddingBottom = 4f;
                 dutyTable.AddCell(dutyTableInfo);
@@ -420,7 +420,7 @@ namespace PdfPlayGround
                 instructionHeader.PaddingBottom = 4f;
                 instructionTable.AddCell(instructionHeader);
 
-                PdfPCell instructionInfo = new PdfPCell(new Phrase(InstructionCard.Fields[0].Value?.ToString(), new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
+                PdfPCell instructionInfo = new PdfPCell(new Phrase(InstructionCard.Fields[0].ValueString, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
                 instructionInfo.PaddingTop = 4f;
                 instructionInfo.PaddingBottom = 4f;
                 instructionTable.AddCell(instructionInfo);
@@ -459,7 +459,7 @@ namespace PdfPlayGround
                 AreaBCAHeader.PaddingBottom = 4f;
                 AreaBCATable.AddCell(AreaBCAHeader);
 
-                PdfPCell AreaBCAInfo = new PdfPCell(new Phrase(AreaBCACard.Fields[0].Value?.ToString(), new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
+                PdfPCell AreaBCAInfo = new PdfPCell(new Phrase(AreaBCACard.Fields[0].ValueString, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
                 AreaBCAInfo.PaddingTop = 4f;
                 AreaBCAInfo.PaddingBottom = 4f;
                 AreaBCATable.AddCell(AreaBCAInfo);
@@ -481,7 +481,7 @@ namespace PdfPlayGround
                 OutstandingManCerRequirementHeader.PaddingBottom = 4f;
                 OutstandingManCerRequirementTable.AddCell(OutstandingManCerRequirementHeader);
 
-                PdfPCell OutstandingManCerRequirementInfo = new PdfPCell(new Phrase(OutstandingManCerRequirementCard.Fields[0].Value?.ToString(), new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
+                PdfPCell OutstandingManCerRequirementInfo = new PdfPCell(new Phrase(OutstandingManCerRequirementCard.Fields[0].ValueString, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
                 OutstandingManCerRequirementInfo.PaddingTop = 4f;
                 OutstandingManCerRequirementInfo.PaddingBottom = 4f;
                 OutstandingManCerRequirementTable.AddCell(OutstandingManCerRequirementInfo);
@@ -535,7 +535,7 @@ namespace PdfPlayGround
                 OpinionRelationSectionHeader.PaddingBottom = 4f;
                 OpinionRelationSectionTable.AddCell(OpinionRelationSectionHeader);
 
-                PdfPCell OpinionRelationSectionInfo = new PdfPCell(new Phrase(OpinionRelationSectionCard.Fields[0].Value?.ToString(), new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
+                PdfPCell OpinionRelationSectionInfo = new PdfPCell(new Phrase(OpinionRelationSectionCard.Fields[0].ValueString, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
                 OpinionRelationSectionInfo.PaddingTop = 4f;
                 OpinionRelationSectionInfo.PaddingBottom = 4f;
                 OpinionRelationSectionTable.AddCell(OpinionRelationSectionInfo);
@@ -555,7 +555,7 @@ namespace PdfPlayGround
                     Doc.Add(new Phrase("Schedule of Items – Recommended for ACCEPTANCE of DEFECTIVE WORK", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
                     foreach (var field in fields)
                     {
-                        if (field.FirstOrDefault(x => x.Label == "Recommendation").Value?.ToString() == "Accept")
+                        if (field.FirstOrDefault(x => x.Label == "Recommendation").ValueString == "Accept")
                         {
                             CreateScheduleItem(field);
                             Doc.NewPage();
@@ -565,7 +565,7 @@ namespace PdfPlayGround
                     Doc.Add(new Phrase("Schedule of Items – Recommended for DENIAL oF DEFECTIVE WORK", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
                     foreach (var field in fields)
                     {
-                        if (field.FirstOrDefault(x => x.Label == "Recommendation").Value?.ToString() == "Decline")
+                        if (field.FirstOrDefault(x => x.Label == "Recommendation").ValueString == "Decline")
                         {
                             CreateScheduleItem(field);
                             Doc.NewPage();
@@ -600,7 +600,7 @@ namespace PdfPlayGround
                     "Building Owner:", buildingOwner.Content,
                     "Loss Address:", "",
                     "Client:", client,
-                    "Building Consultant’s Reference No:", buildingConRef.Value?.ToString(),
+                    "Building Consultant’s Reference No:", buildingConRef.ValueString,
                     "Client’s Reference No (Claim No):", clientRef
                 };
                 foreach (var cell in reportSumInfo)
@@ -727,11 +727,11 @@ namespace PdfPlayGround
 
             if (SupplementaryCommInConfiReportCard != null)
             {
-                var policyContent = SupplementaryCommInConfiReportCard.Fields.FirstOrDefault(x => x.Name == "policy").Value?.ToString();
-                var nonCompletionContent = SupplementaryCommInConfiReportCard.Fields.FirstOrDefault(x => x.Name == "nonCompletion").Value?.ToString();
-                var confidenceDetailsContent = SupplementaryCommInConfiReportCard.Fields.FirstOrDefault(x => x.Name == "confidenceDetails").Value?.ToString();
-                var additionalCommentsContent = SupplementaryCommInConfiReportCard.Fields.FirstOrDefault(x => x.Name == "addComments").Value?.ToString();
-                var potentialRecovertContent = SupplementaryCommInConfiReportCard.Fields.FirstOrDefault(x => x.Name == "potentialRecovert").Value?.ToString();
+                var policyContent = SupplementaryCommInConfiReportCard.Fields.FirstOrDefault(x => x.Name == "policy").ValueString;
+                var nonCompletionContent = SupplementaryCommInConfiReportCard.Fields.FirstOrDefault(x => x.Name == "nonCompletion").ValueString;
+                var confidenceDetailsContent = SupplementaryCommInConfiReportCard.Fields.FirstOrDefault(x => x.Name == "confidenceDetails").ValueString;
+                var additionalCommentsContent = SupplementaryCommInConfiReportCard.Fields.FirstOrDefault(x => x.Name == "addComments").ValueString;
+                var potentialRecovertContent = SupplementaryCommInConfiReportCard.Fields.FirstOrDefault(x => x.Name == "potentialRecovert").ValueString;
 
                 //policy
                 PdfPTable policyTable = new PdfPTable(1);
@@ -823,43 +823,49 @@ namespace PdfPlayGround
 
                 var fields = ScheduleItemCard.Fields.FirstOrDefault().Value as List<List<Field>>;
                 double totalEstimate = 0;
-                foreach (var field in fields)
+
+                if (fields != null)
                 {
-                    if (field.FirstOrDefault(x => x.Label == "Recommendation").Value?.ToString() == "Accept")
+                    foreach (var field in fields)
                     {
-                        var itemNumValue = field.FirstOrDefault(x => x.Name == "itemNumber")?.Value.ToString();
-                        var descValue = field.FirstOrDefault(x => x.Name == "itemDescription")?.Value.ToString();
-                        var locationValue = field.FirstOrDefault(x => x.Name == "itemLocation")?.Value.ToString();
-                        var estimateCostValue = field.FirstOrDefault(x => x.Name == "costEstimate")?.Value.ToString();
-
-                        if (double.TryParse(estimateCostValue, out var estNum))
+                        if (field.FirstOrDefault(x => x.Label == "Recommendation").ValueString == "Accept")
                         {
-                            totalEstimate += estNum;
-                        }
+                            var itemNumValue = field.FirstOrDefault(x => x.Name == "itemNumber")?.ValueString;
+                            var descValue = field.FirstOrDefault(x => x.Name == "itemDescription")?.ValueString;
+                            var locationValue = field.FirstOrDefault(x => x.Name == "itemLocation")?.ValueString;
+                            var estimateCostValue = field.FirstOrDefault(x => x.Name == "costEstimate")?.ValueString;
 
-                        PdfPCell itemNoInfo = new PdfPCell(new Phrase(itemNumValue));
-                        itemNoInfo.HorizontalAlignment = Element.ALIGN_CENTER;
-                        itemNoInfo.Colspan = 1;
-                        summaryAllAcceptWorkEstimate.AddCell(itemNoInfo);
-                        PdfPCell descInfo = new PdfPCell(new Phrase(descValue));
-                        descInfo.HorizontalAlignment = Element.ALIGN_CENTER;
-                        descInfo.Colspan = 3;
-                        summaryAllAcceptWorkEstimate.AddCell(descInfo);
-                        PdfPCell locationInfo = new PdfPCell(new Phrase(locationValue, new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
-                        locationInfo.HorizontalAlignment = Element.ALIGN_CENTER;
-                        locationInfo.Colspan = 1;
-                        summaryAllAcceptWorkEstimate.AddCell(locationInfo);
-                        string estimateValue = "";
-                        if (estimateCostValue != "")
-                        {
-                            estimateValue = "$" + estimateCostValue;
+                            if (double.TryParse(estimateCostValue, out var estNum))
+                            {
+                                totalEstimate += estNum;
+                            }
+
+                            PdfPCell itemNoInfo = new PdfPCell(new Phrase(itemNumValue));
+                            itemNoInfo.HorizontalAlignment = Element.ALIGN_CENTER;
+                            itemNoInfo.Colspan = 1;
+                            summaryAllAcceptWorkEstimate.AddCell(itemNoInfo);
+                            PdfPCell descInfo = new PdfPCell(new Phrase(descValue));
+                            descInfo.HorizontalAlignment = Element.ALIGN_CENTER;
+                            descInfo.Colspan = 3;
+                            summaryAllAcceptWorkEstimate.AddCell(descInfo);
+                            PdfPCell locationInfo = new PdfPCell(new Phrase(locationValue, new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
+                            locationInfo.HorizontalAlignment = Element.ALIGN_CENTER;
+                            locationInfo.Colspan = 1;
+                            summaryAllAcceptWorkEstimate.AddCell(locationInfo);
+                            string estimateValue = "";
+                            if (estimateCostValue != "")
+                            {
+                                estimateValue = "$    " + estimateCostValue;
+                            }
+                            PdfPCell estimateInfo = new PdfPCell(new Phrase(estimateValue, new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
+                            estimateInfo.HorizontalAlignment = Element.ALIGN_CENTER;
+                            estimateInfo.Colspan = 1;
+                            summaryAllAcceptWorkEstimate.AddCell(estimateInfo);
                         }
-                        PdfPCell estimateInfo = new PdfPCell(new Phrase(estimateValue, new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
-                        estimateInfo.HorizontalAlignment = Element.ALIGN_CENTER;
-                        estimateInfo.Colspan = 1;
-                        summaryAllAcceptWorkEstimate.AddCell(estimateInfo);
                     }
+
                 }
+
                 PdfPCell total = new PdfPCell(new Phrase("TOTAL", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
                 total.Colspan = 5;
                 total.HorizontalAlignment = Element.ALIGN_CENTER;
@@ -867,7 +873,7 @@ namespace PdfPlayGround
                 string summaryAllAcceptedEstimateTotalValue = "";
                 if (totalEstimate != 0)
                 {
-                    summaryAllAcceptedEstimateTotalValue = "$" + totalEstimate.ToString();
+                    summaryAllAcceptedEstimateTotalValue = "$    " + totalEstimate.ToString();
                 }
                 PdfPCell totalEstInfo = new PdfPCell(new Phrase(summaryAllAcceptedEstimateTotalValue, new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
                 totalEstInfo.Colspan = 1;
@@ -908,16 +914,16 @@ namespace PdfPlayGround
                         defectEvaluationTable.AddCell(defectTypeCell);
 
                         string defectValue = "";
-                        if (field.Value?.ToString() != "")
+                        if (field.ValueString != "" && field.ValueString != null)
                         {
-                            defectValue = "$" + field.Value?.ToString();
+                            defectValue = "$    " + field.ValueString;
                         }
                         PdfPCell estimateValueCell = new PdfPCell(new Phrase(defectValue, new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
                         estimateValueCell.Colspan = 1;
                         estimateValueCell.HorizontalAlignment = Element.ALIGN_CENTER;
                         defectEvaluationTable.AddCell(estimateValueCell);
 
-                        if (double.TryParse(field.Value?.ToString(), out var estimatevalue))
+                        if (double.TryParse(field.ValueString, out var estimatevalue))
                         {
                             totalEstimatevalue += estimatevalue;
                         }
@@ -930,7 +936,7 @@ namespace PdfPlayGround
                 string defectTotalValue = "";
                 if (totalEstimatevalue != 0)
                 {
-                    defectTotalValue = "$" + totalEstimatevalue.ToString();
+                    defectTotalValue = "$    " + totalEstimatevalue.ToString();
                 }
                 PdfPCell totalValue = new PdfPCell(new Phrase(defectTotalValue, new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
                 totalValue.Colspan = 1;
@@ -961,7 +967,7 @@ namespace PdfPlayGround
             annexureATable.AddCell(annexureATitle2);
             annexureATable.AddCell(annexureATitle3);
 
-            PdfPCell annexureAInfo = new PdfPCell(new Phrase(ReferenceCurriVitaeCard.Fields[0]?.Value?.ToString(), new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            PdfPCell annexureAInfo = new PdfPCell(new Phrase(ReferenceCurriVitaeCard.Fields[0]?.ValueString, new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
             annexureAInfo.HorizontalAlignment = Element.ALIGN_LEFT;
             annexureAInfo.Border = 0;
 
