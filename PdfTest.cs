@@ -687,6 +687,12 @@ namespace PdfPlayGround
                 createAnnexureB();
             }
 
+            createSupplementaryCommercialInConfidenceReport();
+
+        }
+
+        protected void createSupplementaryCommercialInConfidenceReport()
+        {
             //SUPPLEMENTARY COMMERCIAL IN-CONFIDENCE REPORT page 1
             Doc.NewPage();
 
@@ -836,11 +842,16 @@ namespace PdfPlayGround
                         descInfo.HorizontalAlignment = Element.ALIGN_CENTER;
                         descInfo.Colspan = 3;
                         summaryAllAcceptWorkEstimate.AddCell(descInfo);
-                        PdfPCell locationInfo = new PdfPCell(new Phrase(locationValue));
+                        PdfPCell locationInfo = new PdfPCell(new Phrase(locationValue, new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
                         locationInfo.HorizontalAlignment = Element.ALIGN_CENTER;
                         locationInfo.Colspan = 1;
                         summaryAllAcceptWorkEstimate.AddCell(locationInfo);
-                        PdfPCell estimateInfo = new PdfPCell(new Phrase(estimateCostValue));
+                        string estimateValue = "";
+                        if (estimateCostValue != "")
+                        {
+                            estimateValue = "$" + estimateCostValue;
+                        }
+                        PdfPCell estimateInfo = new PdfPCell(new Phrase(estimateValue, new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
                         estimateInfo.HorizontalAlignment = Element.ALIGN_CENTER;
                         estimateInfo.Colspan = 1;
                         summaryAllAcceptWorkEstimate.AddCell(estimateInfo);
@@ -850,7 +861,12 @@ namespace PdfPlayGround
                 total.Colspan = 5;
                 total.HorizontalAlignment = Element.ALIGN_CENTER;
                 summaryAllAcceptWorkEstimate.AddCell(total);
-                PdfPCell totalEstInfo = new PdfPCell(new Phrase(totalEstimate.ToString(), new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
+                string summaryAllAcceptedEstimateTotalValue = "";
+                if (totalEstimate != 0)
+                {
+                    summaryAllAcceptedEstimateTotalValue = "$" + totalEstimate.ToString();
+                }
+                PdfPCell totalEstInfo = new PdfPCell(new Phrase(summaryAllAcceptedEstimateTotalValue, new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
                 totalEstInfo.Colspan = 1;
                 totalEstInfo.HorizontalAlignment = Element.ALIGN_CENTER;
                 summaryAllAcceptWorkEstimate.AddCell(totalEstInfo);
@@ -881,14 +897,21 @@ namespace PdfPlayGround
                 {
                     foreach (var field in defectFields)
                     {
-                        PdfPCell defectTypeCell = new PdfPCell(new Phrase(field.Label.ToString(), new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+                        string[] formatLabel = field.Label.ToString().Split("(Estimated Value)");
+                        string LabelValue = formatLabel[0];
+                        PdfPCell defectTypeCell = new PdfPCell(new Phrase(LabelValue, new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
                         defectTypeCell.Colspan = 3;
                         defectTypeCell.HorizontalAlignment = Element.ALIGN_LEFT;
                         defectEvaluationTable.AddCell(defectTypeCell);
 
-                        PdfPCell estimateValueCell = new PdfPCell(new Phrase(field.Value.ToString(), new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+                        string defectValue = "";
+                        if (field.Value.ToString() != "")
+                        {
+                            defectValue = "$" + field.Value.ToString();
+                        }
+                        PdfPCell estimateValueCell = new PdfPCell(new Phrase(defectValue, new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
                         estimateValueCell.Colspan = 1;
-                        estimateValueCell.HorizontalAlignment = Element.ALIGN_LEFT;
+                        estimateValueCell.HorizontalAlignment = Element.ALIGN_CENTER;
                         defectEvaluationTable.AddCell(estimateValueCell);
 
                         if (double.TryParse(field.Value.ToString(), out var estimatevalue))
@@ -901,14 +924,18 @@ namespace PdfPlayGround
                 totalCell.Colspan = 3;
                 totalCell.HorizontalAlignment = Element.ALIGN_CENTER;
                 defectEvaluationTable.AddCell(totalCell);
-                PdfPCell totalValue = new PdfPCell(new Phrase(totalEstimatevalue.ToString(), new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
+                string defectTotalValue = "";
+                if (totalEstimatevalue != 0)
+                {
+                    defectTotalValue = "$" + totalEstimatevalue.ToString();
+                }
+                PdfPCell totalValue = new PdfPCell(new Phrase(defectTotalValue, new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
                 totalValue.Colspan = 1;
                 totalValue.HorizontalAlignment = Element.ALIGN_CENTER;
                 defectEvaluationTable.AddCell(totalValue);
 
                 Doc.Add(defectEvaluationTable);
             }
-
         }
 
         protected void createAnnexureA()
@@ -1656,8 +1683,7 @@ namespace PdfPlayGround
                 printDate.Border = Rectangle.NO_BORDER;
                 printDate.Colspan = 1;
                 footerTable.AddCell(printDate);
-                int pageNo = writer.PageNumber;
-                PdfPCell footerPageNum = new PdfPCell(new Phrase("Page " + writer.PageNumber.ToString() + " of  " + pageNo.ToString(),
+                PdfPCell footerPageNum = new PdfPCell(new Phrase("Page " + writer.PageNumber.ToString(),
                     StyleFooterAndPageNumber
                     ));
                 footerPageNum.HorizontalAlignment = Element.ALIGN_RIGHT;
