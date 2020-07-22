@@ -18,7 +18,8 @@ namespace PdfPlayGround
         private string InsurerHeader => Source.InsurerHeader;
         private string InsurerLog => Source.InsurerLogo;
         private string BorderTitle => Source.Title;
-
+        protected List<ClaimScoreGroup> claimScoreGroups = new List<ClaimScoreGroup>();
+        protected List<ClaimScoreTable> claimScoreTables = new List<ClaimScoreTable>();
 
         public PdfSupplierScorecard(ClaimScoreBoard claimJob)
         {
@@ -63,6 +64,7 @@ namespace PdfPlayGround
 
                 startTableRightCell.AddElement(startTableRightCellTable);
 
+            //second table 
 
         }
 

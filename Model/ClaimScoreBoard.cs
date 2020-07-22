@@ -5,8 +5,8 @@ using System.Text;
 
 namespace PdfPlayGround.Model
 {
-    using Attributes;
-    using Helper;
+    //using Attributes;
+    //using Helper;
     using Contract;
     using PdfPlayGround.UI;
 
