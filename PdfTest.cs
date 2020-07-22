@@ -85,7 +85,7 @@ namespace PdfPlayGround
                 {
                     if (field?.Value != null)
                     {
-                        var metaData = new InfoTableMetaData(field.Name, field.Value.ToString(), colLable: 0);
+                        var metaData = new InfoTableMetaData(field.Name, field.Value?.ToString(), colLable: 0);
                         table.Add(metaData);
                     }
                 }
@@ -100,7 +100,7 @@ namespace PdfPlayGround
             {
                 foreach (var field in fields.Select(x => x.FirstOrDefault()))
                 {
-                    var metaData = new InfoTableMetaData(field.Name, field.Value.ToString(), colLable: 0);
+                    var metaData = new InfoTableMetaData(field.Name, field.Value?.ToString(), colLable: 0);
                     table.Add(metaData);
                 }
             }
@@ -1545,18 +1545,18 @@ namespace PdfPlayGround
             var suggestScopeValue = field.FirstOrDefault(x => x.Name == "suggestedScope");
             var itemPhotos = field.FirstOrDefault(x => x.Name == "itemPhoto")?.Value as IEnumerable<ReportFile>;
 
-            ItemReporData testData = new ItemReporData("ITEM " + itemNumValue.Value.ToString());
-            testData.TitleFields.Add(new InfoTableMetaData(descValue.Label, descValue.Value.ToString(), colLable: 2, colData: 4));
-            testData.TitleFields.Add(new InfoTableMetaData(locationValue.Label, locationValue.Value.ToString(), colData: 1));
-            testData.Fields.Add(new InfoTableMetaData(crossRefValue.Label, crossRefValue.Value.ToString(), colData: 0));
-            testData.Fields.Add(new InfoTableMetaData(lossTypeValue.Label, lossTypeValue.Value.ToString(), colData: 2));
-            testData.Fields.Add(new InfoTableMetaData(compStatusValue.Label, compStatusValue.Value.ToString(), colData: 1));
-            testData.Fields.Add(new InfoTableMetaData(recomValue.Label, recomValue.Value.ToString(), colLable: 2, colData: 1));
-            testData.Rows.Add(new InfoTableMetaData(observationValue.Label, observationValue.Value.ToString()));
-            testData.Rows.Add(new InfoTableMetaData(causeValue.Label, causeValue.Value.ToString()));
-            testData.Rows.Add(new InfoTableMetaData(breachValue.Label, breachValue.Value.ToString()));
-            testData.Rows.Add(new InfoTableMetaData(ReasonDenValue.Label, ReasonDenValue.Value.ToString()));
-            testData.Rows.Add(new InfoTableMetaData(suggestScopeValue.Label, suggestScopeValue.Value.ToString()));
+            ItemReporData testData = new ItemReporData("ITEM " + itemNumValue.Value?.ToString());
+            testData.TitleFields.Add(new InfoTableMetaData(descValue.Label, descValue.Value?.ToString(), colLable: 2, colData: 4));
+            testData.TitleFields.Add(new InfoTableMetaData(locationValue.Label, locationValue.Value?.ToString(), colData: 1));
+            testData.Fields.Add(new InfoTableMetaData(crossRefValue.Label, crossRefValue.Value?.ToString(), colData: 0));
+            testData.Fields.Add(new InfoTableMetaData(lossTypeValue.Label, lossTypeValue.Value?.ToString(), colData: 2));
+            testData.Fields.Add(new InfoTableMetaData(compStatusValue.Label, compStatusValue.Value?.ToString(), colData: 1));
+            testData.Fields.Add(new InfoTableMetaData(recomValue.Label, recomValue.Value?.ToString(), colLable: 2, colData: 1));
+            testData.Rows.Add(new InfoTableMetaData(observationValue.Label, observationValue.Value?.ToString()));
+            testData.Rows.Add(new InfoTableMetaData(causeValue.Label, causeValue.Value?.ToString()));
+            testData.Rows.Add(new InfoTableMetaData(breachValue.Label, breachValue.Value?.ToString()));
+            testData.Rows.Add(new InfoTableMetaData(ReasonDenValue.Label, ReasonDenValue.Value?.ToString()));
+            testData.Rows.Add(new InfoTableMetaData(suggestScopeValue.Label, suggestScopeValue.Value?.ToString()));
 
             if (itemPhotos != null)
             {
