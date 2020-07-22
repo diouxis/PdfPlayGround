@@ -12,12 +12,15 @@ namespace PdfPlayGround
 
     public class PdfSupplierScorecard: PdfBase
     {
-        protected readonly ClaimScoreBoardForm Source;
+        protected readonly ClaimScoreBoard Source;
+        private string Id => Source.BoardId.ToString();
 
-        private Card claimScoreBoardCard => Source.ScoreGroups.Cards.FirstOrDefault(x => x.Title == "claimScoreBoard");
-        private Card comparisonCard => Source.ScoreGroups.Cards.FirstOrDefault(x => x.Title == "comparison");
+        private string InsurerHeader => Source.InsurerHeader;
+        private string InsurerLog => Source.InsurerLogo;
+        private string BorderTitle => Source.Title;
 
-        public PdfSupplierScorecard(ClaimScoreBoardForm claimJob)
+
+        public PdfSupplierScorecard(ClaimScoreBoard claimJob)
         {
             Source = claimJob;
             PageMargin = new Margin(10, 10, 90, 20);
@@ -36,11 +39,6 @@ namespace PdfPlayGround
             //Pdf Start 
 
             //first table 
-            if (claimScoreBoardCard != null)
-            {
-                var title = Source.Title?.ToString();
-                var insurerHeader = Source.InsurerHeader?.ToString();
-                var insurerLogo = Source.InsurerLogo?.ToString();
 
                 PdfPTable startTable = new PdfPTable(7);
                 startTable.TotalWidth = 820f;
@@ -48,11 +46,11 @@ namespace PdfPlayGround
 
                 PdfPCell startTableLeftCell = new PdfPCell();
                 startTableLeftCell.Colspan = 1;
-                var logoImg = Image.GetInstance(new Uri(insurerLogo.FirstOrDefault().Url));
-                logoImg.ScalePercent(30f);
-                logoImg.Alignment = Element.ALIGN_CENTER;
+                //var logoImg = Image.GetInstance(new Uri(insurerLogo.FirstOrDefault().Url));
+                //logoImg.ScalePercent(30f);
+                //logoImg.Alignment = Element.ALIGN_CENTER;
 
-                startTableLeftCell.AddElement(logoImg);
+                //startTableLeftCell.AddElement(logoImg);
 
                 PdfPCell startTableRightCell = new PdfPCell();
                 startTableRightCell.Colspan = 6;
@@ -60,14 +58,12 @@ namespace PdfPlayGround
 
                 PdfPTable startTableRightCellTable = new PdfPTable(1);
                 startTableRightCellTable.DefaultCell.Border = Rectangle.NO_BORDER;
-                startTableRightCellTable.AddCell(new PdfPCell(new Phrase(title.ValueString, new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White))));
-                startTableRightCellTable.AddCell(new PdfPCell(new Phrase(insurerHeader.ValueString, new Font(Font.BOLD, 20f, Font.BOLD, BaseColor.White))));
+                startTableRightCellTable.AddCell(new PdfPCell(new Phrase(BorderTitle, new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White))));
+                startTableRightCellTable.AddCell(new PdfPCell(new Phrase(InsurerHeader, new Font(Font.BOLD, 20f, Font.BOLD, BaseColor.White))));
 
                 startTableRightCell.AddElement(startTableRightCellTable);
 
-                var scoreGroup = claimScoreBoardCard.Fields.FirstOrDefault(x => x.Name == "scoreGroup");
 
-            }
         }
 
     }
