@@ -40,26 +40,29 @@ namespace PdfPlayGround
             PdfPTable startTable = new PdfPTable(7);
             startTable.TotalWidth = PageContentWidth;
             startTable.LockedWidth = true;
+            startTable.DefaultCell.Border = Rectangle.NO_BORDER;
 
             PdfPCell startTableLeftCell = new PdfPCell();
             startTableLeftCell.Colspan = 1;
+            startTableLeftCell.Border = 0;
             startTableLeftCell.MinimumHeight = 150f;
             var logoImg = Image.GetInstance(new Uri(InsurerLogo));
             logoImg.ScalePercent(30f);
             logoImg.Alignment = Element.ALIGN_CENTER;
             startTableLeftCell.AddElement(logoImg);
-
             startTable.AddCell(startTableLeftCell);
 
             PdfPCell startTableRightCell = new PdfPCell();
             startTableRightCell.Colspan = 6;
             startTableRightCell.BackgroundColor = new BaseColor(0, 0, 51);
+            startTableRightCell.Border = 0;
 
             PdfPTable startTableRightCellTable = new PdfPTable(1);
             startTableRightCellTable.DefaultCell.Border = Rectangle.NO_BORDER;
             startTableRightCellTable.AddCell(new Phrase(BorderTitle, new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
             startTableRightCellTable.AddCell(new Phrase(InsurerHeader, new Font(Font.BOLD, 20f, Font.BOLD, BaseColor.White)));
             startTableRightCell.AddElement(startTableRightCellTable);
+            startTable.AddCell(startTableRightCell);
 
             startTable.AddCell(startTableRightCellTable);
 
@@ -76,6 +79,7 @@ namespace PdfPlayGround
                 PdfPCell scoreGroupCell = new PdfPCell();
                 scoreGroupCell.Colspan = 1;
                 scoreGroupCell.Border = 0;
+                //scoreGroupCell.PaddingRight = 1f;
                 PdfPTable scoreGroupTb = generateBaseTable(item);
                 scoreGroupCell.AddElement(scoreGroupTb);
                 scoreGroupTable.AddCell(scoreGroupCell);
@@ -111,13 +115,11 @@ namespace PdfPlayGround
                     compareTable.AddCell(fieldRank);
                 }
             }
-
             Doc.Add(compareTable);
         }
 
         public PdfPTable generateBaseTable(ClaimScoreGroup ScoreGroup)
         {
-
             PdfPTable baseTable = new PdfPTable(2);
             baseTable.TotalWidth = PageContentWidth/4-4f;
             baseTable.LockedWidth = true; 
