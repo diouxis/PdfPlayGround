@@ -20,10 +20,6 @@ namespace PdfPlayGround
         private string InsurerHeader => Source.InsurerHeader;
         private string InsurerLogo => Source.InsurerLogo;
         private string BorderTitle => Source.Title;
-        
-
-        protected List<ClaimScoreGroup> claimScoreGroups = new List<ClaimScoreGroup>();
-        protected List<ClaimScoreTable> claimScoreTables = new List<ClaimScoreTable>();
 
         public PdfSupplierScorecard(ClaimScoreBoard claimJob)
         {
@@ -40,7 +36,6 @@ namespace PdfPlayGround
             Doc.AddKeywords("This is an report of Supplier Scorecard");
             Doc.AddSubject("Supplier Scorecard");
             Doc.AddTitle(System.DateTime.Now.ToString("dd/MM/yyyy").Replace("-", " ") + "Supplier Scorecard Report");
-
             //Pdf Start 
 
             //first table 
@@ -72,7 +67,7 @@ namespace PdfPlayGround
             scoreGroupTable.TotalWidth = 820f;
             scoreGroupTable.LockedWidth = true;
             scoreGroupTable.DefaultCell.Border = Rectangle.NO_BORDER;
-            foreach (ClaimScoreGroup item in claimScoreGroups) 
+            foreach (ClaimScoreGroup item in Source.ScoreGroups) 
             {
                 PdfPCell scoreGroupCell = new PdfPCell();
                 scoreGroupCell.Colspan = 1;
@@ -85,23 +80,56 @@ namespace PdfPlayGround
             //third table
             PdfPTable compareTable = new PdfPTable(10);
             compareTable.TotalWidth = 820f;
-            compareTable.LockedWidth = true; 
+            compareTable.LockedWidth = true;
+            PdfPCell fieldName = new PdfPCell(new Phrase(Source.Tables.FirstOrDefault().Name, new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
+            fieldName.Colspan = 2;
+            compareTable.AddCell(fieldName);
+            foreach (ClaimScoreItem item in Source.Tables.FirstOrDefault().Rows.FirstOrDefault().Fields)
+            {
+                PdfPCell fieldTitle = new PdfPCell(new Phrase(item.Name, new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
+                fieldTitle.Colspan = 1;
+                compareTable.AddCell(fieldTitle);
+            }
 
+            foreach (ClaimScoreRow row in Source.Tables.FirstOrDefault().Rows)
+            {
+                PdfPCell rowName = new PdfPCell(new Phrase(row.Name, new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
+                rowName.Colspan = 2;
+                compareTable.AddCell(rowName);
+                foreach (ClaimScoreItem field in row.Fields)
+                {
+                    PdfPCell fieldRank = new PdfPCell(new Phrase(field.Ranking.ToString(), new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
+                    fieldRank.Colspan = 1;
+                    fieldRank.BackgroundColor = new iTextSharp.text.BaseColor(System.Drawing.ColorTranslator.FromHtml(field.Color));
+                    compareTable.AddCell(fieldRank);
+                }
+            }
         }
 
         public PdfPTable generateBaseTable(ClaimScoreGroup ScoreGroup)
         {
+
             PdfPTable baseTable = new PdfPTable(2);
             baseTable.TotalWidth = 820f;
-            baseTable.LockedWidth = true;
-            PdfPCell baseTableTitle = new PdfPCell(new Phrase(ScoreGroup.Name, new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
+            baseTable.LockedWidth = true; 
+            PdfPCell baseTableTitle = new PdfPCell(new Phrase(ScoreGroup.Name + ScoreGroup.Icon, new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
             baseTableTitle.Colspan = 2;
             baseTable.AddCell(baseTableTitle);
+
+            int spanCol = 0;
+            if (ScoreGroup.Orientation == UI.Orientation.Horizontal)
+            {
+                spanCol = 1;
+            }
+            else if(ScoreGroup.Orientation == UI.Orientation.Vertical)
+            {
+                spanCol = 2;
+            }
 
             foreach (ClaimScoreItem item in ScoreGroup.Items)
             {
                 PdfPCell itemTitle = new PdfPCell(new Phrase(item.Name, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
-                itemTitle.Colspan = 1;
+                itemTitle.Colspan = spanCol;
                 baseTable.AddCell(itemTitle);
                 string itemValue = "";
                 if (item.Unit == DataUnit.Number)
@@ -116,8 +144,9 @@ namespace PdfPlayGround
                 {
                     itemValue = "$" + item.Value?.ToString();
                 }
-                PdfPCell itemInfo = new PdfPCell(new Phrase(itemValue, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, new iTextSharp.text.BaseColor(System.Drawing.ColorTranslator.FromHtml(item.Color)))));
-                itemInfo.Colspan = 1;
+                PdfPCell itemInfo = new PdfPCell(new Phrase(itemValue, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.White)));
+                itemInfo.BackgroundColor = new iTextSharp.text.BaseColor(System.Drawing.ColorTranslator.FromHtml(item.Color));
+                itemInfo.Colspan = spanCol;
                 baseTable.AddCell(itemInfo);
 
             }
