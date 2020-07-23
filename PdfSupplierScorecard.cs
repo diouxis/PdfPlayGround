@@ -22,8 +22,8 @@ namespace PdfPlayGround
         public PdfSupplierScorecard(ClaimScoreBoard claimJob)
         {
             Source = claimJob;
-            PageMargin = new Margin(10, 10, 90, 20);
-            PageInfo = new Rectangle(PageSize.A4.Rotate());
+            PageMargin = new Margin(20, 20, 90, 20);
+            PageInfo = new Rectangle(PageSize.A4);
         }
 
         protected override void WriteDocument()
@@ -38,16 +38,18 @@ namespace PdfPlayGround
 
             //first table 
             PdfPTable startTable = new PdfPTable(7);
-            startTable.TotalWidth = 820f;
+            startTable.TotalWidth = PageContentWidth;
             startTable.LockedWidth = true;
 
             PdfPCell startTableLeftCell = new PdfPCell();
             startTableLeftCell.Colspan = 1;
+            startTableLeftCell.MinimumHeight = 150f;
             var logoImg = Image.GetInstance(new Uri(InsurerLogo));
             logoImg.ScalePercent(30f);
             logoImg.Alignment = Element.ALIGN_CENTER;
-
             startTableLeftCell.AddElement(logoImg);
+
+            startTable.AddCell(startTableLeftCell);
 
             PdfPCell startTableRightCell = new PdfPCell();
             startTableRightCell.Colspan = 6;
@@ -55,16 +57,20 @@ namespace PdfPlayGround
 
             PdfPTable startTableRightCellTable = new PdfPTable(1);
             startTableRightCellTable.DefaultCell.Border = Rectangle.NO_BORDER;
-            startTableRightCellTable.AddCell(new PdfPCell(new Phrase(BorderTitle, new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White))));
-            startTableRightCellTable.AddCell(new PdfPCell(new Phrase(InsurerHeader, new Font(Font.BOLD, 20f, Font.BOLD, BaseColor.White))));
-
+            startTableRightCellTable.AddCell(new Phrase(BorderTitle, new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
+            startTableRightCellTable.AddCell(new Phrase(InsurerHeader, new Font(Font.BOLD, 20f, Font.BOLD, BaseColor.White)));
             startTableRightCell.AddElement(startTableRightCellTable);
+
+            startTable.AddCell(startTableRightCellTable);
+
+            Doc.Add(startTable);
 
             //second table 
             PdfPTable scoreGroupTable = new PdfPTable(4);
-            scoreGroupTable.TotalWidth = 820f;
+            scoreGroupTable.TotalWidth = PageContentWidth;
             scoreGroupTable.LockedWidth = true;
             scoreGroupTable.DefaultCell.Border = Rectangle.NO_BORDER;
+            scoreGroupTable.SpacingBefore = 10f;
             foreach (ClaimScoreGroup item in Source.ScoreGroups) 
             {
                 PdfPCell scoreGroupCell = new PdfPCell();
@@ -75,10 +81,13 @@ namespace PdfPlayGround
                 scoreGroupTable.AddCell(scoreGroupCell);
             }
 
+            Doc.Add(scoreGroupTable);
+
             //third table
             PdfPTable compareTable = new PdfPTable(10);
-            compareTable.TotalWidth = 820f;
+            compareTable.TotalWidth = PageContentWidth;
             compareTable.LockedWidth = true;
+            compareTable.SpacingBefore = 10f;
             PdfPCell fieldName = new PdfPCell(new Phrase(Source.Tables.FirstOrDefault().Name, new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
             fieldName.Colspan = 2;
             compareTable.AddCell(fieldName);
@@ -102,13 +111,15 @@ namespace PdfPlayGround
                     compareTable.AddCell(fieldRank);
                 }
             }
+
+            Doc.Add(compareTable);
         }
 
         public PdfPTable generateBaseTable(ClaimScoreGroup ScoreGroup)
         {
 
             PdfPTable baseTable = new PdfPTable(2);
-            baseTable.TotalWidth = 820f;
+            baseTable.TotalWidth = PageContentWidth/4-4f;
             baseTable.LockedWidth = true; 
             PdfPCell baseTableTitle = new PdfPCell(new Phrase(ScoreGroup.Name + ScoreGroup.Icon, new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
             baseTableTitle.Colspan = 2;
