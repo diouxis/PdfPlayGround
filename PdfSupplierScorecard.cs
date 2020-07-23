@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 
@@ -8,9 +9,6 @@ namespace PdfPlayGround
 {
     using Model;
     using PdfPlayGround.Contract;
-    using System.Diagnostics;
-    using System.Linq;
-    using System.Security.Claims;
 
     public class PdfSupplierScorecard: PdfBase
     {

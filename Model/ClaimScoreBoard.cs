@@ -22,7 +22,7 @@ namespace PdfPlayGround.Model
         public ClaimScoreBoard(int id)
         {
             BoardId = id;
-            InsurerLogo = "Allianz.jpg";
+            InsurerLogo = "https://company-resources-edt.s3-ap-southeast-2.amazonaws.com/allianz/company_logo.png";
             InsurerHeader = "Allianz Claim Operations";
             Title = "Builder Performance Summary";
             ScoreGroups = new List<ClaimScoreGroup>
@@ -37,14 +37,14 @@ namespace PdfPlayGround.Model
                         new ClaimScoreItem
                         {
                             Name = "$0-$10k",
-                            Color = "Blue",
+                            Color = "#2b60e3",
                             Value = 4168.32,
                             Unit = DataUnit.Currency
                         },
                         new ClaimScoreItem
                         {
                             Name = "$10k-$20k",
-                            Color = "Blue",
+                            Color = "#2b60e3",
                             Value = 13994.14,
                             Unit = DataUnit.Currency
                         }
@@ -60,21 +60,21 @@ namespace PdfPlayGround.Model
                         new ClaimScoreItem
                         {
                             Name = "Scoping",
-                            Color = "Grey",
+                            Color = "#7e828c",
                             Value = 7.51,
                             Unit = DataUnit.Number
                         },
                         new ClaimScoreItem
                         {
                             Name = "Quoting",
-                            Color = "Grey",
+                            Color = "#7e828c",
                             Value = 1.988,
                             Unit = DataUnit.Number
                         },
                         new ClaimScoreItem
                         {
                             Name = "Repair",
-                            Color = "Grey",
+                            Color = "#7e828c",
                             Value = 23.62,
                             Unit = DataUnit.Number
                         }
@@ -90,14 +90,14 @@ namespace PdfPlayGround.Model
                         new ClaimScoreItem
                         {
                             Name = "Star Rating",
-                            Color = "LightBlue",
+                            Color = "#547ae3",
                             Value = 4.16,
                             Unit = DataUnit.Number
                         },
                         new ClaimScoreItem
                         {
                             Name = "Variations",
-                            Color = "LightBlue",
+                            Color = "#547ae3",
                             Value = 0.13,
                             Unit = DataUnit.Percentage
                         }
@@ -113,7 +113,7 @@ namespace PdfPlayGround.Model
                         new ClaimScoreItem
                         {
                             Name = "Rating",
-                            Color = "DarkBlue",
+                            Color = "#042787",
                             Unit = DataUnit.Number
                         }
                     }
