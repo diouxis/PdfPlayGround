@@ -69,7 +69,7 @@ namespace PdfPlayGround.Model
                         Value = fieldArray;
                         break;
                     case "DateTimeField":
-                        Value = value.Value<DateTime>().ToShortDateString();
+                        Value = value.Value<DateTime?>()?.ToShortDateString();
                         break;
                     case "SelectField":
                         Value = Options.FirstOrDefault(x => x.Value == value.Value<string>())?.Label;

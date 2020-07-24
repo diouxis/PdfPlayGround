@@ -23,7 +23,7 @@ namespace PdfPlayGround
         {
             Source = claimJob;
             PageMargin = new Margin(20, 20, 90, 20);
-            PageInfo = new Rectangle(PageSize.A4);
+            PageInfo = new Rectangle(PageSize.A4.Rotate());
         }
 
         protected override void WriteDocument()
