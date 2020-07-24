@@ -142,25 +142,34 @@ namespace PdfPlayGround
             foreach (ClaimScoreItem item in ScoreGroup.Items)
             {
                 PdfPCell itemTitle = new PdfPCell(new Phrase(item.Name, new Font(Font.BOLD, 11f, Font.BOLD, BaseColor.Black)));
-                itemTitle.Colspan = spanCol;
-                baseTable.AddCell(itemTitle);
-                string itemValue = "";
-                if (item.Unit == DataUnit.Number)
+
+                if (spanCol == 1)
                 {
-                    itemValue = item.Value?.ToString();
+                    itemTitle.Colspan = spanCol;
+                    baseTable.AddCell(itemTitle);
+                    string itemValue = "";
+                    if (item.Unit == DataUnit.Number)
+                    {
+                        itemValue = item.Value?.ToString();
+                    }
+                    else if (item.Unit == DataUnit.Percentage)
+                    {
+                        itemValue = (item.Value * 100)?.ToString() + "%";
+                    }
+                    else if (item.Unit == DataUnit.Currency)
+                    {
+                        itemValue = "$" + item.Value?.ToString();
+                    }
+                    PdfPCell itemInfo = new PdfPCell(new Phrase(itemValue, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.White)));
+                    itemInfo.BackgroundColor = new iTextSharp.text.BaseColor(System.Drawing.ColorTranslator.FromHtml(item.Color));
+                    itemInfo.Colspan = spanCol;
+                    baseTable.AddCell(itemInfo);
                 }
-                else if (item.Unit == DataUnit.Percentage)
+                else if (spanCol == 2)
                 {
-                    itemValue = (item.Value * 100)?.ToString() + "%";
+                    
                 }
-                else if (item.Unit == DataUnit.Currency)
-                {
-                    itemValue = "$" + item.Value?.ToString();
-                }
-                PdfPCell itemInfo = new PdfPCell(new Phrase(itemValue, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.White)));
-                itemInfo.BackgroundColor = new iTextSharp.text.BaseColor(System.Drawing.ColorTranslator.FromHtml(item.Color));
-                itemInfo.Colspan = spanCol;
-                baseTable.AddCell(itemInfo);
+               
 
             }
             return baseTable;
