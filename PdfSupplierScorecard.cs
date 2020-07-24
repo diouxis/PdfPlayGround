@@ -46,6 +46,7 @@ namespace PdfPlayGround
             startTableLeftCell.Colspan = 1;
             startTableLeftCell.Border = 0;
             startTableLeftCell.MinimumHeight = 150f;
+            startTableLeftCell.VerticalAlignment = Element.ALIGN_MIDDLE;
             var logoImg = Image.GetInstance(new Uri(InsurerLogo));
             logoImg.ScalePercent(30f);
             logoImg.Alignment = Element.ALIGN_CENTER;
@@ -56,11 +57,12 @@ namespace PdfPlayGround
             startTableRightCell.Colspan = 6;
             startTableRightCell.BackgroundColor = new BaseColor(0, 0, 51);
             startTableRightCell.Border = 0;
+            startTableRightCell.MinimumHeight = 150f;
 
             PdfPTable startTableRightCellTable = new PdfPTable(1);
             startTableRightCellTable.DefaultCell.Border = Rectangle.NO_BORDER;
-            startTableRightCellTable.AddCell(new Phrase(BorderTitle, new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
-            startTableRightCellTable.AddCell(new Phrase(InsurerHeader, new Font(Font.BOLD, 20f, Font.BOLD, BaseColor.White)));
+            startTableRightCellTable.AddCell(new Phrase(InsurerHeader, new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
+            startTableRightCellTable.AddCell(new Phrase(BorderTitle, new Font(Font.BOLD, 20f, Font.BOLD, BaseColor.White)));
             startTableRightCell.AddElement(startTableRightCellTable);
             startTable.AddCell(startTableRightCell);
 
@@ -139,7 +141,7 @@ namespace PdfPlayGround
 
             foreach (ClaimScoreItem item in ScoreGroup.Items)
             {
-                PdfPCell itemTitle = new PdfPCell(new Phrase(item.Name, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
+                PdfPCell itemTitle = new PdfPCell(new Phrase(item.Name, new Font(Font.BOLD, 11f, Font.BOLD, BaseColor.Black)));
                 itemTitle.Colspan = spanCol;
                 baseTable.AddCell(itemTitle);
                 string itemValue = "";
