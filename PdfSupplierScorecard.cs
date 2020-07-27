@@ -9,6 +9,7 @@ namespace PdfPlayGround
 {
     using Model;
     using PdfPlayGround.Contract;
+    using System.IO;
 
     public class PdfSupplierScorecard: PdfBase
     {
@@ -129,9 +130,11 @@ namespace PdfPlayGround
             PdfPTable baseTable = new PdfPTable(2);
             baseTable.TotalWidth = PageContentWidth/4-4f;
             baseTable.LockedWidth = true;
-            var fontAwesomeIcon = BaseFont.CreateFont("./Icon/" + "fontawesome-webfont.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+            string iconPath = Path.GetFullPath("../../../Icon/");
+            var fontAwesomeIcon = BaseFont.CreateFont(iconPath + "fontawesome-webfont.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
             Font fontAwe = new Font(fontAwesomeIcon, 8, Font.NORMAL, BaseColor.Black);
-            PdfPCell baseTableTitle = new PdfPCell(new Phrase(ScoreGroup.Name , new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
+            Chunk iconPhrase = new Chunk("\f022", fontAwe);
+            PdfPCell baseTableTitle = new PdfPCell(new Phrase(ScoreGroup.Name + iconPhrase, new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
             baseTableTitle.Colspan = 2;
             baseTableTitle.HorizontalAlignment = Element.ALIGN_CENTER;
             baseTable.AddCell(baseTableTitle);
