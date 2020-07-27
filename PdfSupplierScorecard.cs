@@ -132,9 +132,12 @@ namespace PdfPlayGround
             baseTable.LockedWidth = true;
             string iconPath = Path.GetFullPath("../../../Icon/");
             var fontAwesomeIcon = BaseFont.CreateFont(iconPath + "fontawesome-webfont.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-            Font fontAwe = new Font(fontAwesomeIcon, 8, Font.NORMAL, BaseColor.Black);
-            Chunk iconPhrase = new Chunk("\f022", fontAwe);
-            PdfPCell baseTableTitle = new PdfPCell(new Phrase(ScoreGroup.Name + iconPhrase, new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
+            Font fontAwe = new Font(fontAwesomeIcon, 12, Font.NORMAL, BaseColor.Black);
+            Chunk iconPhrase = new Chunk(" \uf022", fontAwe);
+            
+            Phrase groupTitle = new Phrase(ScoreGroup.Name, new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black));
+            groupTitle.Add(iconPhrase);
+            PdfPCell baseTableTitle = new PdfPCell(groupTitle);
             baseTableTitle.Colspan = 2;
             baseTableTitle.HorizontalAlignment = Element.ALIGN_CENTER;
             baseTable.AddCell(baseTableTitle);
