@@ -128,7 +128,9 @@ namespace PdfPlayGround
         {
             PdfPTable baseTable = new PdfPTable(2);
             baseTable.TotalWidth = PageContentWidth/4-4f;
-            baseTable.LockedWidth = true; 
+            baseTable.LockedWidth = true;
+            var fontAwesomeIcon = BaseFont.CreateFont("./Icon/" + "fontawesome -webfont.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+            Font fontAwe = new Font(fontAwesomeIcon, 8, Font.NORMAL, Color.BLACK);
             PdfPCell baseTableTitle = new PdfPCell(new Phrase(ScoreGroup.Name , new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
             baseTableTitle.Colspan = 2;
             baseTableTitle.HorizontalAlignment = Element.ALIGN_CENTER;
