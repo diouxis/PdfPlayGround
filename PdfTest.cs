@@ -223,7 +223,7 @@ namespace PdfPlayGround
 
             Phrase email = new Phrase("builderswarrantyclaims@gbtpa.com.au", new Font(Font.UNDEFINED, 12f, Font.UNDERLINE, BaseColor.Blue));
 
-            Phrase infoList = new Phrase("Attention: " + Source.Insured.Name + "\n" + 
+            Phrase infoList = new Phrase("Attention: " + Source.Insurer.CompanyName + "\n" + 
                 "Gallagher Bassett Services Pty Ltd" + "\n" + 
                 "Locked Bag 912, North Sydney NSW 2060" + "\n" + "Email: ",
                 new Font(Font.UNDEFINED, 12f, Font.UNDEFINED, BaseColor.Black
@@ -458,13 +458,15 @@ namespace PdfPlayGround
                 AreaBCAHeader.PaddingTop = 4f;
                 AreaBCAHeader.PaddingBottom = 4f;
                 AreaBCATable.AddCell(AreaBCAHeader);
+                Doc.Add(AreaBCATable);
 
                 PdfPCell AreaBCAInfo = new PdfPCell(new Phrase(AreaBCACard.Fields[0].ValueString, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
                 AreaBCAInfo.PaddingTop = 4f;
                 AreaBCAInfo.PaddingBottom = 4f;
-                AreaBCATable.AddCell(AreaBCAInfo);
+                //AreaBCATable.AddCell(AreaBCAInfo);
+                Doc.Add(new Phrase(AreaBCACard.Fields[0].ValueString, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
 
-                Doc.Add(AreaBCATable);
+                //Doc.Add(AreaBCATable);
             }
 
             if (OutstandingManCerRequirementCard != null)
@@ -543,10 +545,10 @@ namespace PdfPlayGround
                 Doc.Add(OpinionRelationSectionTable);
             }
 
-            Doc.NewPage();
+            //Doc.NewPage();
 
             //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!page Four!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!//
-            //Doc.NewPage();
+            Doc.NewPage();
             if (ScheduleItemCard != null)
             {
                 var fields = ScheduleItemCard.Fields.FirstOrDefault().Value as List<List<Field>>;
@@ -558,7 +560,7 @@ namespace PdfPlayGround
                         if (field.FirstOrDefault(x => x.Label == "Recommendation").ValueString == "Accept")
                         {
                             CreateScheduleItem(field);
-                            Doc.NewPage();
+                            //Doc.NewPage();
                         }
                     }
 
@@ -568,7 +570,7 @@ namespace PdfPlayGround
                         if (field.FirstOrDefault(x => x.Label == "Recommendation").ValueString == "Decline")
                         {
                             CreateScheduleItem(field);
-                            Doc.NewPage();
+                            //Doc.NewPage();
                         }
                     }
                 }
@@ -579,6 +581,7 @@ namespace PdfPlayGround
             //report summary
             if (JobDetailContent != null)
             {
+                Doc.NewPage();
                 Paragraph reportTitleCell = new Paragraph("REPORT SUMMARY", new Font(Font.BOLD, 14f, Font.BOLD, BaseColor.Black));
                 Doc.Add(reportTitleCell);
                 Paragraph reportTitleTime = new Paragraph("Completed on the date of " + 
@@ -977,7 +980,6 @@ namespace PdfPlayGround
 
         protected void createAnnexureB()
         {
-            Doc.NewPage();
             PdfPTable annexureBTable = new PdfPTable(1);
             annexureBTable.TotalWidth = 800f;
             annexureBTable.LockedWidth = true;
