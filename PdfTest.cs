@@ -126,7 +126,7 @@ namespace PdfPlayGround
             JobDetailContent = new List<InfoTableMetaData>
             {
                 new InfoTableMetaData("Building Owner:", Source.Insured.Name),
-                new InfoTableMetaData("Address:", " "),
+                new InfoTableMetaData("Address:", ""),
                 new InfoTableMetaData("Client", Source.Insurer.CompanyName),
                 new InfoTableMetaData("Our Reference:", BuildingConDetailCard.Fields[0].ValueString),
                 new InfoTableMetaData("Client Reference:", Source.RefNumber)
@@ -464,7 +464,8 @@ namespace PdfPlayGround
                 AreaBCAInfo.PaddingTop = 4f;
                 AreaBCAInfo.PaddingBottom = 4f;
                 //AreaBCATable.AddCell(AreaBCAInfo);
-                Doc.Add(new Phrase(AreaBCACard.Fields[0].ValueString, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
+                Phrase areaBCAInfo = new Phrase(AreaBCACard.Fields[0].ValueString, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black));
+                Doc.Add(areaBCAInfo);
 
                 //Doc.Add(AreaBCATable);
             }

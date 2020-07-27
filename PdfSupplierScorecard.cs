@@ -131,9 +131,9 @@ namespace PdfPlayGround
             baseTable.TotalWidth = PageContentWidth/4-4f;
             baseTable.LockedWidth = true;
             string iconPath = Path.GetFullPath("../../../Icon/");
-            var fontAwesomeIcon = BaseFont.CreateFont(iconPath + "fontawesome-webfont.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+            var fontAwesomeIcon = BaseFont.CreateFont(iconPath + "MaterialIcons-Regular.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
             Font fontAwe = new Font(fontAwesomeIcon, 12, Font.NORMAL, BaseColor.Black);
-            Chunk iconPhrase = new Chunk(" \uf022", fontAwe);
+            Chunk iconPhrase = new Chunk(" \ue000", fontAwe);
             
             Phrase groupTitle = new Phrase(ScoreGroup.Name, new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black));
             groupTitle.Add(iconPhrase);
