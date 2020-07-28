@@ -20,6 +20,8 @@ namespace PdfPlayGround
         private string InsurerLogo => Source.InsurerLogo;
         private string BorderTitle => Source.Title;
 
+        Dictionary<string, string> iconUnicode = new Dictionary<string, string>();
+
         public PdfSupplierScorecard(ClaimScoreBoard claimJob)
         {
             Source = claimJob;
@@ -134,7 +136,7 @@ namespace PdfPlayGround
             string iconPath = Path.GetFullPath("../../../Icon/");
             var fontAwesomeIcon = BaseFont.CreateFont(iconPath + "MaterialIcons-Regular.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
             Font fontAwe = new Font(fontAwesomeIcon, 12, Font.NORMAL, BaseColor.Black);
-            Chunk iconPhrase = new Chunk("\ue900", fontAwe);
+            Chunk iconPhrase = new Chunk("\ue921", fontAwe);
             
             Phrase groupTitle = new Phrase(ScoreGroup.Name, new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black));
             groupTitle.Add(iconPhrase);
@@ -206,7 +208,12 @@ namespace PdfPlayGround
             return baseTable;
         }
 
+        public void genericateDictionary()
+        {
+            
+        }
     }
 
+    
 
 }
