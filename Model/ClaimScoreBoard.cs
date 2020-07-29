@@ -47,6 +47,13 @@ namespace PdfPlayGround.Model
                             Color = "#2b60e3",
                             Value = 13994.14,
                             Unit = DataUnit.Currency
+                        },
+                        new ClaimScoreItem
+                        {
+                            Name = "$20k-$25k",
+                            Color = "#2b60e3",
+                            Value = 23456.45,
+                            Unit = DataUnit.Currency
                         }
                     }
                 },
@@ -117,7 +124,76 @@ namespace PdfPlayGround.Model
                             Unit = DataUnit.Number
                         }
                     }
-                }
+                },
+                new ClaimScoreGroup
+                {
+                    Name = "Cost 1",
+                    Icon = "brightness_low",
+                    Orientation = Orientation.Vertical,
+                    Items = new List<ClaimScoreItem>
+                    {
+                        new ClaimScoreItem
+                        {
+                            Name = "Star Rating",
+                            Color = "#547ae3",
+                            Value = 4.16,
+                            Unit = DataUnit.Number
+                        },
+                        new ClaimScoreItem
+                        {
+                            Name = "Variations",
+                            Color = "#547ae3",
+                            Value = 0.13,
+                            Unit = DataUnit.Percentage
+                        }
+                    }
+                },
+                new ClaimScoreGroup
+                {
+                    Name = "Cost 2",
+                    Icon = "brightness_low",
+                    Orientation = Orientation.Vertical,
+                    Items = new List<ClaimScoreItem>
+                    {
+                        new ClaimScoreItem
+                        {
+                            Name = "Star Rating",
+                            Color = "#547ae3",
+                            Value = 4.16,
+                            Unit = DataUnit.Number
+                        },
+                        new ClaimScoreItem
+                        {
+                            Name = "Variations",
+                            Color = "#547ae3",
+                            Value = 0.13,
+                            Unit = DataUnit.Percentage
+                        }
+                    }
+                },
+                new ClaimScoreGroup
+                {
+                    Name = "Cost 3",
+                    Icon = "brightness_low",
+                    Orientation = Orientation.Vertical,
+                    Items = new List<ClaimScoreItem>
+                    {
+                        new ClaimScoreItem
+                        {
+                            Name = "Star Rating",
+                            Color = "#547ae3",
+                            Value = 4.16,
+                            Unit = DataUnit.Number
+                        },
+                        new ClaimScoreItem
+                        {
+                            Name = "Variations",
+                            Color = "#547ae3",
+                            Value = 0.13,
+                            Unit = DataUnit.Percentage
+                        }
+                    }
+                },
             };
             Tables = new List<ClaimScoreTable>
             {

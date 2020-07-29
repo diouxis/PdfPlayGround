@@ -74,26 +74,28 @@ namespace PdfPlayGround
             Doc.Add(startTable);
 
             //second table 
-            PdfPTable scoreGroupTable = new PdfPTable(4);
+            int columnNumOfscoreGroupTable = Source.ScoreGroups.Count();
+            PdfPTable scoreGroupTable = new PdfPTable(columnNumOfscoreGroupTable);
             scoreGroupTable.TotalWidth = PageContentWidth;
             scoreGroupTable.LockedWidth = true;
             scoreGroupTable.DefaultCell.Border = Rectangle.NO_BORDER;
             scoreGroupTable.SpacingBefore = 10f;
+
             foreach (ClaimScoreGroup item in Source.ScoreGroups) 
             {
                 PdfPCell scoreGroupCell = new PdfPCell();
                 scoreGroupCell.Colspan = 1;
                 scoreGroupCell.Border = 0;
-                //scoreGroupCell.PaddingRight = 1f;
-                PdfPTable scoreGroupTb = generateBaseTable(item);
+                PdfPTable scoreGroupTb = generateBaseTable(item, columnNumOfscoreGroupTable);
                 scoreGroupCell.AddElement(scoreGroupTb);
                 scoreGroupTable.AddCell(scoreGroupCell);
             }
-
+            scoreGroupTable.CompleteRow();
             Doc.Add(scoreGroupTable);
 
             //third table
-            PdfPTable compareTable = new PdfPTable(10);
+            int compareTableColumnNum = Source.Tables.FirstOrDefault().Rows.FirstOrDefault().Fields.Count() + 2;
+            PdfPTable compareTable = new PdfPTable(compareTableColumnNum);
             compareTable.TotalWidth = PageContentWidth;
             compareTable.LockedWidth = true;
             compareTable.SpacingBefore = 10f;
@@ -124,14 +126,15 @@ namespace PdfPlayGround
                     compareTable.AddCell(fieldRank);
                 }
             }
+            compareTable.CompleteRow();
             Doc.Add(compareTable);
 
         }
 
-        public PdfPTable generateBaseTable(ClaimScoreGroup ScoreGroup)
+        public PdfPTable generateBaseTable(ClaimScoreGroup ScoreGroup, int columnNum)
         {
             PdfPTable baseTable = new PdfPTable(2);
-            baseTable.TotalWidth = PageContentWidth/4-4f;
+            baseTable.TotalWidth = PageContentWidth/ columnNum - 4f;
             baseTable.LockedWidth = true;
             string iconPath = Path.GetFullPath("../../../Icon/");
             var fontAwesomeIcon = BaseFont.CreateFont(iconPath + "MaterialIcons-Regular.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
@@ -144,6 +147,7 @@ namespace PdfPlayGround
             baseTableTitle.Colspan = 2;
             baseTableTitle.HorizontalAlignment = Element.ALIGN_CENTER;
             baseTable.AddCell(baseTableTitle);
+
 
             int spanCol = 0;
             if (ScoreGroup.Orientation == UI.Orientation.Horizontal)
@@ -189,7 +193,7 @@ namespace PdfPlayGround
                     basecell.Padding = 0;
                     basecell.Border = 0;
                     PdfPTable baseCellTable = new PdfPTable(1);
-                    baseCellTable.TotalWidth = (PageContentWidth / 4 - 4f) / 2;
+                    baseCellTable.TotalWidth = (PageContentWidth / columnNum - 4f) / 2;
                     baseCellTable.LockedWidth = true;
                     baseCellTable.DefaultCell.Padding = 0;
                     PdfPCell baseCellTableCell = new PdfPCell(new Phrase(item.Name, new Font(Font.BOLD, 11f, Font.BOLD, BaseColor.Black)));
@@ -202,15 +206,9 @@ namespace PdfPlayGround
                     basecell.AddElement(baseCellTable);
                     baseTable.AddCell(basecell);
                 }
-               
-
             }
+            baseTable.CompleteRow();
             return baseTable;
-        }
-
-        public void genericateDictionary()
-        {
-            
         }
     }
 
