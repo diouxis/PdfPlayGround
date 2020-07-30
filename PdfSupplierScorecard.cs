@@ -19,6 +19,8 @@ namespace PdfPlayGround
         private string InsurerHeader => Source.InsurerHeader;
         private string InsurerLogo => Source.InsurerLogo;
         private string BorderTitle => Source.Title;
+        private DateTime DateFrom => Source.DateFrom;
+        private DateTime DateTo => Source.DateTo;
 
         Dictionary<string, string> iconUnicode = new Dictionary<string, string>();
 
@@ -73,7 +75,13 @@ namespace PdfPlayGround
 
             Doc.Add(startTable);
 
+
             //second table 
+
+            //datetime range 
+            Doc.Add(new Paragraph("Date From " + DateFrom.ToString()));
+            Doc.Add(new Paragraph("Date To " + DateTo.ToString()));
+
             int columnNumOfscoreGroupTable = Source.ScoreGroups.Count();
             PdfPTable scoreGroupTable = new PdfPTable(columnNumOfscoreGroupTable);
             scoreGroupTable.TotalWidth = PageContentWidth;
