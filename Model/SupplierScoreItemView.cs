@@ -6,7 +6,7 @@ namespace PdfPlayGround.Model
 {
     using Contract;
 
-    public class ClaimScoreItem
+    public class SupplierScoreItemView
     {
         public int Id { get; set; }
         public string Name { get; set; }

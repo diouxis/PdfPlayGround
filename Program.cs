@@ -16,7 +16,7 @@ namespace PdfPlayGround
             //    var a = new PdfTest(claimJob);
             //    file = a.GeneratePdf();
             //}
-            var score = new Model.ClaimScoreBoard(1);
+            var score = new Model.SupplierScoreBoardView(1);
             var a = new PdfSupplierScorecard(score);
             file = a.GeneratePdf();
 

@@ -7,22 +7,24 @@ using iTextSharp.text.pdf;
 
 namespace PdfPlayGround
 {
+    using UI;
     using Model;
     using PdfPlayGround.Contract;
     using System.IO;
 
-    public class PdfSupplierScorecard: PdfBase
-    {
-        protected readonly ClaimScoreBoard Source;
 
-        private int BorderId => Source.BoardId;
+    public class PdfSupplierScorecard : PdfBase
+    {
+        protected readonly SupplierScoreBoardView Source;
+
+        //private int BorderId => Source.BoardId;
         private string InsurerHeader => Source.InsurerHeader;
         private string InsurerLogo => Source.InsurerLogo;
         private string BorderTitle => Source.Title;
 
         Dictionary<string, string> iconUnicode = new Dictionary<string, string>();
 
-        public PdfSupplierScorecard(ClaimScoreBoard claimJob)
+        public PdfSupplierScorecard(SupplierScoreBoardView claimJob)
         {
             Source = claimJob;
             PageMargin = new Margin(20, 20, 90, 20);
@@ -81,7 +83,7 @@ namespace PdfPlayGround
             scoreGroupTable.DefaultCell.Border = Rectangle.NO_BORDER;
             scoreGroupTable.SpacingBefore = 10f;
 
-            foreach (ClaimScoreGroup item in Source.ScoreGroups) 
+            foreach (SupplierScoreGroupView item in Source.ScoreGroups)
             {
                 PdfPCell scoreGroupCell = new PdfPCell();
                 scoreGroupCell.Colspan = 1;
@@ -103,7 +105,7 @@ namespace PdfPlayGround
             fieldName.Colspan = 2;
             fieldName.HorizontalAlignment = Element.ALIGN_CENTER;
             compareTable.AddCell(fieldName);
-            foreach (ClaimScoreItem item in Source.Tables.FirstOrDefault().Rows.FirstOrDefault().Fields)
+            foreach (SupplierScoreItemView item in Source.Tables.FirstOrDefault().Rows.FirstOrDefault().Fields)
             {
                 PdfPCell fieldTitle = new PdfPCell(new Phrase(item.Name, new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
                 fieldTitle.Colspan = 1;
@@ -111,13 +113,13 @@ namespace PdfPlayGround
                 compareTable.AddCell(fieldTitle);
             }
 
-            foreach (ClaimScoreRow row in Source.Tables.FirstOrDefault().Rows)
+            foreach (SupplierScoreRow row in Source.Tables.FirstOrDefault().Rows)
             {
                 PdfPCell rowName = new PdfPCell(new Phrase(row.Name, new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
                 rowName.Colspan = 2;
                 rowName.HorizontalAlignment = Element.ALIGN_CENTER;
                 compareTable.AddCell(rowName);
-                foreach (ClaimScoreItem field in row.Fields)
+                foreach (SupplierScoreItemView field in row.Fields)
                 {
                     PdfPCell fieldRank = new PdfPCell(new Phrase(field.Ranking.ToString(), new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
                     fieldRank.Colspan = 1;
@@ -131,16 +133,16 @@ namespace PdfPlayGround
 
         }
 
-        public PdfPTable generateBaseTable(ClaimScoreGroup ScoreGroup, int columnNum)
+        public PdfPTable generateBaseTable(SupplierScoreGroupView ScoreGroup, int columnNum)
         {
             PdfPTable baseTable = new PdfPTable(2);
-            baseTable.TotalWidth = PageContentWidth/ columnNum - 4f;
+            baseTable.TotalWidth = PageContentWidth / columnNum - 4f;
             baseTable.LockedWidth = true;
             string iconPath = Path.GetFullPath("../../../Icon/");
             var fontAwesomeIcon = BaseFont.CreateFont(iconPath + "MaterialIcons-Regular.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
             Font fontAwe = new Font(fontAwesomeIcon, 12, Font.NORMAL, BaseColor.Black);
             Chunk iconPhrase = new Chunk("\ue921", fontAwe);
-            
+
             Phrase groupTitle = new Phrase(ScoreGroup.Name, new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black));
             groupTitle.Add(iconPhrase);
             PdfPCell baseTableTitle = new PdfPCell(groupTitle);
@@ -150,16 +152,16 @@ namespace PdfPlayGround
 
 
             int spanCol = 0;
-            if (ScoreGroup.Orientation == UI.Orientation.Horizontal)
+            if (ScoreGroup.Orientation == Orientation.Horizontal)
             {
                 spanCol = 1;
             }
-            else if(ScoreGroup.Orientation == UI.Orientation.Vertical)
+            else if (ScoreGroup.Orientation == Orientation.Vertical)
             {
                 spanCol = 2;
             }
 
-            foreach (ClaimScoreItem item in ScoreGroup.Items)
+            foreach (var item in ScoreGroup.ItemValues)
             {
                 string itemValue = "";
                 if (item.Unit == DataUnit.Number)
@@ -212,6 +214,6 @@ namespace PdfPlayGround
         }
     }
 
-    
+
 
 }

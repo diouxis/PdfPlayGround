@@ -10,45 +10,45 @@ namespace PdfPlayGround.Model
     using Contract;
     using PdfPlayGround.UI;
 
-    public class ClaimScoreBoard
+    public class SupplierScoreBoardView
     {
         public int BoardId { get; set; } = 1;
         public string Title { get; set; }
         public string InsurerHeader { get; set; }
         public string InsurerLogo { get; set; }
-        public List<ClaimScoreGroup> ScoreGroups { get; set; }
-        public List<ClaimScoreTable> Tables { get; set; }
+        public List<SupplierScoreGroupView> ScoreGroups { get; set; }
+        public List<SupplierScoreTable> Tables { get; set; }
 
-        public ClaimScoreBoard(int id)
+        public SupplierScoreBoardView(int id)
         {
             BoardId = id;
             InsurerLogo = "https://company-resources-edt.s3-ap-southeast-2.amazonaws.com/allianz/company_logo.png";
             InsurerHeader = "Allianz Claim Operations";
             Title = "Builder Performance Summary";
-            ScoreGroups = new List<ClaimScoreGroup>
+            ScoreGroups = new List<SupplierScoreGroupView>
             {
-                new ClaimScoreGroup
+                new SupplierScoreGroupView
                 {
                     Name = "Cost",
                     Icon = "account_balance",
                     Orientation = Orientation.Vertical,
-                    Items = new List<ClaimScoreItem>
+                    ItemValues = new List<SupplierScoreItemView>
                     {
-                        new ClaimScoreItem
+                        new SupplierScoreItemView
                         {
                             Name = "$0-$10k",
                             Color = "#2b60e3",
                             Value = 4168.32,
                             Unit = DataUnit.Currency
                         },
-                        new ClaimScoreItem
+                        new SupplierScoreItemView
                         {
                             Name = "$10k-$20k",
                             Color = "#2b60e3",
                             Value = 13994.14,
                             Unit = DataUnit.Currency
                         },
-                        new ClaimScoreItem
+                        new SupplierScoreItemView
                         {
                             Name = "$20k-$25k",
                             Color = "#2b60e3",
@@ -57,28 +57,28 @@ namespace PdfPlayGround.Model
                         }
                     }
                 },
-                new ClaimScoreGroup
+                new SupplierScoreGroupView
                 {
                     Name = "Timeliness",
                     Icon = "event_note",
                     Orientation = Orientation.Horizontal,
-                    Items = new List<ClaimScoreItem>
+                    ItemValues = new List<SupplierScoreItemView>
                     {
-                        new ClaimScoreItem
+                        new SupplierScoreItemView
                         {
                             Name = "Scoping",
                             Color = "#7e828c",
                             Value = 7.51,
                             Unit = DataUnit.Number
                         },
-                        new ClaimScoreItem
+                        new SupplierScoreItemView
                         {
                             Name = "Quoting",
                             Color = "#7e828c",
                             Value = 1.988,
                             Unit = DataUnit.Number
                         },
-                        new ClaimScoreItem
+                        new SupplierScoreItemView
                         {
                             Name = "Repair",
                             Color = "#7e828c",
@@ -87,21 +87,21 @@ namespace PdfPlayGround.Model
                         }
                     }
                 },
-                new ClaimScoreGroup
+                new SupplierScoreGroupView
                 {
                     Name = "Quality",
                     Icon = "brightness_low",
                     Orientation = Orientation.Vertical,
-                    Items = new List<ClaimScoreItem>
+                    ItemValues = new List<SupplierScoreItemView>
                     {
-                        new ClaimScoreItem
+                        new SupplierScoreItemView
                         {
                             Name = "Star Rating",
                             Color = "#547ae3",
                             Value = 4.16,
                             Unit = DataUnit.Number
                         },
-                        new ClaimScoreItem
+                        new SupplierScoreItemView
                         {
                             Name = "Variations",
                             Color = "#547ae3",
@@ -110,14 +110,14 @@ namespace PdfPlayGround.Model
                         }
                     }
                 },
-                new ClaimScoreGroup
+                new SupplierScoreGroupView
                 {
                     Name = "Overall",
                     Icon = "deck",
                     Orientation = Orientation.Horizontal,
-                    Items = new List<ClaimScoreItem>
+                    ItemValues = new List<SupplierScoreItemView>
                     {
-                        new ClaimScoreItem
+                        new SupplierScoreItemView
                         {
                             Name = "Rating",
                             Color = "#042787",
@@ -125,21 +125,21 @@ namespace PdfPlayGround.Model
                         }
                     }
                 },
-                new ClaimScoreGroup
+                new SupplierScoreGroupView
                 {
                     Name = "Cost 1",
                     Icon = "brightness_low",
                     Orientation = Orientation.Vertical,
-                    Items = new List<ClaimScoreItem>
+                    ItemValues = new List<SupplierScoreItemView>
                     {
-                        new ClaimScoreItem
+                        new SupplierScoreItemView
                         {
                             Name = "Star Rating",
                             Color = "#547ae3",
                             Value = 4.16,
                             Unit = DataUnit.Number
                         },
-                        new ClaimScoreItem
+                        new SupplierScoreItemView
                         {
                             Name = "Variations",
                             Color = "#547ae3",
@@ -148,21 +148,21 @@ namespace PdfPlayGround.Model
                         }
                     }
                 },
-                new ClaimScoreGroup
+                new SupplierScoreGroupView
                 {
                     Name = "Cost 2",
                     Icon = "brightness_low",
                     Orientation = Orientation.Vertical,
-                    Items = new List<ClaimScoreItem>
+                    ItemValues = new List<SupplierScoreItemView>
                     {
-                        new ClaimScoreItem
+                        new SupplierScoreItemView
                         {
                             Name = "Star Rating",
                             Color = "#547ae3",
                             Value = 4.16,
                             Unit = DataUnit.Number
                         },
-                        new ClaimScoreItem
+                        new SupplierScoreItemView
                         {
                             Name = "Variations",
                             Color = "#547ae3",
@@ -171,21 +171,21 @@ namespace PdfPlayGround.Model
                         }
                     }
                 },
-                new ClaimScoreGroup
+                new SupplierScoreGroupView
                 {
                     Name = "Cost 3",
                     Icon = "brightness_low",
                     Orientation = Orientation.Vertical,
-                    Items = new List<ClaimScoreItem>
+                    ItemValues = new List<SupplierScoreItemView>
                     {
-                        new ClaimScoreItem
+                        new SupplierScoreItemView
                         {
                             Name = "Star Rating",
                             Color = "#547ae3",
                             Value = 4.16,
                             Unit = DataUnit.Number
                         },
-                        new ClaimScoreItem
+                        new SupplierScoreItemView
                         {
                             Name = "Variations",
                             Color = "#547ae3",
@@ -195,50 +195,50 @@ namespace PdfPlayGround.Model
                     }
                 },
             };
-            Tables = new List<ClaimScoreTable>
+            Tables = new List<SupplierScoreTable>
             {
-                new ClaimScoreTable("Comparison", ScoreGroups.SelectMany(x => x.Items))
+                new SupplierScoreTable("Comparison", ScoreGroups.SelectMany(x => x.ItemValues))
             };
         }
     }
 
-    public class ClaimScoreGroup
+    public class SupplierScoreGroupView
     {
         public string Name { get; set; }
         public string Icon { get; set; }
         public Orientation Orientation { get; set; }
-        public List<ClaimScoreItem> Items { get; set; } = new List<ClaimScoreItem>();
+        public List<SupplierScoreItemView> ItemValues { get; set; } = new List<SupplierScoreItemView>();
     }
 
-    public class ClaimScoreTable
+    public class SupplierScoreTable
     {
         public string Name { get; set; }
-        public List<ClaimScoreRow> Rows { get; set; }
+        public List<SupplierScoreRow> Rows { get; set; }
 
-        public ClaimScoreTable(string name, IEnumerable<ClaimScoreItem> items)
+        public SupplierScoreTable(string name, IEnumerable<SupplierScoreItemView> items)
         {
             Name = name;
-            Rows = new List<ClaimScoreRow>
+            Rows = new List<SupplierScoreRow>
             {
-                new ClaimScoreRow(1, "AJG", items),
-                new ClaimScoreRow(2, "BBS", items),
-                new ClaimScoreRow(3, "TBS", items),
-                new ClaimScoreRow(4, "AWP", items)
+                new SupplierScoreRow(1, "AJG", items),
+                new SupplierScoreRow(2, "BBS", items),
+                new SupplierScoreRow(3, "TBS", items),
+                new SupplierScoreRow(4, "AWP", items)
             };
         }
     }
 
-    public class ClaimScoreRow
+    public class SupplierScoreRow
     {
         public int RowId { get; set; }
         public string Name { get; set; }
-        public List<ClaimScoreItem> Fields { get; set; } = new List<ClaimScoreItem>();
+        public List<SupplierScoreItemView> Fields { get; set; } = new List<SupplierScoreItemView>();
 
-        public ClaimScoreRow(int id, string name, IEnumerable<ClaimScoreItem> fields)
+        public SupplierScoreRow(int id, string name, IEnumerable<SupplierScoreItemView> fields)
         {
             RowId = id;
             Name = name;
-            Fields.AddRange(fields.Select(x => new ClaimScoreItem
+            Fields.AddRange(fields.Select(x => new SupplierScoreItemView
             {
                 Id = RowId,
                 Name = x.Name,
