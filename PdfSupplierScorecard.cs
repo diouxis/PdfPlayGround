@@ -68,7 +68,7 @@ namespace PdfPlayGround
 
             PdfPTable startTableRightCellTable = new PdfPTable(1);
             startTableRightCellTable.DefaultCell.Border = Rectangle.NO_BORDER;
-            startTableRightCellTable.AddCell(new Phrase(InsurerHeader, new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
+            startTableRightCellTable.AddCell(new Phrase(InsurerHeader, new Font(Font.BOLD, 15f, Font.BOLD, BaseColor.White)));
             startTableRightCellTable.AddCell(new Phrase(BorderTitle, new Font(Font.BOLD, 20f, Font.BOLD, BaseColor.White)));
             startTableRightCell.AddElement(startTableRightCellTable);
             startTable.AddCell(startTableRightCell);
@@ -87,9 +87,9 @@ namespace PdfPlayGround
             dateTimeTable.DefaultCell.Border = Rectangle.NO_BORDER;
             dateTimeTable.SpacingBefore = 5f;
 
-            Chunk dateFromChunk = new Chunk("Date From ", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black));
+            Chunk dateFromChunk = new Chunk("Date From ", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black));
             Chunk dateFromChu = new Chunk(DateFrom.ToString("dd/MM/yyyy"));
-            Chunk dateToChunk = new Chunk("Date To ", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black));
+            Chunk dateToChunk = new Chunk("Date To ", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black));
             Chunk dateToChu = new Chunk(DateTo.ToString("dd/MM/yyyy"));
 
             Phrase dateFromPhrase = new Phrase();

@@ -154,8 +154,8 @@ namespace PdfPlayGround.Model
                 },
                 new SupplierScoreGroupView
                 {
-                    Name = "Cost 2",
-                    Icon = "brightness_low",
+                    Name = "Cost2",
+                    Icon = "ue30c",
                     Orientation = Orientation.Vertical,
                     ItemValues = new List<SupplierScoreItemView>
                     {
