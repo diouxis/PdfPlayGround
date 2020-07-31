@@ -16,6 +16,8 @@ namespace PdfPlayGround.Model
         public string Title { get; set; }
         public string InsurerHeader { get; set; }
         public string InsurerLogo { get; set; }
+        public DateTime DateFrom { get; set; }
+        public DateTime DateTo { get; set; }
         public List<SupplierScoreGroupView> ScoreGroups { get; set; }
         public List<SupplierScoreTable> Tables { get; set; }
 
@@ -25,7 +27,9 @@ namespace PdfPlayGround.Model
             InsurerLogo = "https://company-resources-edt.s3-ap-southeast-2.amazonaws.com/allianz/company_logo.png";
             InsurerHeader = "Allianz Claim Operations";
             Title = "Builder Performance Summary";
-            ScoreGroups = new List<SupplierScoreGroupView>
+            DateFrom = new DateTime(2020, 01, 01);
+            DateTo = new DateTime(2020, 07, 30);
+            ScoreGroups = new List<ClaimScoreGroup>
             {
                 new SupplierScoreGroupView
                 {
