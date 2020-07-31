@@ -175,29 +175,29 @@ namespace PdfPlayGround.Model
                         }
                     }
                 },
-                new SupplierScoreGroupView
-                {
-                    Name = "Cost 3",
-                    Icon = "brightness_low",
-                    Orientation = Orientation.Vertical,
-                    ItemValues = new List<SupplierScoreItemView>
-                    {
-                        new SupplierScoreItemView
-                        {
-                            Name = "Star Rating",
-                            Color = "#547ae3",
-                            Value = 4.16,
-                            Unit = DataUnit.Number
-                        },
-                        new SupplierScoreItemView
-                        {
-                            Name = "Variations",
-                            Color = "#547ae3",
-                            Value = 0.13,
-                            Unit = DataUnit.Percentage
-                        }
-                    }
-                },
+                //new SupplierScoreGroupView
+                //{
+                //    Name = "Cost 3",
+                //    Icon = "brightness_low",
+                //    Orientation = Orientation.Vertical,
+                //    ItemValues = new List<SupplierScoreItemView>
+                //    {
+                //        new SupplierScoreItemView
+                //        {
+                //            Name = "Star Rating",
+                //            Color = "#547ae3",
+                //            Value = 4.16,
+                //            Unit = DataUnit.Number
+                //        },
+                //        new SupplierScoreItemView
+                //        {
+                //            Name = "Variations",
+                //            Color = "#547ae3",
+                //            Value = 0.13,
+                //            Unit = DataUnit.Percentage
+                //        }
+                //    }
+                //},
             };
             Tables = new List<SupplierScoreTable>
             {

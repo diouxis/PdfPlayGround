@@ -29,7 +29,7 @@ namespace PdfPlayGround
         public PdfSupplierScorecard(SupplierScoreBoardView claimJob)
         {
             Source = claimJob;
-            PageMargin = new Margin(20, 20, 90, 20);
+            PageMargin = new Margin(5, 5, 90, 20);
             PageInfo = new Rectangle(PageSize.A4.Rotate());
         }
 
@@ -138,13 +138,13 @@ namespace PdfPlayGround
             compareTable.TotalWidth = PageContentWidth;
             compareTable.LockedWidth = true;
             compareTable.SpacingBefore = 10f;
-            PdfPCell fieldName = new PdfPCell(new Phrase(Source.Tables.FirstOrDefault().Name, new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
+            PdfPCell fieldName = new PdfPCell(new Phrase(Source.Tables.FirstOrDefault().Name, new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
             fieldName.Colspan = 2;
             fieldName.HorizontalAlignment = Element.ALIGN_CENTER;
             compareTable.AddCell(fieldName);
             foreach (SupplierScoreItemView item in Source.Tables.FirstOrDefault().Rows.FirstOrDefault().Fields)
             {
-                PdfPCell fieldTitle = new PdfPCell(new Phrase(item.Name, new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
+                PdfPCell fieldTitle = new PdfPCell(new Phrase(item.Name, new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
                 fieldTitle.Colspan = 1;
                 fieldTitle.HorizontalAlignment = Element.ALIGN_CENTER;
                 compareTable.AddCell(fieldTitle);
@@ -152,13 +152,13 @@ namespace PdfPlayGround
 
             foreach (SupplierScoreRow row in Source.Tables.FirstOrDefault().Rows)
             {
-                PdfPCell rowName = new PdfPCell(new Phrase(row.Name, new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
+                PdfPCell rowName = new PdfPCell(new Phrase(row.Name, new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
                 rowName.Colspan = 2;
                 rowName.HorizontalAlignment = Element.ALIGN_CENTER;
                 compareTable.AddCell(rowName);
                 foreach (SupplierScoreItemView field in row.Fields)
                 {
-                    PdfPCell fieldRank = new PdfPCell(new Phrase(field.Ranking.ToString(), new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
+                    PdfPCell fieldRank = new PdfPCell(new Phrase(field.Ranking.ToString(), new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.White)));
                     fieldRank.Colspan = 1;
                     fieldRank.HorizontalAlignment = Element.ALIGN_CENTER;
                     fieldRank.BackgroundColor = new iTextSharp.text.BaseColor(System.Drawing.ColorTranslator.FromHtml(field.Color));
