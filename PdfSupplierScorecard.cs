@@ -81,8 +81,8 @@ namespace PdfPlayGround
             //second table 
 
             //datetime range 
-            Doc.Add(new Paragraph("Date From " + DateFrom.ToString()));
-            Doc.Add(new Paragraph("Date To " + DateTo.ToString()));
+            Doc.Add(new Paragraph("Date From " + DateFrom.ToString("dd/MM/yyyy")));
+            Doc.Add(new Paragraph("Date To " + DateTo.ToString("dd/MM/yyyy")));
 
             int columnNumOfscoreGroupTable = Source.ScoreGroups.Count();
             PdfPTable scoreGroupTable = new PdfPTable(columnNumOfscoreGroupTable);
