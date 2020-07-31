@@ -29,7 +29,7 @@ namespace PdfPlayGround.Model
             Title = "Builder Performance Summary";
             DateFrom = new DateTime(2020, 01, 01);
             DateTo = new DateTime(2020, 07, 30);
-            ScoreGroups = new List<ClaimScoreGroup>
+            ScoreGroups = new List<SupplierScoreGroupView>
             {
                 new SupplierScoreGroupView
                 {
