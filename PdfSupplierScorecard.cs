@@ -81,8 +81,36 @@ namespace PdfPlayGround
             //second table 
 
             //datetime range 
-            Doc.Add(new Paragraph("Date From " + DateFrom.ToString("dd/MM/yyyy")));
-            Doc.Add(new Paragraph("Date To " + DateTo.ToString("dd/MM/yyyy")));
+            PdfPTable dateTimeTable = new PdfPTable(1);
+            dateTimeTable.TotalWidth = PageContentWidth;
+            dateTimeTable.LockedWidth = true;
+            dateTimeTable.DefaultCell.Border = Rectangle.NO_BORDER;
+            dateTimeTable.SpacingBefore = 5f;
+
+            Chunk dateFromChunk = new Chunk("Date From ", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black));
+            Chunk dateFromChu = new Chunk(DateFrom.ToString("dd/MM/yyyy"));
+            Chunk dateToChunk = new Chunk("Date To ", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black));
+            Chunk dateToChu = new Chunk(DateTo.ToString("dd/MM/yyyy"));
+
+            Phrase dateFromPhrase = new Phrase();
+            dateFromPhrase.Add(dateFromChunk);
+            dateFromPhrase.Add(dateFromChu);
+
+            Phrase dateToPhrase = new Phrase();
+            dateToPhrase.Add(dateToChunk);
+            dateToPhrase.Add(dateToChu);
+
+            PdfPCell dateFromCell = new PdfPCell();
+            dateFromCell.Border = 0;
+            dateFromCell.AddElement(dateFromPhrase);
+
+            PdfPCell dateToCell = new PdfPCell();
+            dateToCell.Border = 0;
+            dateToCell.AddElement(dateToPhrase);
+
+            dateTimeTable.AddCell(dateFromCell);
+            dateTimeTable.AddCell(dateToCell);
+            Doc.Add(dateTimeTable);
 
             int columnNumOfscoreGroupTable = Source.ScoreGroups.Count();
             PdfPTable scoreGroupTable = new PdfPTable(columnNumOfscoreGroupTable);
