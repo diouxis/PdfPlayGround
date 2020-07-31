@@ -34,7 +34,7 @@ namespace PdfPlayGround.Model
                 new SupplierScoreGroupView
                 {
                     Name = "Cost",
-                    Icon = "account_balance",
+                    Icon = "\ue84f",
                     Orientation = Orientation.Vertical,
                     ItemValues = new List<SupplierScoreItemView>
                     {
@@ -64,7 +64,7 @@ namespace PdfPlayGround.Model
                 new SupplierScoreGroupView
                 {
                     Name = "Timeliness",
-                    Icon = "event_note",
+                    Icon = "\ue616",
                     Orientation = Orientation.Horizontal,
                     ItemValues = new List<SupplierScoreItemView>
                     {
@@ -94,7 +94,7 @@ namespace PdfPlayGround.Model
                 new SupplierScoreGroupView
                 {
                     Name = "Quality",
-                    Icon = "brightness_low",
+                    Icon = "\ue1ad",
                     Orientation = Orientation.Vertical,
                     ItemValues = new List<SupplierScoreItemView>
                     {
@@ -117,7 +117,7 @@ namespace PdfPlayGround.Model
                 new SupplierScoreGroupView
                 {
                     Name = "Overall",
-                    Icon = "deck",
+                    Icon = "\ue30c",
                     Orientation = Orientation.Horizontal,
                     ItemValues = new List<SupplierScoreItemView>
                     {
@@ -132,7 +132,7 @@ namespace PdfPlayGround.Model
                 new SupplierScoreGroupView
                 {
                     Name = "Cost 1",
-                    Icon = "brightness_low",
+                    Icon = "\ue31c",
                     Orientation = Orientation.Vertical,
                     ItemValues = new List<SupplierScoreItemView>
                     {

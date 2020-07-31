@@ -78,7 +78,7 @@ namespace PdfPlayGround
             Doc.Add(startTable);
 
 
-            //second table 
+            
 
             //datetime range 
             PdfPTable dateTimeTable = new PdfPTable(1);
@@ -112,6 +112,7 @@ namespace PdfPlayGround
             dateTimeTable.AddCell(dateToCell);
             Doc.Add(dateTimeTable);
 
+            //second table 
             int columnNumOfscoreGroupTable = Source.ScoreGroups.Count();
             PdfPTable scoreGroupTable = new PdfPTable(columnNumOfscoreGroupTable);
             scoreGroupTable.TotalWidth = PageContentWidth;
@@ -169,6 +170,7 @@ namespace PdfPlayGround
 
         }
 
+
         public PdfPTable generateBaseTable(SupplierScoreGroupView ScoreGroup, int columnNum)
         {
             PdfPTable baseTable = new PdfPTable(2);
@@ -177,7 +179,8 @@ namespace PdfPlayGround
             string iconPath = Path.GetFullPath("../../../Icon/");
             var fontAwesomeIcon = BaseFont.CreateFont(iconPath + "MaterialIcons-Regular.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
             Font fontAwe = new Font(fontAwesomeIcon, 12, Font.NORMAL, BaseColor.Black);
-            Chunk iconPhrase = new Chunk("\ue921", fontAwe);
+
+            Chunk iconPhrase = new Chunk(ScoreGroup.Icon, fontAwe);
 
             Phrase groupTitle = new Phrase(ScoreGroup.Name, new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black));
             groupTitle.Add(iconPhrase);
