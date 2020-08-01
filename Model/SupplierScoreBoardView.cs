@@ -34,7 +34,7 @@ namespace PdfPlayGround.Model
                 new SupplierScoreGroupView
                 {
                     Name = "Cost",
-                    Icon = "\ue84f",
+                    Icon = "\\ue84f",
                     Orientation = Orientation.Vertical,
                     ItemValues = new List<SupplierScoreItemView>
                     {
@@ -64,7 +64,7 @@ namespace PdfPlayGround.Model
                 new SupplierScoreGroupView
                 {
                     Name = "Timeliness",
-                    Icon = "\ue616",
+                    Icon = "\\ue616",
                     Orientation = Orientation.Horizontal,
                     ItemValues = new List<SupplierScoreItemView>
                     {
@@ -94,7 +94,7 @@ namespace PdfPlayGround.Model
                 new SupplierScoreGroupView
                 {
                     Name = "Quality",
-                    Icon = "\ue1ad",
+                    Icon = "\\ue1ad",
                     Orientation = Orientation.Vertical,
                     ItemValues = new List<SupplierScoreItemView>
                     {
@@ -117,7 +117,7 @@ namespace PdfPlayGround.Model
                 new SupplierScoreGroupView
                 {
                     Name = "Overall",
-                    Icon = "\ue30c",
+                    Icon = "\\ue30c",
                     Orientation = Orientation.Horizontal,
                     ItemValues = new List<SupplierScoreItemView>
                     {
@@ -132,7 +132,7 @@ namespace PdfPlayGround.Model
                 new SupplierScoreGroupView
                 {
                     Name = "Cost 1",
-                    Icon = "\ue31c",
+                    Icon = "\\ue31c",
                     Orientation = Orientation.Vertical,
                     ItemValues = new List<SupplierScoreItemView>
                     {
@@ -155,7 +155,7 @@ namespace PdfPlayGround.Model
                 new SupplierScoreGroupView
                 {
                     Name = "Cost2",
-                    Icon = "ue30c",
+                    Icon = "\\ue30c",
                     Orientation = Orientation.Vertical,
                     ItemValues = new List<SupplierScoreItemView>
                     {
