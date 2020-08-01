@@ -4,6 +4,8 @@ using System.Text;
 using System.Linq;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
+using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace PdfPlayGround
 {
@@ -180,7 +182,7 @@ namespace PdfPlayGround
             var fontAwesomeIcon = BaseFont.CreateFont(iconPath + "MaterialIcons-Regular.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
             Font fontAwe = new Font(fontAwesomeIcon, 12, Font.NORMAL, BaseColor.Black);
 
-            Chunk iconPhrase = new Chunk(ScoreGroup.Icon, fontAwe);
+            Chunk iconPhrase = new Chunk(DecodeEncodedNonAsciiCharacters(ScoreGroup.Icon), fontAwe);
 
             Phrase groupTitle = new Phrase(ScoreGroup.Name, new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black));
             groupTitle.Add(iconPhrase);
@@ -250,6 +252,35 @@ namespace PdfPlayGround
             }
             baseTable.CompleteRow();
             return baseTable;
+        }
+
+        static string EncodeNonAsciiCharacters(string value)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (char c in value)
+            {
+                if (c > 127)
+                {
+                    // This character is too big for ASCII
+                    string encodedValue = "\\u" + ((int)c).ToString("x4");
+                    sb.Append(encodedValue);
+                }
+                else
+                {
+                    sb.Append(c);
+                }
+            }
+            return sb.ToString();
+        }
+
+        static string DecodeEncodedNonAsciiCharacters(string value)
+        {
+            return Regex.Replace(
+                value,
+                @"\\u(?<Value>[a-zA-Z0-9]{4})",
+                m => {
+                    return ((char)int.Parse(m.Groups["Value"].Value, NumberStyles.HexNumber)).ToString();
+                });
         }
     }
 
