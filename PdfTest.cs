@@ -397,12 +397,13 @@ namespace PdfPlayGround
                 dutyTableHeader.PaddingBottom = 4f;
                 dutyTable.AddCell(dutyTableHeader);
 
-                PdfPCell dutyTableInfo = new PdfPCell(new Phrase(AreaBCACard.Fields[1].ValueString, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
-                dutyTableInfo.PaddingTop = 4f;
-                dutyTableInfo.PaddingBottom = 4f;
-                dutyTable.AddCell(dutyTableInfo);
+                //PdfPCell dutyTableInfo = new PdfPCell(new Phrase(AreaBCACard.Fields[1].ValueString, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
+                //dutyTableInfo.PaddingTop = 4f;
+                //dutyTableInfo.PaddingBottom = 4f;
+                //dutyTable.AddCell(dutyTableInfo);
 
                 Doc.Add(dutyTable);
+                Doc.Add(new Phrase(AreaBCACard.Fields[1].ValueString, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
             }
 
             //instruction table
@@ -420,12 +421,13 @@ namespace PdfPlayGround
                 instructionHeader.PaddingBottom = 4f;
                 instructionTable.AddCell(instructionHeader);
 
-                PdfPCell instructionInfo = new PdfPCell(new Phrase(InstructionCard.Fields[0].ValueString, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
-                instructionInfo.PaddingTop = 4f;
-                instructionInfo.PaddingBottom = 4f;
-                instructionTable.AddCell(instructionInfo);
+                //PdfPCell instructionInfo = new PdfPCell(new Phrase(InstructionCard.Fields[0].ValueString, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
+                //instructionInfo.PaddingTop = 4f;
+                //instructionInfo.PaddingBottom = 4f;
+                //instructionTable.AddCell(instructionInfo);
 
                 Doc.Add(instructionTable);
+                Doc.Add(new Phrase(InstructionCard.Fields[0].ValueString, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
             }
 
             //Professional Services Engaged by Claimant Table 
@@ -460,9 +462,9 @@ namespace PdfPlayGround
                 AreaBCATable.AddCell(AreaBCAHeader);
                 Doc.Add(AreaBCATable);
 
-                PdfPCell AreaBCAInfo = new PdfPCell(new Phrase(AreaBCACard.Fields[0].ValueString, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
-                AreaBCAInfo.PaddingTop = 4f;
-                AreaBCAInfo.PaddingBottom = 4f;
+                //PdfPCell AreaBCAInfo = new PdfPCell(new Phrase(AreaBCACard.Fields[0].ValueString, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
+                //AreaBCAInfo.PaddingTop = 4f;
+                //AreaBCAInfo.PaddingBottom = 4f;
                 //AreaBCATable.AddCell(AreaBCAInfo);
                 Phrase areaBCAInfo = new Phrase(AreaBCACard.Fields[0].ValueString, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black));
                 Doc.Add(areaBCAInfo);
@@ -484,12 +486,13 @@ namespace PdfPlayGround
                 OutstandingManCerRequirementHeader.PaddingBottom = 4f;
                 OutstandingManCerRequirementTable.AddCell(OutstandingManCerRequirementHeader);
 
-                PdfPCell OutstandingManCerRequirementInfo = new PdfPCell(new Phrase(OutstandingManCerRequirementCard.Fields[0].ValueString, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
-                OutstandingManCerRequirementInfo.PaddingTop = 4f;
-                OutstandingManCerRequirementInfo.PaddingBottom = 4f;
-                OutstandingManCerRequirementTable.AddCell(OutstandingManCerRequirementInfo);
+                //PdfPCell OutstandingManCerRequirementInfo = new PdfPCell(new Phrase(OutstandingManCerRequirementCard.Fields[0].ValueString, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
+                //OutstandingManCerRequirementInfo.PaddingTop = 4f;
+                //OutstandingManCerRequirementInfo.PaddingBottom = 4f;
+                //OutstandingManCerRequirementTable.AddCell(OutstandingManCerRequirementInfo);
 
                 Doc.Add(OutstandingManCerRequirementTable);
+                Doc.Add(new Phrase(OutstandingManCerRequirementCard.Fields[0].ValueString, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
             }
 
             if (DocumentPreparationCard != null)
@@ -538,12 +541,13 @@ namespace PdfPlayGround
                 OpinionRelationSectionHeader.PaddingBottom = 4f;
                 OpinionRelationSectionTable.AddCell(OpinionRelationSectionHeader);
 
-                PdfPCell OpinionRelationSectionInfo = new PdfPCell(new Phrase(OpinionRelationSectionCard.Fields[0].ValueString, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
-                OpinionRelationSectionInfo.PaddingTop = 4f;
-                OpinionRelationSectionInfo.PaddingBottom = 4f;
-                OpinionRelationSectionTable.AddCell(OpinionRelationSectionInfo);
+                //PdfPCell OpinionRelationSectionInfo = new PdfPCell(new Phrase(OpinionRelationSectionCard.Fields[0].ValueString, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
+                //OpinionRelationSectionInfo.PaddingTop = 4f;
+                //OpinionRelationSectionInfo.PaddingBottom = 4f;
+                //OpinionRelationSectionTable.AddCell(OpinionRelationSectionInfo);
 
                 Doc.Add(OpinionRelationSectionTable);
+                Doc.Add(new Phrase(OpinionRelationSectionCard.Fields[0].ValueString, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
             }
 
             //Doc.NewPage();
@@ -981,6 +985,7 @@ namespace PdfPlayGround
 
         protected void createAnnexureB()
         {
+            Doc.NewPage();
             PdfPTable annexureBTable = new PdfPTable(1);
             annexureBTable.TotalWidth = 800f;
             annexureBTable.LockedWidth = true;
@@ -1420,12 +1425,13 @@ namespace PdfPlayGround
             PhotoGraphHeader.PaddingBottom = 4f;
             PhotoGraphTable.AddCell(PhotoGraphHeader);
 
-            PdfPCell PhotoGraphInfo = new PdfPCell(new Phrase("Photographs taken during inspection of this property are set out in the item detail sections.", new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
-            PhotoGraphInfo.PaddingTop = 4f;
-            PhotoGraphInfo.PaddingBottom = 4f;
-            PhotoGraphTable.AddCell(PhotoGraphInfo);
+            //PdfPCell PhotoGraphInfo = new PdfPCell(new Phrase("Photographs taken during inspection of this property are set out in the item detail sections.", new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
+            //PhotoGraphInfo.PaddingTop = 4f;
+            //PhotoGraphInfo.PaddingBottom = 4f;
+            //PhotoGraphTable.AddCell(PhotoGraphInfo);
 
             Doc.Add(PhotoGraphTable);
+            Doc.Add(new Phrase("Photographs taken during inspection of this property are set out in the item detail sections.", new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
 
             //schedule of work static table
             PdfPTable ScheduleWorkTable = new PdfPTable(1);
@@ -1440,12 +1446,13 @@ namespace PdfPlayGround
             ScheduleWorkHeader.PaddingBottom = 4f;
             ScheduleWorkTable.AddCell(ScheduleWorkHeader);
 
-            PdfPCell ScheduleWorkInfo = new PdfPCell(new Phrase("A recommended Schedule of Works is set out under each item of this report", new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
-            ScheduleWorkInfo.PaddingTop = 4f;
-            ScheduleWorkInfo.PaddingBottom = 4f;
-            ScheduleWorkTable.AddCell(ScheduleWorkInfo);
+            //PdfPCell ScheduleWorkInfo = new PdfPCell(new Phrase("A recommended Schedule of Works is set out under each item of this report", new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
+            //ScheduleWorkInfo.PaddingTop = 4f;
+            //ScheduleWorkInfo.PaddingBottom = 4f;
+            //ScheduleWorkTable.AddCell(ScheduleWorkInfo);
 
             Doc.Add(ScheduleWorkTable);
+            Doc.Add(new Phrase("A recommended Schedule of Works is set out under each item of this report", new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
         }
 
         protected PdfPTable GenerateItemReportTable(ItemReporData data, int dataColNumber)
