@@ -190,7 +190,7 @@ namespace PdfPlayGround
             baseTable.LockedWidth = true;
             string iconPath = Path.GetFullPath("../../../Icon/");
             var fontAwesomeIcon = BaseFont.CreateFont(iconPath + "MaterialIcons-Regular.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-            Font fontAwe = new Font(fontAwesomeIcon, 10f, Font.NORMAL, BaseColor.Black);
+            Font fontAwe = new Font(fontAwesomeIcon, 10f, Font.UNDEFINED, BaseColor.Black);
 
             Chunk iconPhrase = new Chunk(DecodeEncodedNonAsciiCharacters(ScoreGroup.Icon), fontAwe);
 
