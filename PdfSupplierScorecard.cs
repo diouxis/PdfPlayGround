@@ -152,7 +152,7 @@ namespace PdfPlayGround
             compareTable.AddCell(fieldName);
             foreach (SupplierScoreItemView item in Source.Tables.FirstOrDefault().Rows.FirstOrDefault().Fields)
             {
-                PdfPCell fieldTitle = new PdfPCell(new Phrase(item.Name, new Font(Font.BOLD, 11f, Font.BOLD, BaseColor.Black)));
+                PdfPCell fieldTitle = new PdfPCell(new Phrase(item.Name, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
                 fieldTitle.Colspan = 1;
                 fieldTitle.PaddingLeft = 0;
                 fieldTitle.PaddingRight = 0;
@@ -162,7 +162,7 @@ namespace PdfPlayGround
 
             foreach (SupplierScoreRow row in Source.Tables.FirstOrDefault().Rows)
             {
-                PdfPCell rowName = new PdfPCell(new Phrase(row.Name, new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
+                PdfPCell rowName = new PdfPCell(new Phrase(row.Name, new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
                 rowName.Colspan = 1;
                 rowName.HorizontalAlignment = Element.ALIGN_CENTER;
                 rowName.PaddingLeft = 0;
@@ -172,7 +172,7 @@ namespace PdfPlayGround
                 {
                     if (field.Ranking == null)
                     {
-                        PdfPCell fieldRank = new PdfPCell(new Phrase(" - ", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.White)));
+                        PdfPCell fieldRank = new PdfPCell(new Phrase(" - ", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.White)));
                         fieldRank.Colspan = 1;
                         fieldRank.HorizontalAlignment = Element.ALIGN_CENTER;
                         fieldRank.BackgroundColor = new iTextSharp.text.BaseColor(System.Drawing.ColorTranslator.FromHtml(field.Color));
@@ -181,7 +181,7 @@ namespace PdfPlayGround
                     }
                     else
                     {
-                        PdfPCell fieldRank = new PdfPCell(new Phrase(field.Ranking.ToString(), new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.White)));
+                        PdfPCell fieldRank = new PdfPCell(new Phrase(field.Ranking.ToString(), new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.White)));
                         fieldRank.Colspan = 1;
                         fieldRank.HorizontalAlignment = Element.ALIGN_CENTER;
                         fieldRank.BackgroundColor = new iTextSharp.text.BaseColor(System.Drawing.ColorTranslator.FromHtml(field.Color));
@@ -243,7 +243,7 @@ namespace PdfPlayGround
 
                 if (spanCol == 1)
                 {
-                    PdfPCell itemTitle = new PdfPCell(new Phrase(item.Name, new Font(Font.BOLD, 11f, Font.BOLD, BaseColor.Black)));
+                    PdfPCell itemTitle = new PdfPCell(new Phrase(item.Name, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
                     itemTitle.Colspan = spanCol;
                     baseTable.AddCell(itemTitle);
 
@@ -274,7 +274,7 @@ namespace PdfPlayGround
                     baseCellTable.TotalWidth = (PageContentWidth / columnNum - 4f) / 2;
                     baseCellTable.LockedWidth = true;
                     baseCellTable.DefaultCell.Padding = 0;
-                    PdfPCell baseCellTableCell = new PdfPCell(new Phrase(item.Name, new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
+                    PdfPCell baseCellTableCell = new PdfPCell(new Phrase(item.Name, new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
                     baseCellTableCell.Colspan = 1;
                     baseCellTable.AddCell(baseCellTableCell);
                     string itemValueEmpty = " - ";
