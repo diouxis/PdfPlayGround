@@ -31,7 +31,7 @@ namespace PdfPlayGround
         public PdfSupplierScorecard(SupplierScoreBoardView claimJob)
         {
             Source = claimJob;
-            PageMargin = new Margin(5, 5, 90, 20);
+            PageMargin = new Margin(5, 5, 20, 20);
             PageInfo = new Rectangle(PageSize.A4.Rotate());
         }
 
@@ -89,29 +89,33 @@ namespace PdfPlayGround
             dateTimeTable.DefaultCell.Border = Rectangle.NO_BORDER;
             dateTimeTable.SpacingBefore = 5f;
 
-            Chunk dateFromChunk = new Chunk("Date From ", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black));
-            Chunk dateFromChu = new Chunk(DateFrom.ToString("dd/MM/yyyy"));
-            Chunk dateToChunk = new Chunk("Date To ", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black));
+            Chunk dateRange = new Chunk("Date Range: ", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black));
+            //Chunk dateFromChunk = new Chunk("Date From ", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black));
+            Chunk dateFromChu = new Chunk(DateFrom.ToString("dd/MM/yyyy") + "  -  ");
+            //Chunk dateToChunk = new Chunk("Date To ", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black));
             Chunk dateToChu = new Chunk(DateTo.ToString("dd/MM/yyyy"));
 
             Phrase dateFromPhrase = new Phrase();
-            dateFromPhrase.Add(dateFromChunk);
+            //dateFromPhrase.Add(dateFromChunk);
+            dateFromPhrase.Add(dateRange);
             dateFromPhrase.Add(dateFromChu);
+            //dateFromPhrase.Add(dateToChunk);
+            dateFromPhrase.Add(dateToChu);
 
-            Phrase dateToPhrase = new Phrase();
-            dateToPhrase.Add(dateToChunk);
-            dateToPhrase.Add(dateToChu);
+            //Phrase dateToPhrase = new Phrase();
+            //dateToPhrase.Add(dateToChunk);
+            //dateToPhrase.Add(dateToChu);
 
             PdfPCell dateFromCell = new PdfPCell();
             dateFromCell.Border = 0;
             dateFromCell.AddElement(dateFromPhrase);
 
-            PdfPCell dateToCell = new PdfPCell();
-            dateToCell.Border = 0;
-            dateToCell.AddElement(dateToPhrase);
+            //PdfPCell dateToCell = new PdfPCell();
+            //dateToCell.Border = 0;
+            //dateToCell.AddElement(dateToPhrase);
 
             dateTimeTable.AddCell(dateFromCell);
-            dateTimeTable.AddCell(dateToCell);
+            //dateTimeTable.AddCell(dateToCell);
             Doc.Add(dateTimeTable);
 
             //second table 
@@ -135,19 +139,23 @@ namespace PdfPlayGround
             Doc.Add(scoreGroupTable);
 
             //third table
-            int compareTableColumnNum = Source.Tables.FirstOrDefault().Rows.FirstOrDefault().Fields.Count() + 2;
+            int compareTableColumnNum = Source.Tables.FirstOrDefault().Rows.FirstOrDefault().Fields.Count() + 1;
             PdfPTable compareTable = new PdfPTable(compareTableColumnNum);
             compareTable.TotalWidth = PageContentWidth;
             compareTable.LockedWidth = true;
             compareTable.SpacingBefore = 10f;
             PdfPCell fieldName = new PdfPCell(new Phrase(Source.Tables.FirstOrDefault().Name, new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
-            fieldName.Colspan = 2;
+            fieldName.Colspan = 1;
+            fieldName.PaddingLeft = 0;
+            fieldName.PaddingRight = 0;
             fieldName.HorizontalAlignment = Element.ALIGN_CENTER;
             compareTable.AddCell(fieldName);
             foreach (SupplierScoreItemView item in Source.Tables.FirstOrDefault().Rows.FirstOrDefault().Fields)
             {
-                PdfPCell fieldTitle = new PdfPCell(new Phrase(item.Name, new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
+                PdfPCell fieldTitle = new PdfPCell(new Phrase(item.Name, new Font(Font.BOLD, 11f, Font.BOLD, BaseColor.Black)));
                 fieldTitle.Colspan = 1;
+                fieldTitle.PaddingLeft = 0;
+                fieldTitle.PaddingRight = 0;
                 fieldTitle.HorizontalAlignment = Element.ALIGN_CENTER;
                 compareTable.AddCell(fieldTitle);
             }
@@ -155,8 +163,10 @@ namespace PdfPlayGround
             foreach (SupplierScoreRow row in Source.Tables.FirstOrDefault().Rows)
             {
                 PdfPCell rowName = new PdfPCell(new Phrase(row.Name, new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
-                rowName.Colspan = 2;
+                rowName.Colspan = 1;
                 rowName.HorizontalAlignment = Element.ALIGN_CENTER;
+                rowName.PaddingLeft = 0;
+                rowName.PaddingRight = 0;
                 compareTable.AddCell(rowName);
                 foreach (SupplierScoreItemView field in row.Fields)
                 {
@@ -180,13 +190,14 @@ namespace PdfPlayGround
             baseTable.LockedWidth = true;
             string iconPath = Path.GetFullPath("../../../Icon/");
             var fontAwesomeIcon = BaseFont.CreateFont(iconPath + "MaterialIcons-Regular.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-            Font fontAwe = new Font(fontAwesomeIcon, 12, Font.NORMAL, BaseColor.Black);
+            Font fontAwe = new Font(fontAwesomeIcon, 10f, Font.NORMAL, BaseColor.Black);
 
             Chunk iconPhrase = new Chunk(DecodeEncodedNonAsciiCharacters(ScoreGroup.Icon), fontAwe);
 
-            Phrase groupTitle = new Phrase(ScoreGroup.Name, new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black));
+            Phrase groupTitle = new Phrase(ScoreGroup.Name + " ", new Font(Font.BOLD, 11f, Font.BOLD, BaseColor.Black));
             groupTitle.Add(iconPhrase);
             PdfPCell baseTableTitle = new PdfPCell(groupTitle);
+            baseTableTitle.VerticalAlignment = Element.ALIGN_MIDDLE;
             baseTableTitle.Colspan = 2;
             baseTableTitle.HorizontalAlignment = Element.ALIGN_CENTER;
             baseTable.AddCell(baseTableTitle);
@@ -224,10 +235,22 @@ namespace PdfPlayGround
                     itemTitle.Colspan = spanCol;
                     baseTable.AddCell(itemTitle);
 
-                    PdfPCell itemInfo = new PdfPCell(new Phrase(itemValue, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.White)));
-                    itemInfo.BackgroundColor = new iTextSharp.text.BaseColor(System.Drawing.ColorTranslator.FromHtml(item.Color));
-                    itemInfo.Colspan = spanCol;
-                    baseTable.AddCell(itemInfo);
+                    string itemValueEmpty = " - ";
+                    if (itemValue == null)
+                    {
+                        PdfPCell itemInfo = new PdfPCell(new Phrase(itemValueEmpty, new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.White)));
+                        itemInfo.BackgroundColor = new iTextSharp.text.BaseColor(System.Drawing.ColorTranslator.FromHtml(item.Color));
+                        itemInfo.HorizontalAlignment = Element.ALIGN_CENTER;
+                        itemInfo.Colspan = spanCol;
+                        baseTable.AddCell(itemInfo);
+                    }
+                    else
+                    {
+                        PdfPCell itemInfo = new PdfPCell(new Phrase(itemValue, new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.White)));
+                        itemInfo.BackgroundColor = new iTextSharp.text.BaseColor(System.Drawing.ColorTranslator.FromHtml(item.Color));
+                        itemInfo.Colspan = spanCol;
+                        baseTable.AddCell(itemInfo);
+                    }
                 }
                 else if (spanCol == 2)
                 {
@@ -239,10 +262,10 @@ namespace PdfPlayGround
                     baseCellTable.TotalWidth = (PageContentWidth / columnNum - 4f) / 2;
                     baseCellTable.LockedWidth = true;
                     baseCellTable.DefaultCell.Padding = 0;
-                    PdfPCell baseCellTableCell = new PdfPCell(new Phrase(item.Name, new Font(Font.BOLD, 11f, Font.BOLD, BaseColor.Black)));
+                    PdfPCell baseCellTableCell = new PdfPCell(new Phrase(item.Name, new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
                     baseCellTableCell.Colspan = 1;
                     baseCellTable.AddCell(baseCellTableCell);
-                    PdfPCell baseCellTableCell2 = new PdfPCell(new Phrase(itemValue, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.White)));
+                    PdfPCell baseCellTableCell2 = new PdfPCell(new Phrase(itemValue, new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.White)));
                     baseCellTableCell2.Colspan = 1;
                     baseCellTableCell2.BackgroundColor = new iTextSharp.text.BaseColor(System.Drawing.ColorTranslator.FromHtml(item.Color));
                     baseCellTable.AddCell(baseCellTableCell2);

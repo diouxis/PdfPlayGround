@@ -149,22 +149,6 @@ namespace PdfPlayGround.Model
                             Color = "#547ae3",
                             Value = 0.13,
                             Unit = DataUnit.Percentage
-                        }
-                    }
-                },
-                new SupplierScoreGroupView
-                {
-                    Name = "Cost2",
-                    Icon = "\\ue30c",
-                    Orientation = Orientation.Vertical,
-                    ItemValues = new List<SupplierScoreItemView>
-                    {
-                        new SupplierScoreItemView
-                        {
-                            Name = "Star Rating",
-                            Color = "#547ae3",
-                            Value = 4.16,
-                            Unit = DataUnit.Number
                         },
                         new SupplierScoreItemView
                         {
@@ -175,6 +159,29 @@ namespace PdfPlayGround.Model
                         }
                     }
                 },
+                //new SupplierScoreGroupView
+                //{
+                //    Name = "Cost2",
+                //    Icon = "\\ue30c",
+                //    Orientation = Orientation.Vertical,
+                //    ItemValues = new List<SupplierScoreItemView>
+                //    {
+                //        new SupplierScoreItemView
+                //        {
+                //            Name = "Star Rating",
+                //            Color = "#547ae3",
+                //            Value = 4.16,
+                //            Unit = DataUnit.Number
+                //        },
+                //        new SupplierScoreItemView
+                //        {
+                //            Name = "Variations",
+                //            Color = "#547ae3",
+                //            Value = 0.13,
+                //            Unit = DataUnit.Percentage
+                //        }
+                //    }
+                //},
                 //new SupplierScoreGroupView
                 //{
                 //    Name = "Cost 3",
