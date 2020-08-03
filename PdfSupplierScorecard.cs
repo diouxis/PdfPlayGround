@@ -35,6 +35,11 @@ namespace PdfPlayGround
             PageInfo = new Rectangle(PageSize.A4.Rotate());
         }
 
+        protected override void InitialPdf()
+        {
+            PdfPageEvent = new ENDataClassicHeader(this);
+        }
+
         protected override void WriteDocument()
         {
             base.WriteDocument();
@@ -192,7 +197,6 @@ namespace PdfPlayGround
             compareTable.CompleteRow();
             Doc.Add(compareTable);
 
-            PdfPageEvent = new ENDataClassicHeader(this);
         }
 
 
@@ -326,8 +330,12 @@ namespace PdfPlayGround
         {
             PdfSupplierScorecard ThisDocument => (PdfSupplierScorecard)BaseDocument;
 
-
             public ENDataClassicHeader(PdfBase pdfbase) : base(pdfbase)
+            {
+
+            }
+
+            public override void OnStartPage(PdfWriter writer, Document document)
             {
 
             }
