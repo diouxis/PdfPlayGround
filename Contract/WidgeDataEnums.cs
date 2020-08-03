@@ -17,4 +17,15 @@ namespace PdfPlayGround.Contract
         Currency = 2,
         Percentage = 3
     }
+
+    public static class DataPresentHelper
+    {
+        public static string ToString(this double val, DataUnit unit) => unit switch
+        {
+            DataUnit.Number => val.ToString("n2"),
+            DataUnit.Currency => val.ToString("c2"),
+            DataUnit.Percentage => val.ToString("p2"),
+            _ => val.ToString()
+        };
+    }
 }

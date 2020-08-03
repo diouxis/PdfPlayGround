@@ -192,6 +192,7 @@ namespace PdfPlayGround
             compareTable.CompleteRow();
             Doc.Add(compareTable);
 
+            PdfPageEvent = new ENDataClassicHeader(this);
         }
 
 
@@ -227,23 +228,11 @@ namespace PdfPlayGround
 
             foreach (var item in ScoreGroup.ItemValues)
             {
-                string itemValue = "";
-                if (item.Unit == DataUnit.Number)
-                {
-                    itemValue = item.Value?.ToString();
-                }
-                else if (item.Unit == DataUnit.Percentage)
-                {
-                    itemValue = (item.Value * 100)?.ToString() + "%";
-                }
-                else if (item.Unit == DataUnit.Currency)
-                {
-                    itemValue = "$" + item.Value?.ToString();
-                }
+                string itemValue = item.Value?.ToString(item.Unit);
 
                 if (spanCol == 1)
                 {
-                    PdfPCell itemTitle = new PdfPCell(new Phrase(item.Name, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
+                    PdfPCell itemTitle = new PdfPCell(new Phrase(item.Name, new Font(Font.BOLD, 11f, Font.BOLD, BaseColor.Black)));
                     itemTitle.Colspan = spanCol;
                     baseTable.AddCell(itemTitle);
 
@@ -274,7 +263,7 @@ namespace PdfPlayGround
                     baseCellTable.TotalWidth = (PageContentWidth / columnNum - 4f) / 2;
                     baseCellTable.LockedWidth = true;
                     baseCellTable.DefaultCell.Padding = 0;
-                    PdfPCell baseCellTableCell = new PdfPCell(new Phrase(item.Name, new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+                    PdfPCell baseCellTableCell = new PdfPCell(new Phrase(item.Name, new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
                     baseCellTableCell.Colspan = 1;
                     baseCellTable.AddCell(baseCellTableCell);
                     string itemValueEmpty = " - ";
@@ -335,15 +324,12 @@ namespace PdfPlayGround
 
         protected class ENDataClassicHeader : PdfPageEventBase
         {
-            PdfTest ThisDocument => (PdfTest)BaseDocument;
-            //protected Phrase PDFFooter_Date;
-            //protected Phrase PDFHeader_Title;
+            PdfSupplierScorecard ThisDocument => (PdfSupplierScorecard)BaseDocument;
 
 
             public ENDataClassicHeader(PdfBase pdfbase) : base(pdfbase)
             {
-                //PDFFooter_Date = new Phrase($"Printed On: {BaseDocument.Date}", StyleFooterAndPageNumber);
-                //PDFHeader_Title = new Phrase(BaseDocument.Title, ThisDocument.StyleTiltleHeader);
+
             }
 
             public override void OnEndPage(PdfWriter writer, Document document)
