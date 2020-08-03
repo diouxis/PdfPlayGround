@@ -232,7 +232,7 @@ namespace PdfPlayGround
 
                 if (spanCol == 1)
                 {
-                    PdfPCell itemTitle = new PdfPCell(new Phrase(item.Name, new Font(Font.BOLD, 11f, Font.BOLD, BaseColor.Black)));
+                    PdfPCell itemTitle = new PdfPCell(new Phrase(item.Name, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
                     itemTitle.Colspan = spanCol;
                     baseTable.AddCell(itemTitle);
 
@@ -263,7 +263,7 @@ namespace PdfPlayGround
                     baseCellTable.TotalWidth = (PageContentWidth / columnNum - 4f) / 2;
                     baseCellTable.LockedWidth = true;
                     baseCellTable.DefaultCell.Padding = 0;
-                    PdfPCell baseCellTableCell = new PdfPCell(new Phrase(item.Name, new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
+                    PdfPCell baseCellTableCell = new PdfPCell(new Phrase(item.Name, new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
                     baseCellTableCell.Colspan = 1;
                     baseCellTable.AddCell(baseCellTableCell);
                     string itemValueEmpty = " - ";
