@@ -1697,7 +1697,7 @@ namespace PdfPlayGround
                 footerTable.TotalWidth = 820f;
                 footerTable.LockedWidth = true;
                 footerTable.DefaultCell.Border = Rectangle.NO_BORDER;
-                PdfPCell printDate = new PdfPCell(new Phrase("Print on " + System.DateTime.Now.ToString("dd/MM/yyyy"), StyleFooterAndPageNumber));
+                PdfPCell printDate = new PdfPCell(new Phrase("Printed on " + System.DateTime.Now, StyleFooterAndPageNumber));
                 printDate.HorizontalAlignment = Element.ALIGN_LEFT;
                 printDate.Border = Rectangle.NO_BORDER;
                 printDate.Colspan = 1;

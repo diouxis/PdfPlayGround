@@ -9,16 +9,16 @@ namespace PdfPlayGround
         static void Main(string[] args)
         {
             string file = null;
-            using (var request = new Model.DataResolver())
-            {
-                var claimJob = request.GetFormData("Q2xhaW1Kb2I6MjE2Njg1").Result;
+            //using (var request = new Model.DataResolver())
+            //{
+            //    var claimJob = request.GetFormData("Q2xhaW1Kb2I6MjE2Njg1").Result;
 
-                var a = new PdfTest(claimJob);
-                file = a.GeneratePdf();
-            }
-            //var score = new Model.SupplierScoreBoardView(1);
-            //var a = new PdfSupplierScorecard(score);
-            //file = a.GeneratePdf();
+            //    var a = new PdfTest(claimJob);
+            //    file = a.GeneratePdf();
+            //}
+            var score = new Model.SupplierScoreBoardView(1);
+            var a = new PdfSupplierScorecard(score);
+            file = a.GeneratePdf();
 
             string pathToAcroRd32 = 
                 Environment.GetEnvironmentVariable("ProgramFiles") 

@@ -332,6 +332,46 @@ namespace PdfPlayGround
                     return ((char)int.Parse(m.Groups["Value"].Value, NumberStyles.HexNumber)).ToString();
                 });
         }
+
+        protected class ENDataClassicHeader : PdfPageEventBase
+        {
+            PdfTest ThisDocument => (PdfTest)BaseDocument;
+            //protected Phrase PDFFooter_Date;
+            //protected Phrase PDFHeader_Title;
+
+
+            public ENDataClassicHeader(PdfBase pdfbase) : base(pdfbase)
+            {
+                //PDFFooter_Date = new Phrase($"Printed On: {BaseDocument.Date}", StyleFooterAndPageNumber);
+                //PDFHeader_Title = new Phrase(BaseDocument.Title, ThisDocument.StyleTiltleHeader);
+            }
+
+            public override void OnEndPage(PdfWriter writer, Document document)
+            {
+                base.OnEndPage(writer, document);
+
+                PdfPTable footerTable = new PdfPTable(2);
+                footerTable.TotalWidth = 820f;
+                footerTable.LockedWidth = true;
+                footerTable.DefaultCell.Border = Rectangle.NO_BORDER;
+                PdfPCell printDate = new PdfPCell(new Phrase("Printed on " + System.DateTime.Now, StyleFooterAndPageNumber));
+                printDate.HorizontalAlignment = Element.ALIGN_LEFT;
+                printDate.Border = Rectangle.NO_BORDER;
+                printDate.Colspan = 1;
+                footerTable.AddCell(printDate);
+                PdfPCell footerPageNum = new PdfPCell(new Phrase("Page " + writer.PageNumber.ToString(),
+                    StyleFooterAndPageNumber
+                    ));
+                footerPageNum.HorizontalAlignment = Element.ALIGN_RIGHT;
+                footerPageNum.Border = Rectangle.NO_BORDER;
+                footerPageNum.Colspan = 1;
+                footerTable.AddCell(footerPageNum);
+
+                footerTable.WriteSelectedRows(0, -1, 10, 20f, writer.DirectContent);
+            }
+
+            static readonly Font StyleFooterAndPageNumber = FontFactory.GetFont(BaseFont.HELVETICA, 10f);
+        }
     }
 
 
