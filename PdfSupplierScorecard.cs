@@ -170,11 +170,23 @@ namespace PdfPlayGround
                 compareTable.AddCell(rowName);
                 foreach (SupplierScoreItemView field in row.Fields)
                 {
-                    PdfPCell fieldRank = new PdfPCell(new Phrase(field.Ranking.ToString(), new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.White)));
-                    fieldRank.Colspan = 1;
-                    fieldRank.HorizontalAlignment = Element.ALIGN_CENTER;
-                    fieldRank.BackgroundColor = new iTextSharp.text.BaseColor(System.Drawing.ColorTranslator.FromHtml(field.Color));
-                    compareTable.AddCell(fieldRank);
+                    if (field.Ranking == null)
+                    {
+                        PdfPCell fieldRank = new PdfPCell(new Phrase(" - ", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.White)));
+                        fieldRank.Colspan = 1;
+                        fieldRank.HorizontalAlignment = Element.ALIGN_CENTER;
+                        fieldRank.BackgroundColor = new iTextSharp.text.BaseColor(System.Drawing.ColorTranslator.FromHtml(field.Color));
+                        compareTable.AddCell(fieldRank);
+
+                    }
+                    else
+                    {
+                        PdfPCell fieldRank = new PdfPCell(new Phrase(field.Ranking.ToString(), new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.White)));
+                        fieldRank.Colspan = 1;
+                        fieldRank.HorizontalAlignment = Element.ALIGN_CENTER;
+                        fieldRank.BackgroundColor = new iTextSharp.text.BaseColor(System.Drawing.ColorTranslator.FromHtml(field.Color));
+                        compareTable.AddCell(fieldRank);
+                    }
                 }
             }
             compareTable.CompleteRow();
@@ -265,12 +277,27 @@ namespace PdfPlayGround
                     PdfPCell baseCellTableCell = new PdfPCell(new Phrase(item.Name, new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
                     baseCellTableCell.Colspan = 1;
                     baseCellTable.AddCell(baseCellTableCell);
-                    PdfPCell baseCellTableCell2 = new PdfPCell(new Phrase(itemValue, new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.White)));
-                    baseCellTableCell2.Colspan = 1;
-                    baseCellTableCell2.BackgroundColor = new iTextSharp.text.BaseColor(System.Drawing.ColorTranslator.FromHtml(item.Color));
-                    baseCellTable.AddCell(baseCellTableCell2);
-                    basecell.AddElement(baseCellTable);
-                    baseTable.AddCell(basecell);
+                    string itemValueEmpty = " - ";
+                    if (itemValue == null)
+                    {
+                        PdfPCell baseCellTableCell2 = new PdfPCell(new Phrase(itemValueEmpty, new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.White)));
+                        baseCellTableCell2.Colspan = 1;
+                        baseCellTableCell2.HorizontalAlignment = Element.ALIGN_CENTER;
+                        baseCellTableCell2.BackgroundColor = new iTextSharp.text.BaseColor(System.Drawing.ColorTranslator.FromHtml(item.Color));
+                        baseCellTable.AddCell(baseCellTableCell2);
+                        basecell.AddElement(baseCellTable);
+                        baseTable.AddCell(basecell);
+
+                    }
+                    else
+                    {
+                        PdfPCell baseCellTableCell2 = new PdfPCell(new Phrase(itemValue, new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.White)));
+                        baseCellTableCell2.Colspan = 1;
+                        baseCellTableCell2.BackgroundColor = new iTextSharp.text.BaseColor(System.Drawing.ColorTranslator.FromHtml(item.Color));
+                        baseCellTable.AddCell(baseCellTableCell2);
+                        basecell.AddElement(baseCellTable);
+                        baseTable.AddCell(basecell);
+                    }
                 }
             }
             baseTable.CompleteRow();

@@ -102,7 +102,7 @@ namespace PdfPlayGround.Model
                         {
                             Name = "Star Rating",
                             Color = "#547ae3",
-                            Value = 4.16,
+                            Value = null,
                             Unit = DataUnit.Number
                         },
                         new SupplierScoreItemView
