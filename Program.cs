@@ -12,6 +12,7 @@ namespace PdfPlayGround
             using (var request = new Model.DataResolver())
             {
                 var claimJob = request.GetFormData("Q2xhaW1Kb2I6MjE2Njg1").Result;
+                var address = claimJob.Building.ScopingSupplier.CompanyAddress.FullAddress;
 
                 var a = new PdfTest(claimJob);
                 file = a.GeneratePdf();
