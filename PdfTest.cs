@@ -110,7 +110,7 @@ namespace PdfPlayGround
         public PdfTest(ClaimJobReportForm claimJob)
         {
             Source = claimJob;
-            PageMargin = new Margin(10, 10, 90, 20);
+            PageMargin = new Margin(5, 5, 75, 24);
             PageInfo = new Rectangle(PageSize.A4.Rotate());
         }
 
@@ -219,14 +219,14 @@ namespace PdfPlayGround
             CultureInfo ci = new CultureInfo("en-US");
             var month = DateTime.Now.ToString("MMMM", ci);
 
-            Doc.Add(new Phrase((DateTime.Now.Day.ToString() + " " + month + " " + DateTime.Now.Year.ToString() + "\n"), new Font(Font.UNDEFINED, 12f, Font.UNDEFINED, BaseColor.Black)));
+            Doc.Add(new Phrase((DateTime.Now.Day.ToString() + " " + month + " " + DateTime.Now.Year.ToString() + "\n"), new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
 
-            Phrase email = new Phrase("builderswarrantyclaims@gbtpa.com.au", new Font(Font.UNDEFINED, 12f, Font.UNDERLINE, BaseColor.Blue));
+            Phrase email = new Phrase("builderswarrantyclaims@gbtpa.com.au", new Font(Font.UNDEFINED, 11f, Font.UNDERLINE, BaseColor.Blue));
 
             Phrase infoList = new Phrase("Attention: " + Source.Insurer.CompanyName + "\n" + 
                 "Gallagher Bassett Services Pty Ltd" + "\n" + 
                 "Locked Bag 912, North Sydney NSW 2060" + "\n" + "Email: ",
-                new Font(Font.UNDEFINED, 12f, Font.UNDEFINED, BaseColor.Black
+                new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black
             ));
 
             Phrase emailInfo = new Phrase();
@@ -389,6 +389,7 @@ namespace PdfPlayGround
                 dutyTable.TotalWidth = 820f;
                 dutyTable.LockedWidth = true;
                 dutyTable.SpacingBefore = 10f;
+                dutyTable.SplitLate = false;
 
                 PdfPCell dutyTableHeader = new PdfPCell(new Phrase("DUTY TO THE TRIBUNAL", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
                 dutyTableHeader.BackgroundColor = new BaseColor(0, 0, 51);
@@ -397,13 +398,13 @@ namespace PdfPlayGround
                 dutyTableHeader.PaddingBottom = 4f;
                 dutyTable.AddCell(dutyTableHeader);
 
-                //PdfPCell dutyTableInfo = new PdfPCell(new Phrase(AreaBCACard.Fields[1].ValueString, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
-                //dutyTableInfo.PaddingTop = 4f;
-                //dutyTableInfo.PaddingBottom = 4f;
-                //dutyTable.AddCell(dutyTableInfo);
+                PdfPCell dutyTableInfo = new PdfPCell(new Phrase(AreaBCACard.Fields[1].ValueString, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
+                dutyTableInfo.PaddingTop = 4f;
+                dutyTableInfo.PaddingBottom = 4f;
+                dutyTable.AddCell(dutyTableInfo);
 
                 Doc.Add(dutyTable);
-                Doc.Add(new Phrase(AreaBCACard.Fields[1].ValueString, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
+                //Doc.Add(new Phrase(AreaBCACard.Fields[1].ValueString, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
             }
 
             //instruction table
@@ -413,6 +414,7 @@ namespace PdfPlayGround
                 instructionTable.TotalWidth = 820f;
                 instructionTable.LockedWidth = true;
                 instructionTable.SpacingBefore = 10f;
+                instructionTable.SplitLate = false;
 
                 PdfPCell instructionHeader = new PdfPCell(new Phrase(InstructionCard.Title, new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
                 instructionHeader.BackgroundColor = new BaseColor(0, 0, 51);
@@ -421,13 +423,13 @@ namespace PdfPlayGround
                 instructionHeader.PaddingBottom = 4f;
                 instructionTable.AddCell(instructionHeader);
 
-                //PdfPCell instructionInfo = new PdfPCell(new Phrase(InstructionCard.Fields[0].ValueString, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
-                //instructionInfo.PaddingTop = 4f;
-                //instructionInfo.PaddingBottom = 4f;
-                //instructionTable.AddCell(instructionInfo);
+                PdfPCell instructionInfo = new PdfPCell(new Phrase(InstructionCard.Fields[0].ValueString, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
+                instructionInfo.PaddingTop = 4f;
+                instructionInfo.PaddingBottom = 4f;
+                instructionTable.AddCell(instructionInfo);
 
                 Doc.Add(instructionTable);
-                Doc.Add(new Phrase(InstructionCard.Fields[0].ValueString, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
+                //Doc.Add(new Phrase(InstructionCard.Fields[0].ValueString, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
             }
 
             //Professional Services Engaged by Claimant Table 
@@ -436,6 +438,9 @@ namespace PdfPlayGround
                 PdfPTable pscTable = new PdfPTable(1);
                 pscTable.SpacingBefore = 10f;
                 pscTable.DefaultCell.Border = Rectangle.NO_BORDER;
+                pscTable.TotalWidth = 820f;
+                pscTable.LockedWidth = true;
+                pscTable.SplitLate = false;
 
                 PdfPCell ProfessionalSerEngageDetail = new PdfPCell(GenerateTestTable(ProfessionalSerEngageTable, "Professional Services Engaged by Claimant", 4, 820f));
                 ProfessionalSerEngageDetail.HorizontalAlignment = Element.ALIGN_CENTER;
@@ -453,6 +458,7 @@ namespace PdfPlayGround
                 AreaBCATable.TotalWidth = 820f;
                 AreaBCATable.LockedWidth = true;
                 AreaBCATable.SpacingBefore = 10f;
+                AreaBCATable.SplitLate = false;
 
                 PdfPCell AreaBCAHeader = new PdfPCell(new Phrase(AreaBCACard.Title, new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
                 AreaBCAHeader.BackgroundColor = new BaseColor(0, 0, 51);
@@ -460,16 +466,16 @@ namespace PdfPlayGround
                 AreaBCAHeader.PaddingTop = 4f;
                 AreaBCAHeader.PaddingBottom = 4f;
                 AreaBCATable.AddCell(AreaBCAHeader);
-                Doc.Add(AreaBCATable);
-
-                //PdfPCell AreaBCAInfo = new PdfPCell(new Phrase(AreaBCACard.Fields[0].ValueString, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
-                //AreaBCAInfo.PaddingTop = 4f;
-                //AreaBCAInfo.PaddingBottom = 4f;
-                //AreaBCATable.AddCell(AreaBCAInfo);
-                Phrase areaBCAInfo = new Phrase(AreaBCACard.Fields[0].ValueString, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black));
-                Doc.Add(areaBCAInfo);
-
                 //Doc.Add(AreaBCATable);
+
+                PdfPCell AreaBCAInfo = new PdfPCell(new Phrase(AreaBCACard.Fields[0].ValueString, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
+                AreaBCAInfo.PaddingTop = 4f;
+                AreaBCAInfo.PaddingBottom = 4f;
+                AreaBCATable.AddCell(AreaBCAInfo);
+                //Phrase areaBCAInfo = new Phrase(AreaBCACard.Fields[0].ValueString, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black));
+                //Doc.Add(areaBCAInfo);
+
+                Doc.Add(AreaBCATable);
             }
 
             if (OutstandingManCerRequirementCard != null)
@@ -478,6 +484,7 @@ namespace PdfPlayGround
                 OutstandingManCerRequirementTable.TotalWidth = 820f;
                 OutstandingManCerRequirementTable.LockedWidth = true;
                 OutstandingManCerRequirementTable.SpacingBefore = 10f;
+                OutstandingManCerRequirementTable.SplitLate = false;
 
                 PdfPCell OutstandingManCerRequirementHeader = new PdfPCell(new Phrase(OutstandingManCerRequirementCard.Title, new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
                 OutstandingManCerRequirementHeader.BackgroundColor = new BaseColor(0, 0, 51);
@@ -486,13 +493,13 @@ namespace PdfPlayGround
                 OutstandingManCerRequirementHeader.PaddingBottom = 4f;
                 OutstandingManCerRequirementTable.AddCell(OutstandingManCerRequirementHeader);
 
-                //PdfPCell OutstandingManCerRequirementInfo = new PdfPCell(new Phrase(OutstandingManCerRequirementCard.Fields[0].ValueString, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
-                //OutstandingManCerRequirementInfo.PaddingTop = 4f;
-                //OutstandingManCerRequirementInfo.PaddingBottom = 4f;
-                //OutstandingManCerRequirementTable.AddCell(OutstandingManCerRequirementInfo);
+                PdfPCell OutstandingManCerRequirementInfo = new PdfPCell(new Phrase(OutstandingManCerRequirementCard.Fields[0].ValueString, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
+                OutstandingManCerRequirementInfo.PaddingTop = 4f;
+                OutstandingManCerRequirementInfo.PaddingBottom = 4f;
+                OutstandingManCerRequirementTable.AddCell(OutstandingManCerRequirementInfo);
 
                 Doc.Add(OutstandingManCerRequirementTable);
-                Doc.Add(new Phrase(OutstandingManCerRequirementCard.Fields[0].ValueString, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
+                //Doc.Add(new Phrase(OutstandingManCerRequirementCard.Fields[0].ValueString, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
             }
 
             if (DocumentPreparationCard != null)
@@ -500,6 +507,9 @@ namespace PdfPlayGround
                 PdfPTable dpTable = new PdfPTable(1);
                 dpTable.DefaultCell.Border = Rectangle.NO_BORDER;
                 dpTable.SpacingBefore = 10f;
+                dpTable.TotalWidth = 820f;
+                dpTable.LockedWidth = true;
+                dpTable.SplitLate = false;
 
                 PdfPCell DpDetail = new PdfPCell(GenerateTestTable(DocumentPreparationTable, "Documents relied on in the preparation of this report", 2, 820f));
                 DpDetail.HorizontalAlignment = Element.ALIGN_CENTER;
@@ -515,6 +525,9 @@ namespace PdfPlayGround
                 PdfPTable rcvTable = new PdfPTable(1);
                 rcvTable.DefaultCell.Border = Rectangle.NO_BORDER;
                 rcvTable.SpacingBefore = 10f;
+                rcvTable.TotalWidth = 820f;
+                rcvTable.LockedWidth = true;
+                rcvTable.SplitLate = false;
 
                 PdfPCell ReferenceDetail = new PdfPCell(GenerateTestTable(ReferenceCurriVitaeTable, "Reference", 2, 820f));
                 ReferenceDetail.HorizontalAlignment = Element.ALIGN_CENTER;
@@ -533,6 +546,8 @@ namespace PdfPlayGround
                 OpinionRelationSectionTable.TotalWidth = 820f;
                 OpinionRelationSectionTable.LockedWidth = true;
                 OpinionRelationSectionTable.SpacingBefore = 10f;
+                OpinionRelationSectionTable.SplitLate = false;
+                OpinionRelationSectionTable.SpacingAfter = 0f;
 
                 PdfPCell OpinionRelationSectionHeader = new PdfPCell(new Phrase(OpinionRelationSectionCard.Title, new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
                 OpinionRelationSectionHeader.BackgroundColor = new BaseColor(0, 0, 51);
@@ -541,13 +556,14 @@ namespace PdfPlayGround
                 OpinionRelationSectionHeader.PaddingBottom = 4f;
                 OpinionRelationSectionTable.AddCell(OpinionRelationSectionHeader);
 
-                //PdfPCell OpinionRelationSectionInfo = new PdfPCell(new Phrase(OpinionRelationSectionCard.Fields[0].ValueString, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
-                //OpinionRelationSectionInfo.PaddingTop = 4f;
-                //OpinionRelationSectionInfo.PaddingBottom = 4f;
-                //OpinionRelationSectionTable.AddCell(OpinionRelationSectionInfo);
+                PdfPCell OpinionRelationSectionInfo = new PdfPCell(new Phrase(OpinionRelationSectionCard.Fields[0].ValueString, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
+                OpinionRelationSectionInfo.PaddingTop = 4f;
+                OpinionRelationSectionInfo.PaddingBottom = 4f;
+                OpinionRelationSectionTable.AddCell(OpinionRelationSectionInfo);
 
                 Doc.Add(OpinionRelationSectionTable);
-                Doc.Add(new Phrase(OpinionRelationSectionCard.Fields[0].ValueString, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
+                //Doc.Add(new Phrase(OpinionRelationSectionCard.Fields[0].ValueString, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
+                //Doc.NewPage();
             }
 
             //Doc.NewPage();
@@ -747,6 +763,7 @@ namespace PdfPlayGround
                 policyTable.LockedWidth = true;
                 policyTable.SpacingBefore = 15f;
                 policyTable.SpacingAfter = 15f;
+                policyTable.SplitLate = false;
                 PdfPCell policyTableTitle = new PdfPCell(new Phrase("POLICY", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
                 policyTableTitle.BackgroundColor = new BaseColor(0, 0, 51);
                 policyTableTitle.HorizontalAlignment = Element.ALIGN_CENTER;
@@ -762,6 +779,7 @@ namespace PdfPlayGround
                 nonCompletionTable.TotalWidth = 820f;
                 nonCompletionTable.LockedWidth = true;
                 nonCompletionTable.SpacingAfter = 15f;
+                nonCompletionTable.SplitLate = false;
                 PdfPCell nonCompletionTitle = new PdfPCell(new Phrase("NON-COMPLETION", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
                 nonCompletionTitle.BackgroundColor = new BaseColor(0, 0, 51);
                 nonCompletionTitle.HorizontalAlignment = Element.ALIGN_CENTER;
@@ -775,6 +793,7 @@ namespace PdfPlayGround
                 additionalCommentTable.TotalWidth = 820f;
                 additionalCommentTable.LockedWidth = true;
                 additionalCommentTable.SpacingAfter = 15f;
+                additionalCommentTable.SplitLate = false;
                 PdfPCell additionalCommentTitle = new PdfPCell(new Phrase("ADDITIONAL COMMENTS", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
                 additionalCommentTitle.BackgroundColor = new BaseColor(0, 0, 51);
                 additionalCommentTitle.HorizontalAlignment = Element.ALIGN_CENTER;
@@ -788,6 +807,7 @@ namespace PdfPlayGround
                 commentOnPotentialRecoveryTable.TotalWidth = 820f;
                 commentOnPotentialRecoveryTable.LockedWidth = true;
                 commentOnPotentialRecoveryTable.SpacingAfter = 15f;
+                commentOnPotentialRecoveryTable.SplitLate = false;
                 PdfPCell commentOnPotentialRecoveryTitle = new PdfPCell(new Phrase("COMMENT ON POTENTIAL RECOVERY", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
                 commentOnPotentialRecoveryTitle.BackgroundColor = new BaseColor(0, 0, 51);
                 commentOnPotentialRecoveryTitle.HorizontalAlignment = Element.ALIGN_CENTER;
@@ -803,6 +823,7 @@ namespace PdfPlayGround
                 PdfPTable summaryAllAcceptWorkEstimate = new PdfPTable(6);
                 summaryAllAcceptWorkEstimate.TotalWidth = 820f;
                 summaryAllAcceptWorkEstimate.LockedWidth = true;
+                summaryAllAcceptWorkEstimate.SplitLate = false;
                 PdfPCell summaryAllAcceptWorkEstimateTitle = new PdfPCell(new Phrase("SUMMARY OF ALL ACCEPTED WORKS & ESTIMATES", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
                 summaryAllAcceptWorkEstimateTitle.BackgroundColor = new BaseColor(0, 0, 51);
                 summaryAllAcceptWorkEstimateTitle.HorizontalAlignment = Element.ALIGN_CENTER;
@@ -961,6 +982,7 @@ namespace PdfPlayGround
             annexureATable.TotalWidth = 800f;
             annexureATable.LockedWidth = true;
             annexureATable.DefaultCell.Border = Rectangle.NO_BORDER;
+            annexureATable.SplitLate = false;
             PdfPCell annexureATitle1 = new PdfPCell(new Paragraph("‘Annexure A’" , new Font(Font.BOLD, 11f, Font.BOLD, BaseColor.Black)));
             PdfPCell annexureATitle2 = new PdfPCell(new Paragraph("CURRICULUM VITAE-" + Source.Building.ScopingSupplier.CompanyName, new Font(Font.BOLD, 11f, Font.BOLD, BaseColor.Black)));
             PdfPCell annexureATitle3 = new PdfPCell(new Paragraph("LICENSED BUILDER / BUILDING CONSULTANT", new Font(Font.BOLD, 11f, Font.BOLD, BaseColor.Black)));
@@ -990,6 +1012,7 @@ namespace PdfPlayGround
             annexureBTable.TotalWidth = 800f;
             annexureBTable.LockedWidth = true;
             annexureBTable.DefaultCell.Border = Rectangle.NO_BORDER;
+            annexureBTable.SplitLate = false;
             PdfPCell annexureBTitle1 = new PdfPCell(new Paragraph("‘Annexure B’", new Font(Font.BOLD, 11f, Font.BOLD, BaseColor.Black)));
             PdfPCell annexureBTitle2 = new PdfPCell(new Paragraph("NCAT Procedural Direction 3", new Font(Font.BOLD, 11f, Font.BOLD, BaseColor.Black)));
             PdfPCell annexureBTitle3 = new PdfPCell(new Paragraph("EXPERT WITNESSES", new Font(Font.BOLD, 11f, Font.BOLD, BaseColor.Black)));
@@ -1013,36 +1036,49 @@ namespace PdfPlayGround
             expertWitnessTableCell.Border = 0;
             expertWitnessTableCell.PaddingTop = 10f;
 
-            PdfPCell proceduralDirection = new PdfPCell(new Phrase("This Procedural Direction applies to:", new Font(Font.BOLD, 10f, Font.BOLD)));
+            PdfPCell proceduralDirection = new PdfPCell(new Phrase("This Procedural Direction applies to:", new Font(Font.BOLD, 9f, Font.BOLD)));
             proceduralDirection.Colspan = 1;
             proceduralDirection.Border = 0;
-            PdfPCell proceduralDirectionInfo = new PdfPCell(new Phrase("Proceedings in all Divisions", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED)));
+            PdfPCell proceduralDirectionInfo = new PdfPCell(new Phrase("Proceedings in which the rules of evidence apply. ", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED)));
             proceduralDirectionInfo.Colspan = 3;
             proceduralDirectionInfo.Border = 0;
+            PdfPCell proceduralDirectionInfo2 = new PdfPCell();
+            proceduralDirectionInfo2.Colspan = 4;
+            proceduralDirectionInfo2.Border = 0;
+            proceduralDirectionInfo2.AddElement(new Phrase("Proceedings in the Consumer and Commercial Division involving claims under the Home Building Act 1989 (NSW) with a value greater than $30,000. " + "\n" 
+                + "Proceedings in the Occupational Division for a “profession decision” as defined in cl 29(1) of Sch 5 to the NCAT Act. " + "\n" 
+                + "Any other proceedings in which the Tribunal directs that this Procedural Direction is to apply. ", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED)));
 
-            PdfPCell effectiveDate = new PdfPCell(new Phrase("Effective Date", new Font(Font.BOLD, 10f, Font.BOLD)));
+            PdfPCell effectiveDate = new PdfPCell(new Phrase("Effective Date: ", new Font(Font.BOLD, 9f, Font.BOLD)));
             effectiveDate.Colspan = 1;
             effectiveDate.Border = 0;
-            PdfPCell effectiveDateInfo = new PdfPCell(new Phrase("7 February 2014", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED)));
+            PdfPCell effectiveDateInfo = new PdfPCell(new Phrase("28 February 2018", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED)));
             effectiveDateInfo.Colspan = 3;
             effectiveDateInfo.Border = 0;
 
-            PdfPCell replacesProceduralDirection = new PdfPCell(new Phrase("Replaces Procedural Direction:", new Font(Font.BOLD, 10f, Font.BOLD)));
+            PdfPCell replacesProceduralDirection = new PdfPCell(new Phrase("Replaces Procedural Direction:", new Font(Font.BOLD, 9f, Font.BOLD)));
             replacesProceduralDirection.Colspan = 1;
             replacesProceduralDirection.Border = 0;
-            PdfPCell replacesProceduralDirectionInfo = new PdfPCell(new Phrase("NCAT Procedural Direction 3 (20 December 2013)", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED)));
+            PdfPCell replacesProceduralDirectionInfo = new PdfPCell(new Phrase("NCAT Procedural Direction 3 (7 February 2014)", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED)));
             replacesProceduralDirectionInfo.Colspan = 3;
             replacesProceduralDirectionInfo.Border = 0;
 
-            PdfPCell Notes = new PdfPCell(new Phrase("Notes:", new Font(Font.BOLD, 10f, Font.BOLD)));
+            PdfPCell Notes = new PdfPCell(new Phrase("Notes:", new Font(Font.BOLD, 9f, Font.BOLD)));
             Notes.Colspan = 1;
             Notes.Border = 0;
-            PdfPCell NotesInfo = new PdfPCell(new Phrase("You should ensure that you are using the current version of this Procedural Direction. A complete set of Procedural Directions and Guidelines is available on the Tribunal website at www.ncat.nsw.gov.au", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED)));
+
+            Phrase notePhrase = new Phrase();
+            Chunk noteInfo = new Chunk("You should ensure that you are using the current version of this Procedural Direction. A complete set of Procedural Directions and Guidelines is available on the Tribunal website at ", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED));
+            Chunk NoteEmail = new Chunk("www.ncat.nsw.gov.au", new Font(Font.TIMES_ROMAN, 9f, Font.UNDERLINE, BaseColor.Blue));
+            notePhrase.Add(noteInfo);
+            notePhrase.Add(NoteEmail);
+            PdfPCell NotesInfo = new PdfPCell(notePhrase);
             NotesInfo.Colspan = 3;
             NotesInfo.Border = 0;
 
             expertWitnessTable.AddCell(proceduralDirection);
             expertWitnessTable.AddCell(proceduralDirectionInfo);
+            expertWitnessTable.AddCell(proceduralDirectionInfo2);
             expertWitnessTable.AddCell(effectiveDate);
             expertWitnessTable.AddCell(effectiveDateInfo);
             expertWitnessTable.AddCell(replacesProceduralDirection);
@@ -1055,44 +1091,57 @@ namespace PdfPlayGround
             annexureBTable.AddCell(expertWitnessTableCell);
 
             //introduction
-            PdfPCell introductionCell = new PdfPCell(new Paragraph("Introduction", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
+            PdfPCell introductionCell = new PdfPCell(new Paragraph("Introduction", new Font(Font.BOLD, 9f, Font.BOLD, BaseColor.Black)));
             introductionCell.HorizontalAlignment = Element.ALIGN_LEFT;
             introductionCell.Border = 0;
             PdfPCell introductionInfo = new PdfPCell();
-            introductionInfo.PaddingTop = 10f;
+            introductionInfo.PaddingTop = 2f;
 
             RomanList romanlist1 = new RomanList(true, 20);
-            romanlist1.Add(new ListItem("A code of conduct for expert witnesses (based upon Schedule 7 to the Uniform Civil Procedure Rules 2005); and", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
-            romanlist1.Add(new ListItem("Information on how experts may be required to give evidence.", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            romanlist1.Add(new ListItem("A code of conduct for expert witnesses (based upon Schedule 7 to the Uniform Civil Procedure Rules 2005); and", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
+            romanlist1.Add(new ListItem("Information on how experts may be required to give evidence.", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
 
             List list1 = new List(List.ORDERED, 20f);
             list1.SetListSymbol("\u2022");
             list1.IndentationLeft = 20f;
             list1.First = 1;
-            list1.Add(new ListItem ("The Tribunal may rely on evidence from expert witnesses to reach a conclusion about a technical matter or area of specialised knowledge that is relevant to an issue to be determined in proceedings. It is important that experts’ opinions are soundly based, complete and reliable", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
-            list1.Add(new ListItem ("This Procedural Direction sets out:", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
-            list1.Add(romanlist1);
-            
+            list1.Add(new ListItem ("The Tribunal may rely on evidence from expert witnesses to reach a conclusion about a technical matter or area of specialised knowledge that is relevant to an issue to be determined in proceedings. It is important that experts’ opinions are soundly based, complete and reliable. ", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
+            list1.Add(new ListItem ("The Tribunal is bound by the rules of evidence in proceedings in exercise of its enforcement jurisdiction, proceedings for the imposition of a civil penalty in exercise of its general jurisdiction, proceedings under the Legal Profession Uniform Law (NSW) or Public Notaries Act 1997 concerning a question of professional misconduct and any other proceedings where so required by the relevant enabling legislation (“Evidence Rules Proceedings”), see, for example, s 35, s 38(2) and (3) and Sch 5 cl 20 of the NCAT Act. In Evidence Rules Proceedings, it is appropriate to require expert evidence to be prepared and presented in a matter which seeks to ensure its admissibility and usefulness. ", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
+            list1.Add(new ListItem ("In proceedings where the Tribunal is not bound by the rules of evidence, the acceptability of expert evidence is a question of weight not admissibility. Nonetheless, if those proceedings involve complex or difficult expert issues, it is appropriate to require expert evidence to be prepared and presented in a manner which seeks to ensure its usefulness. ", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
+            list1.Add(new ListItem ("For proceedings to which it applies, this Procedural Direction sets out a code of conduct for expert witnesses. ", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
+            //list1.Add(romanlist1);
+
             introductionInfo.AddElement(list1);
             introductionInfo.Border = 0;
             annexureBTable.AddCell(introductionCell);
             annexureBTable.AddCell(introductionInfo);
 
             //Compliance and other matters
-            PdfPCell complianceCell = new PdfPCell(new Paragraph("Compliance and other matters", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
+            PdfPCell complianceCell = new PdfPCell(new Paragraph("Compliance and other matters", new Font(Font.BOLD, 9f, Font.BOLD, BaseColor.Black)));
             complianceCell.HorizontalAlignment = Element.ALIGN_LEFT;
             complianceCell.Border = 0;
-            complianceCell.PaddingTop = 10f;
+            complianceCell.PaddingTop = 5f;
             PdfPCell complianceInfo = new PdfPCell();
-            complianceInfo.PaddingTop = 10f;
+            complianceInfo.PaddingTop = 5f;
 
             List list2 = new List(List.ORDERED, 20f);
             list2.SetListSymbol("\u2022");
             list2.IndentationLeft = 20f;
-            list2.First = 3;
-            list2.Add(new ListItem("The Tribunal may excuse an expert witness or any other person from complying with this Procedural Direction before or after the time for compliance", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
-            list2.Add(new ListItem("Nothing in this Procedural Direction prevents the Tribunal from giving any directions concerning expert witnesses or expert evidence that the Tribunal considers appropriate in any particular proceedings before the Tribunal", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
-            list2.Add(new ListItem("This Procedural Direction is made by the President under s 26 of the Civil and Administrative Tribunal Act 2013.", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            list2.First = 5;
+            list2.Add(new ListItem("The Tribunal may excuse a party or an expert witness from complying with this Procedural Direction before or after the time for compliance. ", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
+            list2.Add(new ListItem("In Evidence Rules Proceedings, a failure to comply with the code of conduct may, depending on the circumstances, render the report or evidence inadmissible or adversely affect the weight to be attributed to that report or evidence. ", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
+            list2.Add(new ListItem("In non-Evidence Rules Proceedings, a failure to comply with the code of conduct does not render any expert report or evidence inadmissible but it may, depending on the circumstances, adversely affect the weight to be attributed to that report or evidence. ", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
+            list2.Add(new ListItem("Nothing in this Procedural Direction prevents the Tribunal from giving any directions concerning expert witnesses or expert evidence that the Tribunal considers appropriate in any particular proceedings before the Tribunal. ", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
+
+            //Chunk numNine = new Chunk("This Procedural Direction is made by the President under s 26 of the ", new Font(Font.TIMES_ROMAN, 10f, Font.UNDEFINED, BaseColor.Black));
+            //Chunk numNineInfo = new Chunk("Civil and Administrative Tribunal Act 2013. ", new Font(Font.TIMES_ROMAN, 10f, Font.ITALIC, BaseColor.Black));
+
+            ListItem numNineList = new ListItem();
+            Phrase numNinePhrase = new Phrase();
+            numNinePhrase.Add(new Chunk("This Procedural Direction is made by the President under s 26 of the ", new Font(Font.TIMES_ROMAN, 9f, Font.UNDEFINED, BaseColor.Black)));
+            numNinePhrase.Add(new Chunk("Civil and Administrative Tribunal Act 2013. ", new Font(Font.TIMES_ROMAN, 9f, Font.ITALIC, BaseColor.Black)));
+            //numNinePhrase.Add(numNineInfo);
+            list2.Add(new ListItem(numNinePhrase));
 
             complianceInfo.AddElement(list2);
             complianceInfo.Border = 0;
@@ -1100,48 +1149,48 @@ namespace PdfPlayGround
             annexureBTable.AddCell(complianceInfo);
 
             //definition
-            PdfPCell definitionsCell = new PdfPCell(new Paragraph("Definitions", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
+            PdfPCell definitionsCell = new PdfPCell(new Paragraph("Definitions", new Font(Font.BOLD, 9f, Font.BOLD, BaseColor.Black)));
             definitionsCell.HorizontalAlignment = Element.ALIGN_LEFT;
             definitionsCell.Border = 0;
-            definitionsCell.PaddingTop = 10f;
-            definitionsCell.PaddingBottom = 10f;
+            definitionsCell.PaddingTop = 5f;
+            definitionsCell.PaddingBottom = 5f;
 
             PdfPTable definitionsTable = new PdfPTable(8);
             definitionsTable.TotalWidth = 750f;
             definitionsTable.LockedWidth = true;
 
-            PdfPCell wordCell = new PdfPCell(new Phrase("Word", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            PdfPCell wordCell = new PdfPCell(new Phrase("Word", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
             wordCell.Colspan = 1;
             wordCell.PaddingTop = 4f;
             wordCell.PaddingBottom = 4f;
-            PdfPCell wordInfo = new PdfPCell(new Phrase("Definition", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            PdfPCell wordInfo = new PdfPCell(new Phrase("Definition", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
             wordInfo.Colspan = 7;
             wordInfo.PaddingTop = 4f;
             wordInfo.PaddingBottom = 4f;
 
-            PdfPCell act = new PdfPCell(new Phrase("Act", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            PdfPCell act = new PdfPCell(new Phrase("Act", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
             act.Colspan = 1;
             act.PaddingTop = 4f;
             act.PaddingBottom = 4f;
-            PdfPCell actInfo = new PdfPCell(new Phrase("Civil and Administrative Tribunal Act 2013", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            PdfPCell actInfo = new PdfPCell(new Phrase("Civil and Administrative Tribunal Act 2013", new Font(Font.UNDEFINED, 9f, Font.ITALIC, BaseColor.Black)));
             actInfo.Colspan = 7;
             actInfo.PaddingTop = 4f;
             actInfo.PaddingBottom = 4f;
 
-            PdfPCell rules = new PdfPCell(new Phrase("Rules", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            PdfPCell rules = new PdfPCell(new Phrase("Rules", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
             rules.Colspan = 1;
             rules.PaddingTop = 4f;
             rules.PaddingBottom = 4f;
-            PdfPCell rulesInfo = new PdfPCell(new Phrase("Civil and Administrative Tribunal Rules 2014", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            PdfPCell rulesInfo = new PdfPCell(new Phrase("Civil and Administrative Tribunal Rules 2014", new Font(Font.UNDEFINED, 9f, Font.ITALIC, BaseColor.Black)));
             rulesInfo.Colspan = 7;
             rulesInfo.PaddingTop = 4f;
             rulesInfo.PaddingBottom = 4f;
 
-            PdfPCell expressWitness = new PdfPCell(new Phrase("Expert Witness", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            PdfPCell expressWitness = new PdfPCell(new Phrase("Expert Witness", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
             expressWitness.Colspan = 1;
             expressWitness.PaddingTop = 4f;
             expressWitness.PaddingBottom = 4f;
-            PdfPCell expressWitnessInfo = new PdfPCell(new Phrase("A person who has specialised knowledge based on the person’s training, study or experience and who give evidence of an opinion based wholly or substantially on that knowledge", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            PdfPCell expressWitnessInfo = new PdfPCell(new Phrase("A person who has specialised knowledge based on the person’s training, study or experience and who give evidence of an opinion based wholly or substantially on that knowledge", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
             expressWitnessInfo.Colspan = 7;
             expressWitnessInfo.PaddingTop = 4f;
             expressWitnessInfo.PaddingBottom = 4f;
@@ -1164,46 +1213,52 @@ namespace PdfPlayGround
             List list3 = new List(List.ORDERED, 20f);
             list3.SetListSymbol("\u2022");
             list3.IndentationLeft = 20f;
-            list3.First = 6;
-            list3.Add(new ListItem("Words used in this Procedural Direction have the same meaning as defined in the Act and the Rules.", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            list3.First = 10;
+            list3.Add(new ListItem("Words used in this Procedural Direction have the same meaning as defined in the Act and the Rules.", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
+            PdfPCell list3Cell = new PdfPCell();
+            list3Cell.AddElement(list3);
+            list3Cell.Border = 0;
+            annexureBTable.AddCell(list3Cell);
 
             //Application
-            PdfPCell applicationCell = new PdfPCell(new Paragraph("Application", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
+            PdfPCell applicationCell = new PdfPCell(new Paragraph("Application", new Font(Font.BOLD, 9f, Font.BOLD, BaseColor.Black)));
             applicationCell.HorizontalAlignment = Element.ALIGN_LEFT;
             applicationCell.Border = 0;
-            applicationCell.PaddingTop = 10f;
-            applicationCell.PaddingBottom = 10f;
+            applicationCell.PaddingTop = 5f;
+            applicationCell.PaddingBottom = 5f;
             annexureBTable.AddCell(applicationCell);
 
             PdfPCell applicationInfo = new PdfPCell();
-            applicationInfo.PaddingTop = 10f;
+            applicationInfo.PaddingTop = 2f;
             applicationInfo.Border = 0;
 
             RomanList romanList2 = new RomanList(true, 20);
-            romanList2.Add(new ListItem("any evidence given by an expert witness in the Tribunal;", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
-            romanList2.Add(new ListItem("any arrangement between an expert and a party for the expert to provide evidence or a report for the purposes of proceedings or proposed proceedings in the Tribunal; and", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
-            romanList2.Add(new ListItem("any arrangements for Tribunal appointed experts,", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            romanList2.Add(new ListItem("Evidence Rules Proceedings; ", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
+            romanList2.Add(new ListItem("Proceedings in the Consumer and Commercial Division involving claims under the Home Building Act 1989 (NSW) where the amount claimed or in dispute is more than $30,000; ", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
+            romanList2.Add(new ListItem("proceedings in the Occupational Division for a “profession decision” as defined in cl 29(1) of Sch 5 to the NCAT Act; and ", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
+            romanList2.Add(new ListItem("Any other proceedings in which the Tribunal directs that this Procedural Direction 3 is to apply, (Together referred to as “Subject Proceedings”).", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
 
             List list4 = new List(List.ORDERED, 20f);
             list4.SetListSymbol("\u2022");
             list4.IndentationLeft = 20f;
-            list4.First = 7;
-            list4.Add(new ListItem("This Procedural Direction applies to:", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            list4.First = 11;
+            list4.Add(new ListItem("This Procedural Direction applies in: ", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
             list4.Add(romanList2);
             applicationInfo.AddElement(list4);
 
             annexureBTable.AddCell(applicationInfo);
-            PdfPCell applicationListInfo = new PdfPCell(new Paragraph("except that this Procedural Direction does not apply to evidence obtained from treating doctors, other health professionals or hospitals (who might otherwise fall within the definition of expert witness), unless the Tribunal otherwise directs", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
-            applicationListInfo.Border = 0;
-            applicationListInfo.PaddingTop = 10f;
-            annexureBTable.AddCell(applicationListInfo);
+            
+            //PdfPCell applicationListInfo = new PdfPCell(new Paragraph("except that this Procedural Direction does not apply to evidence obtained from treating doctors, other health professionals or hospitals (who might otherwise fall within the definition of expert witness), unless the Tribunal otherwise directs", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            //applicationListInfo.Border = 0;
+            //applicationListInfo.PaddingTop = 10f;
+            //annexureBTable.AddCell(applicationListInfo);
 
             //Parties’ and Experts’ Duties
-            PdfPCell partAndExpCell = new PdfPCell(new Paragraph("Parties’ and Experts’ Duties", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
+            PdfPCell partAndExpCell = new PdfPCell(new Paragraph("Parties’ and Experts’ Duties", new Font(Font.BOLD, 9f, Font.BOLD, BaseColor.Black)));
             partAndExpCell.HorizontalAlignment = Element.ALIGN_LEFT;
             partAndExpCell.Border = 0;
-            partAndExpCell.PaddingTop = 10f;
-            partAndExpCell.PaddingBottom = 10f;
+            partAndExpCell.PaddingTop = 5f;
+            partAndExpCell.PaddingBottom = 5f;
             annexureBTable.AddCell(partAndExpCell);
             PdfPCell partAndExpInfo = new PdfPCell();
             partAndExpInfo.Border = 0;
@@ -1211,44 +1266,62 @@ namespace PdfPlayGround
             List list5 = new List(List.ORDERED, 20f);
             list5.SetListSymbol("\u2022");
             list5.IndentationLeft = 20f;
-            list5.First = 8;
-            list5.Add(new ListItem("Any party who retains an expert to provide evidence or a report for the purposes of proceedings or proposed proceedings in the Tribunal must bring to the expert’s attention the contents of this Procedural Direction, including the experts’ code of conduct.", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
-            list5.Add(new ListItem("Where an expert is unable to comply with the experts’ code of conduct, whether because of a conflict of interest or otherwise, the expert is not to give evidence or provide an expert’s report for use in proceedings in the Tribunal, unless the expert raises the inability with the Tribunal and the Tribunal expressly permits the expert to give evidence or provide a report.", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            list5.First = 12;
+            list5.Add(new ListItem("Any party who retains an expert to provide evidence or a report for the purposes of Subject Proceedings in the Tribunal must bring to the expert’s attention the contents of this Procedural Direction, including the experts’ code of conduct. ", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
+            //list5.Add(new ListItem("Where an expert is unable to comply with the experts’ code of conduct, whether because of a conflict of interest or otherwise, the expert is not to give evidence or provide an expert’s report for use in proceedings in the Tribunal, unless the expert raises the inability with the Tribunal and the Tribunal expressly permits the expert to give evidence or provide a report.", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
             partAndExpInfo.AddElement(list5);
 
             annexureBTable.AddCell(partAndExpInfo);
 
-            PdfPCell expertCodeConCell = new PdfPCell(new Paragraph("Experts’ Code of Conduct", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
+            PdfPCell expertCodeConCell = new PdfPCell(new Paragraph("Experts’ Code of Conduct Application of code", new Font(Font.BOLD, 9f, Font.BOLD, BaseColor.Black)));
             expertCodeConCell.HorizontalAlignment = Element.ALIGN_LEFT;
             expertCodeConCell.Border = 0;
-            expertCodeConCell.PaddingTop = 10f;
-            expertCodeConCell.PaddingBottom = 10f;
+            expertCodeConCell.PaddingTop = 5f;
+            expertCodeConCell.PaddingBottom = 5f;
             annexureBTable.AddCell(expertCodeConCell);
 
-            PdfPCell applicationCodeCell = new PdfPCell(new Paragraph("Application of code", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
-            applicationCodeCell.HorizontalAlignment = Element.ALIGN_LEFT;
-            applicationCodeCell.Border = 0;
-            applicationCodeCell.PaddingTop = 10f;
-            applicationCodeCell.PaddingBottom = 10f;
-            annexureBTable.AddCell(applicationCodeCell);
+            PdfPCell expertCodeConInfo = new PdfPCell();
+            expertCodeConInfo.PaddingTop = 2f;
+            expertCodeConInfo.Border = 0;
 
-            PdfPCell applicationCodeInfo = new PdfPCell();
-            applicationCodeInfo.Border = 0;
+            RomanList expertRomanList = new RomanList(true, 20);
+            expertRomanList.Add(new ListItem("To provide an expert’s report for use in those proceedings; or ", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
+            expertRomanList.Add(new ListItem("To give opinion evidence in those proceedings. ", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
 
-            RomanList romanList3 = new RomanList(true, 20);
-            romanList3.Add(new ListItem("provides an expert’s report for use as evidence in proceedings or proposed proceedings in the Tribunal, or", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
-            romanList3.Add(new ListItem("gives opinion evidence in proceedings in the Tribunal.", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
-            List list6 = new List(List.ORDERED, 20f);
-            list6.SetListSymbol("\u2022");
-            list6.IndentationLeft = 20f;
-            list6.First = 10;
-            list6.Add(new ListItem("Subject to paragraph 7, this experts’ code of conduct applies to any expert witness who:", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
-            list6.Add(romanList3);
-            applicationCodeInfo.AddElement(list6);
+            List expertList = new List(List.ORDERED, 20f);
+            expertList.SetListSymbol("\u2022");
+            expertList.IndentationLeft = 20f;
+            expertList.First = 13;
+            expertList.Add(new ListItem("This experts’ code of conduct applies in respect of any expert witness engaged or appointed in Subject Proceedings: ", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
+            expertList.Add(expertRomanList);
+            expertCodeConInfo.AddElement(expertList);
 
-            annexureBTable.AddCell(applicationCodeInfo);
+            annexureBTable.AddCell(expertCodeConInfo);
 
-            PdfPCell generalDutyTriCell = new PdfPCell(new Paragraph("General duty to the Tribunal", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
+            //PdfPCell applicationCodeCell = new PdfPCell(new Paragraph("Application of code", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
+            //applicationCodeCell.HorizontalAlignment = Element.ALIGN_LEFT;
+            //applicationCodeCell.Border = 0;
+            //applicationCodeCell.PaddingTop = 5f;
+            //applicationCodeCell.PaddingBottom = 5f;
+            //annexureBTable.AddCell(applicationCodeCell);
+
+            //PdfPCell applicationCodeInfo = new PdfPCell();
+            //applicationCodeInfo.Border = 0;
+
+            //RomanList romanList3 = new RomanList(true, 20);
+            //romanList3.Add(new ListItem("provides an expert’s report for use as evidence in proceedings or proposed proceedings in the Tribunal, or", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            //romanList3.Add(new ListItem("gives opinion evidence in proceedings in the Tribunal.", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            //List list6 = new List(List.ORDERED, 20f);
+            //list6.SetListSymbol("\u2022");
+            //list6.IndentationLeft = 20f;
+            //list6.First = 10;
+            //list6.Add(new ListItem("Subject to paragraph 7, this experts’ code of conduct applies to any expert witness who:", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            //list6.Add(romanList3);
+            //applicationCodeInfo.AddElement(list6);
+
+            //annexureBTable.AddCell(applicationCodeInfo);
+
+            PdfPCell generalDutyTriCell = new PdfPCell(new Paragraph("General duty to the Tribunal", new Font(Font.BOLD, 9f, Font.BOLD, BaseColor.Black)));
             generalDutyTriCell.HorizontalAlignment = Element.ALIGN_LEFT;
             generalDutyTriCell.Border = 0;
             generalDutyTriCell.PaddingTop = 10f;
@@ -1258,24 +1331,24 @@ namespace PdfPlayGround
             PdfPCell generalDutyTriInfo = new PdfPCell();
             generalDutyTriInfo.Border = 0;
 
-            RomanList romanList4 = new RomanList(true, 20);
-            romanList4.Add(new ListItem("provides an expert’s report for use as evidence in proceedings or proposed proceedings in the Tribunal, or", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
-            romanList4.Add(new ListItem("gives opinion evidence in proceedings in the Tribunal.", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            //RomanList romanList4 = new RomanList(true, 20);
+            //romanList4.Add(new ListItem("provides an expert’s report for use as evidence in proceedings or proposed proceedings in the Tribunal, or", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            //romanList4.Add(new ListItem("gives opinion evidence in proceedings in the Tribunal.", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
 
             List list7 = new List(List.ORDERED, 20f);
             list7.SetListSymbol("\u2022");
             list7.IndentationLeft = 20f;
-            list7.First = 11;
-            list7.Add(new ListItem("Subject to paragraph 7, this experts’ code of conduct applies to any expert witness who:", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
-            list7.Add(romanList4);
-            list7.Add(new ListItem("An expert witness’s paramount duty is to the Tribunal and not to any party to the proceedings (including the person retaining the expert witness).", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
-            list7.Add(new ListItem("An expert witness is not an advocate for a party.", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
-            list7.Add(new ListItem("An expert witness must abide by any direction given by the Tribunal.", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            list7.First = 14;
+            list7.Add(new ListItem("An expert witness has an overriding duty to assist the Tribunal impartially on matters relevant to the expert witness’s area of expertise. ", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
+            //list7.Add(romanList4);
+            list7.Add(new ListItem("An expert witness’s paramount duty is to the Tribunal and not to any party to the proceedings including the person retaining the expert witness. ", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
+            list7.Add(new ListItem("An expert witness is not an advocate for a party. ", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
+            list7.Add(new ListItem("An expert witness must abide by any direction given by the Tribunal. ", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
 
             generalDutyTriInfo.AddElement(list7);
             annexureBTable.AddCell(generalDutyTriInfo);
 
-            PdfPCell dutyWorkCooperCell = new PdfPCell(new Paragraph("Duty to work co-operatively with other expert witnesses", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
+            PdfPCell dutyWorkCooperCell = new PdfPCell(new Paragraph("Duty to work co-operatively with other expert witnesses", new Font(Font.BOLD, 9f, Font.BOLD, BaseColor.Black)));
             dutyWorkCooperCell.HorizontalAlignment = Element.ALIGN_LEFT;
             dutyWorkCooperCell.Border = 0;
             dutyWorkCooperCell.PaddingTop = 10f;
@@ -1286,112 +1359,113 @@ namespace PdfPlayGround
             dutyWorkCooperInfo.Border = 0;
 
             RomanList romanList5 = new RomanList(true, 20);
-            romanList5.Add(new ListItem("exercise his or her independent, professional judgment in relation to that issue;", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
-            romanList5.Add(new ListItem("endeavour to reach agreement with any other expert witness on that issue; and", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
-            romanList5.Add(new ListItem("not act on any instruction or request to withhold or avoid agreement with any other expert witness.", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            romanList5.Add(new ListItem("Exercise his or her independent, professional judgment in relation to that issue; ", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
+            romanList5.Add(new ListItem("Endeavour to reach agreement with any other expert witness on that issue; and ", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
+            romanList5.Add(new ListItem("Not act on any instruction or ", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
 
             List list8 = new List(List.ORDERED, 20f);
             list8.SetListSymbol("\u2022");
             list8.IndentationLeft = 20f;
-            list8.First = 15;
-            list8.Add(new ListItem("An expert witness, when complying with any direction of the Tribunal to confer with another expert witness or to prepare a joint report with another expert witness in relation to any issue must:", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            list8.First = 18;
+            list8.Add(new ListItem("An expert witness, when complying with any direction of the Tribunal to confer with another expert witness or to prepare a joint report with another expert witness in relation to any issue, must:", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
             list8.Add(romanList5);
             dutyWorkCooperInfo.AddElement(list8);
             annexureBTable.AddCell(dutyWorkCooperInfo);
 
             //Experts’ reports
-            PdfPCell expertsReportsCell = new PdfPCell(new Paragraph("Experts’ reports", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
+            PdfPCell expertsReportsCell = new PdfPCell(new Paragraph("Experts’ reports", new Font(Font.BOLD, 9f, Font.BOLD, BaseColor.Black)));
             expertsReportsCell.HorizontalAlignment = Element.ALIGN_LEFT;
             expertsReportsCell.Border = 0;
-            expertsReportsCell.PaddingTop = 10f;
-            expertsReportsCell.PaddingBottom = 10f;
+            expertsReportsCell.PaddingTop = 5f;
+            expertsReportsCell.PaddingBottom = 5f;
             annexureBTable.AddCell(expertsReportsCell);
 
             PdfPCell expertsReportsInfo = new PdfPCell();
             expertsReportsInfo.Border = 0;
 
             RomanList romanList6 = new RomanList(true, 20);
-            romanList6.Add(new ListItem("the expert’s qualifications as an expert on the issue the subject of the report;", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
-            romanList6.Add(new ListItem("the facts, and assumptions of fact, on which the opinions in the report are based (a letter of instructions may be annexed);", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
-            romanList6.Add(new ListItem("the expert’s reasons for each opinion expressed;", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
-            romanList6.Add(new ListItem("if applicable, that a particular issue falls outside the expert’s field of expertise;", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
-            romanList6.Add(new ListItem("any literature or other materials used in support of the opinions.", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
-            romanList6.Add(new ListItem("any examinations, tests or other investigations on which the expert has relied, including details of the qualifications of the person who carried them out;", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
-            romanList6.Add(new ListItem("in the case of a report that is lengthy or complex, a brief summary of the report (to be located at the beginning of the report);", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
-            romanList6.Add(new ListItem("an acknowledgement that the expert has read the experts’ code of conduct and agrees to be bound by it.", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            romanList6.Add(new ListItem("An acknowledgement that the expert has read the experts’ code of conduct and agrees to be bound by it; ", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
+            romanList6.Add(new ListItem("The expert’s name, address and qualifications as an expert on the issue the subject of the report; ", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
+            romanList6.Add(new ListItem("The facts, and assumptions of fact, on which the opinions in the report are based (a letter of instructions may be annexed); ", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
+            romanList6.Add(new ListItem("The expert’s reasons for each opinion expressed; ", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
+            romanList6.Add(new ListItem("If applicable, that a particular issue falls outside the expert’s field of expertise; ", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
+            romanList6.Add(new ListItem("Any literature or other materials used in support of the opinions; ", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
+            romanList6.Add(new ListItem("Any examinations, tests or other investigations on which the expert has relied, including details of the qualifications of the person who carried them out; ", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
+            romanList6.Add(new ListItem("In the case of a report that is lengthy or complex, a brief summary of the report (to be located at the beginning of the report). ", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
 
             List list9 = new List(List.ORDERED, 20f);
             list9.SetListSymbol("\u2022");
             list9.IndentationLeft = 20f;
-            list9.First = 16;
-            list9.Add(new ListItem("An expert witness, when complying with any direction of the Tribunal to confer with another expert witness or to prepare a joint report with another expert witness in relation to any issue must:", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            list9.First = 19;
+            list9.Add(new ListItem("An expert’s report must, either in the body of the report or in an annexure, include the following: ", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
             list9.Add(romanList6);
-            list9.Add(new ListItem("If an expert witness who prepares an expert’s report believes that it may be incomplete or inaccurate without some qualification, the qualification must be stated in the report.", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
-            list9.Add(new ListItem("If an expert witness considers that his or her opinion is not a concluded opinion because of insufficient research or insufficient data or for any other reason, this must be stated when the opinion is expressed.", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
-            list9.Add(new ListItem("If an expert witness changes his or her opinion on a material matter after providing a report, the expert witness must immediately provide a supplementary report to that effect containing such of the information referred to in paragraph 16 as is appropriate.", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            list9.Add(new ListItem("If an expert witness who prepares an expert’s report believes that it may be incomplete or inaccurate without some qualification, the qualification must be stated in the report. ", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
+            list9.Add(new ListItem("If an expert witness considers that his or her opinion is not a concluded opinion because of insufficient research or insufficient data or for any other reason, this must be stated when the opinion is expressed. ", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
+            list9.Add(new ListItem("If an expert witness changes his or her opinion on a material matter after providing a report, the expert witness must immediately provide a supplementary report to that effect containing any relevant information referred to in paragraph 19. ", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
 
             expertsReportsInfo.AddElement(list9);
             annexureBTable.AddCell(expertsReportsInfo);
 
-            PdfPCell expertsConferenceCell = new PdfPCell(new Paragraph("Experts’ conference", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
+            PdfPCell expertsConferenceCell = new PdfPCell(new Paragraph("Experts’ conference", new Font(Font.BOLD, 9f, Font.BOLD, BaseColor.Black)));
             expertsConferenceCell.HorizontalAlignment = Element.ALIGN_LEFT;
             expertsConferenceCell.Border = 0;
-            expertsConferenceCell.PaddingTop = 10f;
-            expertsConferenceCell.PaddingBottom = 10f;
+            expertsConferenceCell.PaddingTop = 5f;
+            expertsConferenceCell.PaddingBottom = 5f;
             annexureBTable.AddCell(expertsConferenceCell);
 
             PdfPCell expertsConferenceInfo = new PdfPCell();
             expertsConferenceInfo.Border = 0;
 
             RomanList romanList7 = new RomanList(true, 20);
-            romanList7.Add(new ListItem("to confer with any other expert witness;", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
-            romanList7.Add(new ListItem("to endeavour to reach agreement on any matters in issue;", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
-            romanList7.Add(new ListItem("to prepare a joint report, specifying matters agreed and matters not agreed and any reasons for any disagreement; and", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
-            romanList7.Add(new ListItem("to base any joint report on specified facts or assumptions of fact.", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            romanList7.Add(new ListItem("To attend a conclave or conference with any other expert witness; ", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
+            romanList7.Add(new ListItem("To endeavour to reach agreement on any matters in issue;", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
+            romanList7.Add(new ListItem("To prepare a joint report, specifying matters agreed and matters not agreed and reasons for any disagreement; ", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
+            romanList7.Add(new ListItem("To base any joint report on specified facts or assumptions of fact; and ", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
+            romanList7.Add(new ListItem("To give evidence concurrently with other experts. ", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
 
             List list10 = new List(List.ORDERED, 20f);
             list10.SetListSymbol("\u2022");
             list10.IndentationLeft = 20f;
-            list10.First = 20;
-            list10.Add(new ListItem("An expert witness must abide by any direction of the Tribunal:", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            list10.First = 23;
+            list10.Add(new ListItem("An expert witness must abide by any direction of the Tribunal: ", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
             list10.Add(romanList7);
-            list10.Add(new ListItem("An expert witness must exercise his or her independent, professional judgment in relation to such a conference and joint report, and must not act on any instruction or request to withhold or avoid agreement.", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            list10.Add(new ListItem("An expert witness must exercise his or her independent, professional judgment in relation to such a conclave or conference and joint report, and must not act on any instruction or request to withhold or avoid agreement. ", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
             expertsConferenceInfo.AddElement(list10);
             annexureBTable.AddCell(expertsConferenceInfo);
 
-            PdfPCell howManyExpertEvidenceCell = new PdfPCell(new Paragraph("How may expert evidence be given?", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
-            howManyExpertEvidenceCell.HorizontalAlignment = Element.ALIGN_LEFT;
-            howManyExpertEvidenceCell.Border = 0;
-            howManyExpertEvidenceCell.PaddingTop = 10f;
-            howManyExpertEvidenceCell.PaddingBottom = 10f;
-            annexureBTable.AddCell(howManyExpertEvidenceCell);
+            //PdfPCell howManyExpertEvidenceCell = new PdfPCell(new Paragraph("How may expert evidence be given?", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
+            //howManyExpertEvidenceCell.HorizontalAlignment = Element.ALIGN_LEFT;
+            //howManyExpertEvidenceCell.Border = 0;
+            //howManyExpertEvidenceCell.PaddingTop = 5f;
+            //howManyExpertEvidenceCell.PaddingBottom = 5f;
+            //annexureBTable.AddCell(howManyExpertEvidenceCell);
 
-            PdfPCell howManyExpertEvidenceInfo = new PdfPCell();
-            howManyExpertEvidenceInfo.Border = 0;
+            //PdfPCell howManyExpertEvidenceInfo = new PdfPCell();
+            //howManyExpertEvidenceInfo.Border = 0;
 
-            RomanList romanList8 = new RomanList(true, 20);
-            romanList8.Add(new ListItem("requiring expert evidence to be given by written report;", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
-            romanList8.Add(new ListItem("requiring expert witnesses to confer and prepare a joint report, specifying matters agreed and matters not agreed and reasons for any disagreement;", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
-            romanList8.Add(new ListItem("specifying when and in what order expert evidence at a hearing will be given;", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
-            romanList8.Add(new ListItem("controlling the form and duration of cross examination of expert witnesses; and", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
-            romanList8.Add(new ListItem("requiring expert witnesses to give evidence at a hearing concurrently.", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
-            RomanList romanList9 = new RomanList(true, 20);
-            romanList9.Add(new ListItem("sitting together in the witness box or some other convenient place in the hearing room;", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
-            romanList9.Add(new ListItem("being asked questions by the Tribunal;", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
-            romanList9.Add(new ListItem("being asked questions by the parties or their representatives (if any);", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
-            romanList9.Add(new ListItem("being given the opportunity to respond to the other witness’s evidence, as that evidence is given; and", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
-            romanList9.Add(new ListItem("being given the opportunity to ask any questions of the other witness, as the evidence is being given, where those questions might assist the Tribunal in determining the matter.", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            //RomanList romanList8 = new RomanList(true, 20);
+            //romanList8.Add(new ListItem("requiring expert evidence to be given by written report;", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            //romanList8.Add(new ListItem("requiring expert witnesses to confer and prepare a joint report, specifying matters agreed and matters not agreed and reasons for any disagreement;", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            //romanList8.Add(new ListItem("specifying when and in what order expert evidence at a hearing will be given;", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            //romanList8.Add(new ListItem("controlling the form and duration of cross examination of expert witnesses; and", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            //romanList8.Add(new ListItem("requiring expert witnesses to give evidence at a hearing concurrently.", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            //RomanList romanList9 = new RomanList(true, 20);
+            //romanList9.Add(new ListItem("sitting together in the witness box or some other convenient place in the hearing room;", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            //romanList9.Add(new ListItem("being asked questions by the Tribunal;", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            //romanList9.Add(new ListItem("being asked questions by the parties or their representatives (if any);", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            //romanList9.Add(new ListItem("being given the opportunity to respond to the other witness’s evidence, as that evidence is given; and", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            //romanList9.Add(new ListItem("being given the opportunity to ask any questions of the other witness, as the evidence is being given, where those questions might assist the Tribunal in determining the matter.", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
 
-            List list11 = new List(List.ORDERED, 20f);
-            list11.SetListSymbol("\u2022");
-            list11.IndentationLeft = 20f;
-            list11.First = 22;
-            list11.Add(new ListItem("The Tribunal may regulate the conduct of proceedings involving expert witnesses including by:", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
-            list11.Add(romanList8);
-            list11.Add(new ListItem("If the Tribunal requires or permits expert witnesses to give evidence concurrently this will usually involve the expert witnesses in one particular field of expertise:", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
-            list11.Add(romanList9);
-            howManyExpertEvidenceInfo.AddElement(list11);
-            annexureBTable.AddCell(howManyExpertEvidenceInfo);
+            //List list11 = new List(List.ORDERED, 20f);
+            //list11.SetListSymbol("\u2022");
+            //list11.IndentationLeft = 20f;
+            //list11.First = 22;
+            //list11.Add(new ListItem("The Tribunal may regulate the conduct of proceedings involving expert witnesses including by:", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            //list11.Add(romanList8);
+            //list11.Add(new ListItem("If the Tribunal requires or permits expert witnesses to give evidence concurrently this will usually involve the expert witnesses in one particular field of expertise:", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            //list11.Add(romanList9);
+            //howManyExpertEvidenceInfo.AddElement(list11);
+            //annexureBTable.AddCell(howManyExpertEvidenceInfo);
 
             PdfPCell endingCell = new PdfPCell();
             endingCell.Border = 0;
@@ -1399,7 +1473,7 @@ namespace PdfPlayGround
             PdfPTable endingTable = new PdfPTable(1);
             endingTable.HorizontalAlignment = Element.ALIGN_LEFT;
             endingTable.DefaultCell.Border = Rectangle.NO_BORDER;
-            endingTable.AddCell(new Paragraph("Wright J" + "\n" + "President" + "\n" + "7 February 2014", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            endingTable.AddCell(new Paragraph("Wright J President" + "President" + "\n" + "23 February 2018", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
             endingCell.AddElement(endingTable);
             annexureBTable.AddCell(endingCell);
 
@@ -1417,6 +1491,7 @@ namespace PdfPlayGround
             PhotoGraphTable.TotalWidth = 820f;
             PhotoGraphTable.LockedWidth = true;
             PhotoGraphTable.SpacingBefore = 10f;
+            PhotoGraphTable.SplitLate = false;
 
             PdfPCell PhotoGraphHeader = new PdfPCell(new Phrase("Photographs", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
             PhotoGraphHeader.BackgroundColor = new BaseColor(0, 0, 51);
@@ -1425,13 +1500,13 @@ namespace PdfPlayGround
             PhotoGraphHeader.PaddingBottom = 4f;
             PhotoGraphTable.AddCell(PhotoGraphHeader);
 
-            //PdfPCell PhotoGraphInfo = new PdfPCell(new Phrase("Photographs taken during inspection of this property are set out in the item detail sections.", new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
-            //PhotoGraphInfo.PaddingTop = 4f;
-            //PhotoGraphInfo.PaddingBottom = 4f;
-            //PhotoGraphTable.AddCell(PhotoGraphInfo);
+            PdfPCell PhotoGraphInfo = new PdfPCell(new Phrase("Photographs taken during inspection of this property are set out in the item detail sections.", new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
+            PhotoGraphInfo.PaddingTop = 4f;
+            PhotoGraphInfo.PaddingBottom = 4f;
+            PhotoGraphTable.AddCell(PhotoGraphInfo);
 
             Doc.Add(PhotoGraphTable);
-            Doc.Add(new Phrase("Photographs taken during inspection of this property are set out in the item detail sections.", new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
+            //Doc.Add(new Phrase("Photographs taken during inspection of this property are set out in the item detail sections.", new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
 
             //schedule of work static table
             PdfPTable ScheduleWorkTable = new PdfPTable(1);
@@ -1446,13 +1521,13 @@ namespace PdfPlayGround
             ScheduleWorkHeader.PaddingBottom = 4f;
             ScheduleWorkTable.AddCell(ScheduleWorkHeader);
 
-            //PdfPCell ScheduleWorkInfo = new PdfPCell(new Phrase("A recommended Schedule of Works is set out under each item of this report", new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
-            //ScheduleWorkInfo.PaddingTop = 4f;
-            //ScheduleWorkInfo.PaddingBottom = 4f;
-            //ScheduleWorkTable.AddCell(ScheduleWorkInfo);
+            PdfPCell ScheduleWorkInfo = new PdfPCell(new Phrase("A recommended Schedule of Works is set out under each item of this report", new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
+            ScheduleWorkInfo.PaddingTop = 4f;
+            ScheduleWorkInfo.PaddingBottom = 4f;
+            ScheduleWorkTable.AddCell(ScheduleWorkInfo);
 
             Doc.Add(ScheduleWorkTable);
-            Doc.Add(new Phrase("A recommended Schedule of Works is set out under each item of this report", new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
+            //Doc.Add(new Phrase("A recommended Schedule of Works is set out under each item of this report", new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
         }
 
         protected PdfPTable GenerateItemReportTable(ItemReporData data, int dataColNumber)
@@ -1460,7 +1535,9 @@ namespace PdfPlayGround
             PdfPTable itemReportTable = new PdfPTable(2)
             {
                 TotalWidth = PageContentWidth,
-                LockedWidth = true
+                LockedWidth = true,
+                SplitLate = false,
+                SpacingBefore = 10f
             };
             PdfPTable dataTable = new PdfPTable(dataColNumber);
             PdfPTable imgTable = new PdfPTable(1);
@@ -1647,14 +1724,10 @@ namespace PdfPlayGround
         protected class ENDataClassicHeader : PdfPageEventBase
         {
             PdfTest ThisDocument => (PdfTest)BaseDocument;
-            //protected Phrase PDFFooter_Date;
-            //protected Phrase PDFHeader_Title;
-
 
             public ENDataClassicHeader(PdfBase pdfbase) : base(pdfbase)
             {
-                //PDFFooter_Date = new Phrase($"Printed On: {BaseDocument.Date}", StyleFooterAndPageNumber);
-                //PDFHeader_Title = new Phrase(BaseDocument.Title, ThisDocument.StyleTiltleHeader);
+
             }
 
             public override void OnStartPage(PdfWriter writer, Document document)

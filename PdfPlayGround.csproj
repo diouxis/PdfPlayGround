@@ -21,4 +21,8 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="AnnexurePdf\" />
+  </ItemGroup>
+
 </Project>
