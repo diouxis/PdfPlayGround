@@ -16,7 +16,7 @@ namespace PdfPlayGround.Model
 
 		public DataResolver()
         {
-			string endpoint = "https://api-uat.endataclaims.com/midgard/graphql";
+			string endpoint = "https://api-sit.endataclaims.com/midgard/graphql";
 			_client = new GraphQLHttpClient(endpoint, new NewtonsoftJsonSerializer());
 
 			BuildToken();
@@ -99,11 +99,21 @@ query ReportQuery($claimId: ID!) {
 		  name
 		  email
 		}
+		caseManager{
+		  managerName
+		}
 		building{
 		  scopingSupplier{
 			companyName
 			companyPhone1
 			companyPhone2
+			companyAddress{
+			  line1
+			  line2
+			  suburb
+			  state
+			  postcode
+			}
 		  }
 		  authorisedSupplier{
 			companyName

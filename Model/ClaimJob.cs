@@ -42,6 +42,19 @@ namespace PdfPlayGround.Model
         public string CompanyEmail { get; set; }
         public string CompanyPhone1 { get; set; }
         public string CompanyPhone2 { get; set; }
+
+        public Address CompanyAddress { get; set; }
+    }
+
+    public class Address
+    {
+        public string Line1 { get; set; }
+        public string Line2 { get; set; }
+        public string Suburb { get; set; }
+        public State? State { get; set; }
+        public string Postcode { get; set; }
+
+        public string FullAddress => $"{string.Join(",", Line1, Line2)} {Suburb} {State} {Postcode}";
     }
 
     public class ContactDetail
@@ -52,5 +65,17 @@ namespace PdfPlayGround.Model
         public string Phone3 { get; set; }
         public string Fax { get; set; }
         public string Email { get; set; }
+    }
+
+    public enum State
+    {
+        QLD = 1,
+        NSW,
+        VIC,
+        WA,
+        ACT,
+        SA,
+        TAS,
+        NT
     }
 }
