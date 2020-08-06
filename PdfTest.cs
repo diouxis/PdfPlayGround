@@ -581,8 +581,9 @@ namespace PdfPlayGround
                         if (field.FirstOrDefault(x => x.Label == "Recommendation").ValueString == "Accept")
                         {
                             CreateScheduleItem(field);
-                            //Doc.NewPage();
+                            Doc.NewPage();
                         }
+                        //Doc.NewPage();
                     }
 
                     Doc.Add(new Phrase("Schedule of Items – Recommended for DENIAL oF DEFECTIVE WORK", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
@@ -591,7 +592,8 @@ namespace PdfPlayGround
                         if (field.FirstOrDefault(x => x.Label == "Recommendation").ValueString == "Decline")
                         {
                             CreateScheduleItem(field);
-                            //Doc.NewPage();
+
+                            Doc.NewPage();
                         }
                     }
                 }
@@ -602,7 +604,7 @@ namespace PdfPlayGround
             //report summary
             if (JobDetailContent != null)
             {
-                Doc.NewPage();
+                //Doc.NewPage();
                 Paragraph reportTitleCell = new Paragraph("REPORT SUMMARY", new Font(Font.BOLD, 14f, Font.BOLD, BaseColor.Black));
                 Doc.Add(reportTitleCell);
                 Paragraph reportTitleTime = new Paragraph("Completed on the date of " + 

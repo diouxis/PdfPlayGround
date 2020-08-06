@@ -85,8 +85,6 @@ namespace PdfPlayGround
             Doc.Add(startTable);
 
 
-            
-
             //datetime range 
             PdfPTable dateTimeTable = new PdfPTable(1);
             dateTimeTable.TotalWidth = PageContentWidth;
@@ -94,33 +92,17 @@ namespace PdfPlayGround
             dateTimeTable.DefaultCell.Border = Rectangle.NO_BORDER;
             dateTimeTable.SpacingBefore = 5f;
 
-            Chunk dateRange = new Chunk("Date Range: ", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black));
-            //Chunk dateFromChunk = new Chunk("Date From ", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black));
-            Chunk dateFromChu = new Chunk(DateFrom.ToString("dd/MM/yyyy") + "  -  ");
-            //Chunk dateToChunk = new Chunk("Date To ", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black));
-            Chunk dateToChu = new Chunk(DateTo.ToString("dd/MM/yyyy"));
-
-            Phrase dateFromPhrase = new Phrase();
-            //dateFromPhrase.Add(dateFromChunk);
-            dateFromPhrase.Add(dateRange);
-            dateFromPhrase.Add(dateFromChu);
-            //dateFromPhrase.Add(dateToChunk);
-            dateFromPhrase.Add(dateToChu);
-
-            //Phrase dateToPhrase = new Phrase();
-            //dateToPhrase.Add(dateToChunk);
-            //dateToPhrase.Add(dateToChu);
+            Phrase dateFromPhrase = new Phrase
+            {
+                new Chunk("Date Range: ", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)),
+                new Chunk($"{Source.DateFrom:dd/MM/yyyy} - {Source.DateTo:dd/MM/yyyy}")
+            };
 
             PdfPCell dateFromCell = new PdfPCell();
             dateFromCell.Border = 0;
             dateFromCell.AddElement(dateFromPhrase);
 
-            //PdfPCell dateToCell = new PdfPCell();
-            //dateToCell.Border = 0;
-            //dateToCell.AddElement(dateToPhrase);
-
             dateTimeTable.AddCell(dateFromCell);
-            //dateTimeTable.AddCell(dateToCell);
             Doc.Add(dateTimeTable);
 
             //second table 
