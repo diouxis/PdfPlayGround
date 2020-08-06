@@ -94,31 +94,62 @@ query ReportQuery($claimId: ID!) {
 		  companyPhone1
 		  companyPhone2
 		  companyEmail
-		}
-		insured{
-		  name
-		  email
-		}
-		caseManager{
-		  managerName
-		}
-		building{
-		  scopingSupplier{
-			companyName
-			companyPhone1
-			companyPhone2
-			companyAddress{
-			  line1
+      companyAddress{
+        line1
 			  line2
 			  suburb
 			  state
 			  postcode
-			}
+      }
+		}
+		insured{
+		  name
+		  email
+      postalAddress{
+        line1
+			  line2
+			  suburb
+			  state
+			  postcode
+      }
+		}
+		caseManager{
+		  managerName
+		}
+    incidentDetail{
+      riskAddress{
+        line1
+			  line2
+			  suburb
+			  state
+			  postcode
+      }
+    }
+		building{
+		  scopingSupplier{
+        companyName
+        companyPhone1
+        companyPhone2
+        companyId
+        companyAddress{
+          line1
+          line2
+          suburb
+          state
+          postcode
+        }
 		  }
 		  authorisedSupplier{
 			companyName
 			companyPhone1
 			companyPhone2
+        companyAddress{
+          line1
+          line2
+          suburb
+          state
+          postcode
+        }
 		  }
 		}
 		reportForm {
