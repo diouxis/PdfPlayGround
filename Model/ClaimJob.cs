@@ -10,9 +10,10 @@ namespace PdfPlayGround.Model
         public Company Insurer { get; set; }
         public ContactDetail Insured { get; set; }
         public Portfolio Building { get; set; }
-
+        public IncidentDetail IncidentDetail { get; set; }
         public ReportForm ReportForm { get; set; }
         public ReportData ReportData { get; set; }
+        public Manager CaseManager { get; set; }
 
         public void FillData()
         {
@@ -43,6 +44,7 @@ namespace PdfPlayGround.Model
         public string CompanyPhone1 { get; set; }
         public string CompanyPhone2 { get; set; }
 
+        public string Logoright { get; set; }
         public Address CompanyAddress { get; set; }
     }
 

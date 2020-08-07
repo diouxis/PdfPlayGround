@@ -11,6 +11,17 @@ namespace PdfPlayGround.Model
         public JObject Data { get; set; }
     }
 
+    public class IncidentDetail
+    {
+        public Address RiskAddress { get; set; }
+    }
+
+    public class Manager
+    {
+        public string ManagerName { get; set; }
+        public string ManagerEmail { get; set; }
+    }
+
     public class ReportForm
     {
         public List<Card> Cards { get; set; }

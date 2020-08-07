@@ -129,6 +129,7 @@ query ReportQuery($claimId: ID!) {
 		  scopingSupplier{
         companyName
         companyPhone1
+        logoright
         companyPhone2
         companyId
         companyAddress{

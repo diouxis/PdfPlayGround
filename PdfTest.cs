@@ -12,6 +12,7 @@ namespace PdfPlayGround
 {
     using Model;
     using Org.BouncyCastle.Asn1.Cmp;
+    using System.Diagnostics;
     using System.Linq;
 
     public class PdfTest : PdfBase
@@ -126,7 +127,7 @@ namespace PdfPlayGround
             JobDetailContent = new List<InfoTableMetaData>
             {
                 new InfoTableMetaData("Building Owner:", Source.Insured.Name),
-                new InfoTableMetaData("Address:", ""),
+                new InfoTableMetaData("Address:", Source.IncidentDetail.RiskAddress.FullAddress),
                 new InfoTableMetaData("Client", Source.Insurer.CompanyName),
                 new InfoTableMetaData("Our Reference:", BuildingConDetailCard.Fields[0].ValueString),
                 new InfoTableMetaData("Client Reference:", Source.RefNumber)
@@ -221,11 +222,11 @@ namespace PdfPlayGround
 
             Doc.Add(new Phrase((DateTime.Now.Day.ToString() + " " + month + " " + DateTime.Now.Year.ToString() + "\n"), new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
 
-            Phrase email = new Phrase("builderswarrantyclaims@gbtpa.com.au", new Font(Font.UNDEFINED, 11f, Font.UNDERLINE, BaseColor.Blue));
+            Phrase email = new Phrase(Source.Insurer.CompanyEmail, new Font(Font.UNDEFINED, 11f, Font.UNDERLINE, BaseColor.Blue));
 
-            Phrase infoList = new Phrase("Attention: " + Source.Insurer.CompanyName + "\n" + 
-                "Gallagher Bassett Services Pty Ltd" + "\n" + 
-                "Locked Bag 912, North Sydney NSW 2060" + "\n" + "Email: ",
+            Phrase infoList = new Phrase("Attention: " + Source.CaseManager.ManagerName + "\n" + 
+                Source.Insurer.CompanyName + "\n" + 
+                Source.Insurer.CompanyAddress.FullAddress + "\n" + "Email: ",
                 new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black
             ));
 
@@ -575,7 +576,11 @@ namespace PdfPlayGround
                 var fields = ScheduleItemCard.Fields.FirstOrDefault().Value as List<List<Field>>;
                 if (fields != null)
                 {
-                    Doc.Add(new Phrase("Schedule of Items – Recommended for ACCEPTANCE of DEFECTIVE WORK", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
+                    if (fields.Any(item => item.FirstOrDefault(x => x.Label == "Recommendation").ValueString == "Accept"))
+                    {
+                        Doc.Add(new Phrase("Schedule of Items – Recommended for ACCEPTANCE of DEFECTIVE WORK", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
+                    }
+
                     foreach (var field in fields)
                     {
                         if (field.FirstOrDefault(x => x.Label == "Recommendation").ValueString == "Accept")
@@ -586,7 +591,10 @@ namespace PdfPlayGround
                         //Doc.NewPage();
                     }
 
-                    Doc.Add(new Phrase("Schedule of Items – Recommended for DENIAL oF DEFECTIVE WORK", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
+                    if (fields.Any(item => item.FirstOrDefault(x => x.Label == "Recommendation").ValueString == "Decline"))
+                    {
+                        Doc.Add(new Phrase("Schedule of Items – Recommended for DENIAL of DEFECTIVE WORK", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
+                    }
                     foreach (var field in fields)
                     {
                         if (field.FirstOrDefault(x => x.Label == "Recommendation").ValueString == "Decline")
@@ -618,13 +626,13 @@ namespace PdfPlayGround
                 ReportSummaryTable.TotalWidth = 700f;
                 ReportSummaryTable.LockedWidth = true;
                 var buildingOwner = JobDetailContent.FirstOrDefault(x => x.Name == "Building Owner:");
-                var lossAddress = "";
+                var lossAddress = Source.IncidentDetail.RiskAddress.FullAddress;
                 var client = Source.Insurer.CompanyName;
                 var buildingConRef = BuildingConDetailCard.Fields.FirstOrDefault(x => x.Name == "ourReference");
                 var clientRef = Source.RefNumber;
                 string[] reportSumInfo = {
                     "Building Owner:", buildingOwner.Content,
-                    "Loss Address:", "",
+                    "Loss Address:", Source.IncidentDetail.RiskAddress.FullAddress,
                     "Client:", client,
                     "Building Consultant’s Reference No:", buildingConRef.ValueString,
                     "Client’s Reference No (Claim No):", clientRef
@@ -1740,25 +1748,46 @@ namespace PdfPlayGround
                 headerTable.LockedWidth = true;
                 headerTable.DefaultCell.Border = Rectangle.NO_BORDER;
 
-                //create cells 1
-                PdfPCell headerFirstLineLeft = new PdfPCell(new Phrase("ACE BUILDING CONSULTANTS", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
-                headerFirstLineLeft.HorizontalAlignment = Element.ALIGN_LEFT;
-                headerFirstLineLeft.Border = Rectangle.NO_BORDER;
-                PdfPCell headerFirstLineRight = new PdfPCell(new Phrase("Prepared by:", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
-                headerFirstLineRight.HorizontalAlignment = Element.ALIGN_RIGHT;
-                headerFirstLineRight.Border = Rectangle.NO_BORDER;
-                //create cells 2
-                PdfPCell headerSecondLineLeft = new PdfPCell(new Phrase("147 Burly St" + "\n" + "Wyong, NSW 2772", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
-                headerSecondLineLeft.HorizontalAlignment = Element.ALIGN_LEFT;
-                headerSecondLineLeft.Border = Rectangle.NO_BORDER;
-                PdfPCell headerSecondLineRight = new PdfPCell(new Phrase("The Building Consultant" + "\n" + "040404040", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
-                headerSecondLineRight.HorizontalAlignment = Element.ALIGN_RIGHT;
-                headerSecondLineRight.Border = Rectangle.NO_BORDER;
+                ////create cells 1
+                //PdfPCell headerFirstLineLeft = new PdfPCell(new Phrase("ACE BUILDING CONSULTANTS", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+                //headerFirstLineLeft.HorizontalAlignment = Element.ALIGN_LEFT;
+                //headerFirstLineLeft.Border = Rectangle.NO_BORDER;
+                //PdfPCell headerFirstLineRight = new PdfPCell(new Phrase("Prepared by:", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+                //headerFirstLineRight.HorizontalAlignment = Element.ALIGN_RIGHT;
+                //headerFirstLineRight.Border = Rectangle.NO_BORDER;
+                ////create cells 2
+                //PdfPCell headerSecondLineLeft = new PdfPCell(new Phrase("147 Burly St" + "\n" + "Wyong, NSW 2772", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+                //headerSecondLineLeft.HorizontalAlignment = Element.ALIGN_LEFT;
+                //headerSecondLineLeft.Border = Rectangle.NO_BORDER;
+                //PdfPCell headerSecondLineRight = new PdfPCell(new Phrase("The Building Consultant" + "\n" + "040404040", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+                //headerSecondLineRight.HorizontalAlignment = Element.ALIGN_RIGHT;
+                //headerSecondLineRight.Border = Rectangle.NO_BORDER;
 
-                headerTable.AddCell(headerFirstLineLeft);
-                headerTable.AddCell(headerFirstLineRight);
-                headerTable.AddCell(headerSecondLineLeft);
-                headerTable.AddCell(headerSecondLineRight);
+                //headerTable.AddCell(headerFirstLineLeft);
+                //headerTable.AddCell(headerFirstLineRight);
+                //headerTable.AddCell(headerSecondLineLeft);
+                //headerTable.AddCell(headerSecondLineRight);
+
+                PdfPCell headerLeft = new PdfPCell();
+                headerLeft.Colspan = 1;
+                headerLeft.HorizontalAlignment = Element.ALIGN_LEFT;
+                headerLeft.Border = Rectangle.NO_BORDER;
+
+                var logoImg = Image.GetInstance(new Uri(ThisDocument.Source.Building.ScopingSupplier.Logoright));
+                logoImg.ScalePercent(30f);
+                logoImg.Alignment = Element.ALIGN_CENTER;
+                headerLeft.AddElement(logoImg);
+
+                PdfPCell headerRight = new PdfPCell();
+                headerRight.Colspan = 2;
+                headerRight.HorizontalAlignment = Element.ALIGN_RIGHT;
+                headerRight.Border = Rectangle.NO_BORDER;
+                Phrase headerRightPhrase = new Phrase(ThisDocument.Source.Building.ScopingSupplier.CompanyAddress.FullAddress + "\n" + 
+                    ThisDocument.Source.Building.ScopingSupplier.CompanyPhone1, new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black));
+                headerRight.AddElement(headerRightPhrase);
+
+                headerTable.AddCell(headerLeft);
+                headerTable.AddCell(headerRight);
 
                 headerTable.WriteSelectedRows(0, -1, document.LeftMargin, document.PageSize.Height -25, writer.DirectContent);
 
