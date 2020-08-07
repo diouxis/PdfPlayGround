@@ -1773,18 +1773,23 @@ namespace PdfPlayGround
                 headerLeft.HorizontalAlignment = Element.ALIGN_LEFT;
                 headerLeft.Border = Rectangle.NO_BORDER;
 
-                var logoImg = Image.GetInstance(new Uri(ThisDocument.Source.Building.ScopingSupplier.Logoright));
-                logoImg.ScalePercent(30f);
-                logoImg.Alignment = Element.ALIGN_CENTER;
-                headerLeft.AddElement(logoImg);
+                if (ThisDocument.Source.Building.ScopingSupplier.Logoright != null)
+                {
+                    var logoImg = Image.GetInstance(new Uri(ThisDocument.Source.Building.ScopingSupplier.Logoright));
+                    logoImg.ScalePercent(30f);
+                    logoImg.Alignment = Element.ALIGN_LEFT;
+                    headerLeft.AddElement(logoImg);
+                }
+                else
+                {
+                    headerLeft.AddElement(new Phrase(" ", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+                }
 
-                PdfPCell headerRight = new PdfPCell();
-                headerRight.Colspan = 2;
+                PdfPCell headerRight = new PdfPCell(new Phrase(ThisDocument.Source.Building.ScopingSupplier.CompanyAddress.FullAddress + "\n" +
+                    ThisDocument.Source.Building.ScopingSupplier.CompanyPhone1, new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+                headerRight.Colspan = 1;
                 headerRight.HorizontalAlignment = Element.ALIGN_RIGHT;
                 headerRight.Border = Rectangle.NO_BORDER;
-                Phrase headerRightPhrase = new Phrase(ThisDocument.Source.Building.ScopingSupplier.CompanyAddress.FullAddress + "\n" + 
-                    ThisDocument.Source.Building.ScopingSupplier.CompanyPhone1, new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black));
-                headerRight.AddElement(headerRightPhrase);
 
                 headerTable.AddCell(headerLeft);
                 headerTable.AddCell(headerRight);
