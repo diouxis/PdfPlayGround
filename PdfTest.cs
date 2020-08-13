@@ -1776,7 +1776,7 @@ namespace PdfPlayGround
                 if (ThisDocument.Source.Building.ScopingSupplier.Logoright != null)
                 {
                     var logoImg = Image.GetInstance(new Uri(ThisDocument.Source.Building.ScopingSupplier.Logoright));
-                    logoImg.ScalePercent(30f);
+                    logoImg.ScalePercent(10f);
                     logoImg.Alignment = Element.ALIGN_LEFT;
                     headerLeft.AddElement(logoImg);
                 }
@@ -1785,7 +1785,7 @@ namespace PdfPlayGround
                     headerLeft.AddElement(new Phrase(" ", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
                 }
 
-                PdfPCell headerRight = new PdfPCell(new Phrase(ThisDocument.Source.Building.ScopingSupplier.CompanyAddress.FullAddress + "\n" +
+                PdfPCell headerRight = new PdfPCell(new Phrase("Prepared by" + "\n" +  ThisDocument.Source.Building.ScopingSupplier.CompanyName + "\n" +
                     ThisDocument.Source.Building.ScopingSupplier.CompanyPhone1, new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
                 headerRight.Colspan = 1;
                 headerRight.HorizontalAlignment = Element.ALIGN_RIGHT;
