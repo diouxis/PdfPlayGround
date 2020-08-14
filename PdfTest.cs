@@ -763,7 +763,8 @@ namespace PdfPlayGround
             {
                 var policyContent = SupplementaryCommInConfiReportCard.Fields.FirstOrDefault(x => x.Name == "policy").ValueString;
                 var nonCompletionContent = SupplementaryCommInConfiReportCard.Fields.FirstOrDefault(x => x.Name == "nonCompletion").ValueString;
-                var confidenceDetailsContent = SupplementaryCommInConfiReportCard.Fields.FirstOrDefault(x => x.Name == "confidenceDetails").ValueString;
+                var defectContent = SupplementaryCommInConfiReportCard.Fields.FirstOrDefault(x => x.Name == "defectsDetail").ValueString;
+                //var confidenceDetailsContent = SupplementaryCommInConfiReportCard.Fields.FirstOrDefault(x => x.Name == "confidenceDetails").ValueString;
                 var additionalCommentsContent = SupplementaryCommInConfiReportCard.Fields.FirstOrDefault(x => x.Name == "addComments").ValueString;
                 var potentialRecovertContent = SupplementaryCommInConfiReportCard.Fields.FirstOrDefault(x => x.Name == "potentialRecovert").ValueString;
 
@@ -797,6 +798,20 @@ namespace PdfPlayGround
                 PdfPCell nonCompletionInfo = new PdfPCell(new Phrase(nonCompletionContent, new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
                 nonCompletionTable.AddCell(nonCompletionInfo);
                 Doc.Add(nonCompletionTable);
+
+                //defectstable
+                PdfPTable defectsTable = new PdfPTable(1);
+                defectsTable.TotalWidth = 820f;
+                defectsTable.LockedWidth = true;
+                defectsTable.SpacingAfter = 15f;
+                defectsTable.SplitLate = false;
+                PdfPCell defectsTitle = new PdfPCell(new Phrase("Defects", new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)));
+                defectsTitle.BackgroundColor = new BaseColor(0, 0, 51);
+                defectsTitle.HorizontalAlignment = Element.ALIGN_CENTER;
+                defectsTable.AddCell(defectsTitle);
+                PdfPCell defectsInfo = new PdfPCell(new Phrase(defectContent, new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+                defectsTable.AddCell(defectsInfo);
+                Doc.Add(defectsTable);
 
                 //additional comments
                 PdfPTable additionalCommentTable = new PdfPTable(1);
