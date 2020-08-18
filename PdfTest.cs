@@ -30,7 +30,8 @@ namespace PdfPlayGround
         protected List<InfoTableMetaData> ClaimDetailTable = new List<InfoTableMetaData>();
         protected List<InfoTableMetaData> ProfessionalSerEngageTable = new List<InfoTableMetaData>();
         protected List<InfoTableMetaData> DocumentPreparationTable = new List<InfoTableMetaData>();
-        protected List<InfoTableMetaData> ReferenceCurriVitaeTable = new List<InfoTableMetaData>();
+        protected List<InfoTableMetaData> ReferenceTable = new List<InfoTableMetaData>();
+        protected List<InfoTableMetaData> CurriVitaeTable = new List<InfoTableMetaData>();
         protected List<InfoTableMetaData> SupplementaryCommInConfiReportTable = new List<InfoTableMetaData>();
 
         private Card CoverPageCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Cover Page");
@@ -42,11 +43,11 @@ namespace PdfPlayGround
         private Card InstructionCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Instructions from Gallagher Bassett");
         private Card AreaBCACard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Areas of Non-Compliance to BCA(Building Code of Australia)");
         private Card ProfessionalSerEngageCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Professional Services Engaged by Claimant");
-        private Card DocumentPreparationCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Documents relied on in the preparation of this report");
+        private Card DocumentAndReferencePreparationCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Documents and References relied on in the preparation of this report");
         private Card OutstandingManCerRequirementCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Outstanding Mandatory Certification Requirements");
         private Card OpinionRelationSectionCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Opinion in relation to Section 95(2) Report");
         private Card ScheduleItemCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Schedule of Items");
-        private Card ReferenceCurriVitaeCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "References and Curriculum Vitae");
+        private Card CurriVitaeCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Curriculum Vitae");
         private Card SupplementaryCommInConfiReportCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Supplementary Commercial In-Confidence Report");
         private Card DefectEvaluationCard => Source.ReportForm.Cards.FirstOrDefault(x => x.Title == "Defect Evaluation");
 
@@ -80,15 +81,17 @@ namespace PdfPlayGround
         protected List<InfoTableMetaData> InitialTableDocumentReliedOnTable(Card card)
         {
             var table = new List<InfoTableMetaData> { };
-            if (card.Fields.FirstOrDefault().Value is List<List<Field>> fields)
+            if (card.Fields[0].Value is List<List<Field>> fields && card.Fields[0].Value != null)
             {
                 foreach (var field in fields.Select(x => x.FirstOrDefault()))
                 {
-                    if (field?.Value != null)
-                    {
-                        var metaData = new InfoTableMetaData(field.Name, field.Value?.ToString(), colLable: 0);
-                        table.Add(metaData);
-                    }
+                    //if (field?.Value != null)
+                    //{
+                    //    var metaData = new InfoTableMetaData(field.Name, field.Value?.ToString(), colLable: 0);
+                    //    table.Add(metaData);
+                    //}
+                    var metaData = new InfoTableMetaData(field.Name, field.Value?.ToString(), colLable: 0);
+                    table.Add(metaData);
                 }
             }
             return table;
@@ -186,15 +189,16 @@ namespace PdfPlayGround
                 ProfessionalSerEngageTable = InitialTableForProfessionalServicesEngaged(ProfessionalSerEngageCard);
             }
 
-            if (DocumentPreparationCard != null)
+            if (DocumentAndReferencePreparationCard != null)
             {
-                DocumentPreparationTable = InitialTableDocumentReliedOnTable(DocumentPreparationCard);
+                DocumentPreparationTable = InitialTableDocumentReliedOnTable(DocumentAndReferencePreparationCard);
+                ReferenceTable = InitialTableReferenceTable(DocumentAndReferencePreparationCard);
             }
 
-            if (ReferenceCurriVitaeCard != null)
-            {
-                ReferenceCurriVitaeTable = InitialTableReferenceTable(ReferenceCurriVitaeCard);
-            }
+            //if (CurriVitaeCard != null)
+            //{
+            //    CurriVitaeTable = InitialTableReferenceTable(CurriVitaeCard);
+            //}
 
             if (SupplementaryCommInConfiReportCard != null)
             {
@@ -503,7 +507,7 @@ namespace PdfPlayGround
                 //Doc.Add(new Phrase(OutstandingManCerRequirementCard.Fields[0].ValueString, new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black)));
             }
 
-            if (DocumentPreparationCard != null)
+            if (DocumentAndReferencePreparationCard != null)
             {
                 PdfPTable dpTable = new PdfPTable(1);
                 dpTable.DefaultCell.Border = Rectangle.NO_BORDER;
@@ -519,10 +523,7 @@ namespace PdfPlayGround
                 dpTable.AddCell(DpDetail);
 
                 Doc.Add(dpTable);
-            }
 
-            if (ReferenceCurriVitaeCard != null)
-            {
                 PdfPTable rcvTable = new PdfPTable(1);
                 rcvTable.DefaultCell.Border = Rectangle.NO_BORDER;
                 rcvTable.SpacingBefore = 10f;
@@ -530,7 +531,7 @@ namespace PdfPlayGround
                 rcvTable.LockedWidth = true;
                 rcvTable.SplitLate = false;
 
-                PdfPCell ReferenceDetail = new PdfPCell(GenerateTestTable(ReferenceCurriVitaeTable, "Reference", 2, 820f));
+                PdfPCell ReferenceDetail = new PdfPCell(GenerateTestTable(ReferenceTable, "Reference", 2, 820f));
                 ReferenceDetail.HorizontalAlignment = Element.ALIGN_CENTER;
                 ReferenceDetail.VerticalAlignment = Element.ALIGN_MIDDLE;
                 ReferenceDetail.Border = 0;
@@ -538,6 +539,11 @@ namespace PdfPlayGround
 
                 Doc.Add(rcvTable);
             }
+
+            //if (CurriVitaeCard != null)
+            //{
+               
+            //}
 
             createPhotoAndScheduleTable();
 
@@ -717,7 +723,7 @@ namespace PdfPlayGround
                 Doc.Add(signatureTable);
             }
 
-            if (ReferenceCurriVitaeCard != null)
+            if (CurriVitaeCard != null)
             {
                 Doc.NewPage();
                 createAnnexureA();
@@ -899,20 +905,20 @@ namespace PdfPlayGround
                             itemNoInfo.Colspan = 1;
                             summaryAllAcceptWorkEstimate.AddCell(itemNoInfo);
                             PdfPCell descInfo = new PdfPCell(new Phrase(descValue));
-                            descInfo.HorizontalAlignment = Element.ALIGN_CENTER;
+                            descInfo.HorizontalAlignment = Element.ALIGN_LEFT;
                             descInfo.Colspan = 3;
                             summaryAllAcceptWorkEstimate.AddCell(descInfo);
                             PdfPCell locationInfo = new PdfPCell(new Phrase(locationValue, new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
-                            locationInfo.HorizontalAlignment = Element.ALIGN_CENTER;
+                            locationInfo.HorizontalAlignment = Element.ALIGN_LEFT;
                             locationInfo.Colspan = 1;
                             summaryAllAcceptWorkEstimate.AddCell(locationInfo);
                             string estimateValue = "";
                             if (estimateCostValue != "")
                             {
-                                estimateValue = "$    " + estimateCostValue;
+                                estimateValue = "$ " + estimateCostValue;
                             }
                             PdfPCell estimateInfo = new PdfPCell(new Phrase(estimateValue, new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
-                            estimateInfo.HorizontalAlignment = Element.ALIGN_CENTER;
+                            estimateInfo.HorizontalAlignment = Element.ALIGN_RIGHT;
                             estimateInfo.Colspan = 1;
                             summaryAllAcceptWorkEstimate.AddCell(estimateInfo);
                         }
@@ -927,11 +933,11 @@ namespace PdfPlayGround
                 string summaryAllAcceptedEstimateTotalValue = "";
                 if (totalEstimate != 0)
                 {
-                    summaryAllAcceptedEstimateTotalValue = "$    " + totalEstimate.ToString();
+                    summaryAllAcceptedEstimateTotalValue = "$ " + totalEstimate.ToString();
                 }
                 PdfPCell totalEstInfo = new PdfPCell(new Phrase(summaryAllAcceptedEstimateTotalValue, new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
                 totalEstInfo.Colspan = 1;
-                totalEstInfo.HorizontalAlignment = Element.ALIGN_CENTER;
+                totalEstInfo.HorizontalAlignment = Element.ALIGN_RIGHT;
                 summaryAllAcceptWorkEstimate.AddCell(totalEstInfo);
                 Doc.Add(summaryAllAcceptWorkEstimate);
 
@@ -974,7 +980,7 @@ namespace PdfPlayGround
                         }
                         PdfPCell estimateValueCell = new PdfPCell(new Phrase(defectValue, new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
                         estimateValueCell.Colspan = 1;
-                        estimateValueCell.HorizontalAlignment = Element.ALIGN_CENTER;
+                        estimateValueCell.HorizontalAlignment = Element.ALIGN_RIGHT;
                         defectEvaluationTable.AddCell(estimateValueCell);
 
                         if (double.TryParse(field.ValueString, out var estimatevalue))
@@ -994,7 +1000,7 @@ namespace PdfPlayGround
                 }
                 PdfPCell totalValue = new PdfPCell(new Phrase(defectTotalValue, new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
                 totalValue.Colspan = 1;
-                totalValue.HorizontalAlignment = Element.ALIGN_CENTER;
+                totalValue.HorizontalAlignment = Element.ALIGN_RIGHT;
                 defectEvaluationTable.AddCell(totalValue);
 
                 Doc.Add(defectEvaluationTable);
@@ -1022,7 +1028,7 @@ namespace PdfPlayGround
             annexureATable.AddCell(annexureATitle2);
             annexureATable.AddCell(annexureATitle3);
 
-            PdfPCell annexureAInfo = new PdfPCell(new Phrase(ReferenceCurriVitaeCard.Fields[0]?.ValueString, new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
+            PdfPCell annexureAInfo = new PdfPCell(new Phrase(CurriVitaeCard.Fields[0]?.ValueString, new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
             annexureAInfo.HorizontalAlignment = Element.ALIGN_LEFT;
             annexureAInfo.Border = 0;
 
