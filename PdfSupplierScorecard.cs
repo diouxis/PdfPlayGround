@@ -4,6 +4,7 @@ using System.Text;
 using System.Linq;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
+using iTextSharp.text.html.simpleparser;
 using System.Globalization;
 using System.Text.RegularExpressions;
 
@@ -13,7 +14,7 @@ namespace PdfPlayGround
     using Model;
     using PdfPlayGround.Contract;
     using System.IO;
-
+    using iTextSharp.text.html;
 
     public class PdfSupplierScorecard : PdfBase
     {
@@ -23,8 +24,8 @@ namespace PdfPlayGround
         private string InsurerHeader => Source.InsurerHeader;
         private string InsurerLogo => Source.InsurerLogo;
         private string BorderTitle => Source.Title;
-        private DateTime DateFrom => Source.DateFrom;
-        private DateTime DateTo => Source.DateTo;
+        //private DateTime DateFrom => Source.DateFrom;
+        //private DateTime DateTo => Source.DateTo;
 
         Dictionary<string, string> iconUnicode = new Dictionary<string, string>();
 
@@ -179,8 +180,41 @@ namespace PdfPlayGround
             compareTable.CompleteRow();
             Doc.Add(compareTable);
 
+            Doc.NewPage();
+
+            generateDescriptionTable();
         }
 
+        public void generateDescriptionTable()
+        {
+            PdfPTable descriptionTable = new PdfPTable(7);
+            descriptionTable.TotalWidth = PageContentWidth;
+            descriptionTable.LockedWidth = true;
+            descriptionTable.SplitLate = false;
+
+            PdfPCell desTitle = new PdfPCell(new Phrase("Definitions", new Font(Font.BOLD, 14f, Font.BOLD, BaseColor.Black)));
+            desTitle.Colspan = 7;
+            desTitle.HorizontalAlignment = Element.ALIGN_CENTER;
+            descriptionTable.AddCell(desTitle);
+
+            foreach (SupplierScoreGroupView item in Source.ScoreGroups)
+            {
+                PdfPCell title = new PdfPCell(new Phrase(item.Name, new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.Black)));
+                title.Colspan = 1;
+
+                PdfPCell description = new PdfPCell();
+                description.Colspan = 6;
+                Phrase desPhrase = new Phrase();
+
+                desPhrase.AddRange(ConvertHtml(item.GroupDescription));
+
+                description.AddElement(desPhrase);
+
+                descriptionTable.AddCell(title);
+                descriptionTable.AddCell(description);
+            }
+            Doc.Add(descriptionTable);
+        }
 
         public PdfPTable generateBaseTable(SupplierScoreGroupView ScoreGroup, int columnNum)
         {

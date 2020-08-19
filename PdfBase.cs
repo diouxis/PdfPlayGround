@@ -184,6 +184,31 @@ namespace PdfPlayGround
             return table;
         }
 
+        protected ArrayList ConvertHtml(string html)
+        {
+            if (html is null) { html = string.Empty; }
+            string paternUrl = @"<([\S^>]*)\s*(?:src|href).*?>([\s\S]*?)<\s*\/\s*\1\s*>";
+            html = Regex.Replace(html, paternUrl, "$2");
+            html = Regex.Replace(html, @"<[^>]*(?:src|href).*?>", string.Empty);
+            html = html.Replace("<p>&nbsp;</p>", "<br />");
+            StyleSheet styleHtml = new StyleSheet();
+            styleHtml.LoadTagStyle(HtmlTags.PARAGRAPH, "leading", "0,1.5");
+            styleHtml.LoadTagStyle(HtmlTags.LISTITEM, "leading", "0,1.6");
+            var htmlarraylist = HtmlWorker.ParseToList(new StringReader(html), styleHtml);
+            foreach (var element in htmlarraylist)
+            {
+                if (element is List list)
+                {
+                    list.IndentationLeft = 20f;
+                }
+                else if (element is Paragraph p)
+                {
+                    p.SpacingBefore = 4f;
+                }
+            }
+            return htmlarraylist;
+        }
+
         private void ProducePdf(Stream stream)
         {
             FillTemplate();

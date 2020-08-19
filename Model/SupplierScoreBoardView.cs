@@ -8,6 +8,7 @@ namespace PdfPlayGround.Model
     //using Attributes;
     //using Helper;
     using Contract;
+    using iTextSharp.text.html;
     using PdfPlayGround.UI;
 
     public class SupplierScoreBoardView
@@ -33,6 +34,13 @@ namespace PdfPlayGround.Model
             {
                 new SupplierScoreGroupView
                 {
+                    GroupDescription = @"<p><strong>Definition&nbsp;</strong></p>
+<p>Sum of Total Cost divided by count of Authorised + Variations within specified date range<br />- A claim might be included in the AVG or TOTAL only with the variation value approved (i.e. without the scope approved value)<br />- i.e. &ldquo;Authorised&rdquo; * &ldquo;Avg Total Cost&rdquo; will not always be equal to &ldquo;Total Cost&rdquo;</p>
+<p><em>Note: Claims with a status of 'Claim Lodged in Error' are excluded from this measure</em></p>
+<p>Sum of Total Cost divided by count of Authorised + Variations within specified date range<br />- A claim might be included in the AVG or TOTAL only with the variation value approved (i.e. without the scope approved value)<br />- i.e. &ldquo;Authorised&rdquo; * &ldquo;Avg Total Cost&rdquo; will not always be equal to &ldquo;Total Cost&rdquo;</p>
+<p><em>Note: Claims with a status of 'Claim Lodged in Error' are excluded from this measure</em></p>
+<p>Sum of Total Cost divided by count of Authorised + Variations within specified date range<br />- A claim might be included in the AVG or TOTAL only with the variation value approved (i.e. without the scope approved value)<br />- i.e. &ldquo;Authorised&rdquo; * &ldquo;Avg Total Cost&rdquo; will not always be equal to &ldquo;Total Cost&rdquo;</p>
+<p><em>Note: Claims with a status of 'Claim Lodged in Error' are excluded from this measure</em></p>",
                     Name = "Cost",
                     Icon = "\\ue84f",
                     Orientation = Orientation.Vertical,
@@ -63,6 +71,13 @@ namespace PdfPlayGround.Model
                 },
                 new SupplierScoreGroupView
                 {
+                    GroupDescription = @"<p><strong>Definition&nbsp;</strong></p>
+<p>Sum of Total Cost divided by count of Authorised + Variations within specified date range<br />- A claim might be included in the AVG or TOTAL only with the variation value approved (i.e. without the scope approved value)<br />- i.e. &ldquo;Authorised&rdquo; * &ldquo;Avg Total Cost&rdquo; will not always be equal to &ldquo;Total Cost&rdquo;</p>
+<p><em>Note: Claims with a status of 'Claim Lodged in Error' are excluded from this measure</em></p>
+<p>Sum of Total Cost divided by count of Authorised + Variations within specified date range<br />- A claim might be included in the AVG or TOTAL only with the variation value approved (i.e. without the scope approved value)<br />- i.e. &ldquo;Authorised&rdquo; * &ldquo;Avg Total Cost&rdquo; will not always be equal to &ldquo;Total Cost&rdquo;</p>
+<p><em>Note: Claims with a status of 'Claim Lodged in Error' are excluded from this measure</em></p>
+<p>Sum of Total Cost divided by count of Authorised + Variations within specified date range<br />- A claim might be included in the AVG or TOTAL only with the variation value approved (i.e. without the scope approved value)<br />- i.e. &ldquo;Authorised&rdquo; * &ldquo;Avg Total Cost&rdquo; will not always be equal to &ldquo;Total Cost&rdquo;</p>
+<p><em>Note: Claims with a status of 'Claim Lodged in Error' are excluded from this measure</em></p>",
                     Name = "Timeliness",
                     Icon = "\\ue616",
                     Orientation = Orientation.Horizontal,
@@ -93,6 +108,13 @@ namespace PdfPlayGround.Model
                 },
                 new SupplierScoreGroupView
                 {
+                    GroupDescription = @"<p><strong>Definition&nbsp;</strong></p>
+<p>Sum of Total Cost divided by count of Authorised + Variations within specified date range<br />- A claim might be included in the AVG or TOTAL only with the variation value approved (i.e. without the scope approved value)<br />- i.e. &ldquo;Authorised&rdquo; * &ldquo;Avg Total Cost&rdquo; will not always be equal to &ldquo;Total Cost&rdquo;</p>
+<p><em>Note: Claims with a status of 'Claim Lodged in Error' are excluded from this measure</em></p>
+<p>Sum of Total Cost divided by count of Authorised + Variations within specified date range<br />- A claim might be included in the AVG or TOTAL only with the variation value approved (i.e. without the scope approved value)<br />- i.e. &ldquo;Authorised&rdquo; * &ldquo;Avg Total Cost&rdquo; will not always be equal to &ldquo;Total Cost&rdquo;</p>
+<p><em>Note: Claims with a status of 'Claim Lodged in Error' are excluded from this measure</em></p>
+<p>Sum of Total Cost divided by count of Authorised + Variations within specified date range<br />- A claim might be included in the AVG or TOTAL only with the variation value approved (i.e. without the scope approved value)<br />- i.e. &ldquo;Authorised&rdquo; * &ldquo;Avg Total Cost&rdquo; will not always be equal to &ldquo;Total Cost&rdquo;</p>
+<p><em>Note: Claims with a status of 'Claim Lodged in Error' are excluded from this measure</em></p>",
                     Name = "Quality",
                     Icon = "\\ue1ad",
                     Orientation = Orientation.Vertical,
@@ -116,6 +138,11 @@ namespace PdfPlayGround.Model
                 },
                 new SupplierScoreGroupView
                 {
+                    GroupDescription = @"<p><strong>Definition&nbsp;</strong></p>
+<p>Sum of Total Cost divided by count of Authorised + Variations within specified date range<br />- A claim might be included in the AVG or TOTAL only with the variation value approved (i.e. without the scope approved value)<br />- i.e. &ldquo;Authorised&rdquo; * &ldquo;Avg Total Cost&rdquo; will not always be equal to &ldquo;Total Cost&rdquo;</p>
+<p><em>Note: Claims with a status of 'Claim Lodged in Error' are excluded from this measure</em></p>
+<p>Sum of Total Cost divided by count of Authorised + Variations within specified date range<br />- A claim might be included in the AVG or TOTAL only with the variation value approved (i.e. without the scope approved value)<br />- i.e. &ldquo;Authorised&rdquo; * &ldquo;Avg Total Cost&rdquo; will not always be equal to &ldquo;Total Cost&rdquo;</p>
+<p><em>Note: Claims with a status of 'Claim Lodged in Error' are excluded from this measure</em></p>",
                     Name = "Overall",
                     Icon = "\\ue30c",
                     Orientation = Orientation.Horizontal,
@@ -131,6 +158,9 @@ namespace PdfPlayGround.Model
                 },
                 new SupplierScoreGroupView
                 {
+                    GroupDescription = @"<p><strong>Definition&nbsp;</strong></p>
+<p>Sum of Total Cost divided by count of Authorised + Variations within specified date range<br />- A claim might be included in the AVG or TOTAL only with the variation value approved (i.e. without the scope approved value)<br />- i.e. &ldquo;Authorised&rdquo; * &ldquo;Avg Total Cost&rdquo; will not always be equal to &ldquo;Total Cost&rdquo;</p>
+<p><em>Note: Claims with a status of 'Claim Lodged in Error' are excluded from this measure</em></p>",
                     Name = "Cost 1",
                     Icon = "\\ue31c",
                     Orientation = Orientation.Vertical,
@@ -215,6 +245,7 @@ namespace PdfPlayGround.Model
 
     public class SupplierScoreGroupView
     {
+        public string GroupDescription { get; set; }
         public string Name { get; set; }
         public string Icon { get; set; }
         public Orientation Orientation { get; set; }
