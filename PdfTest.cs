@@ -228,8 +228,8 @@ namespace PdfPlayGround
 
             Phrase email = new Phrase(Source.Insurer.CompanyEmail, new Font(Font.UNDEFINED, 11f, Font.UNDERLINE, BaseColor.Blue));
 
-            Phrase infoList = new Phrase("Attention: " + Source.CaseManager.ManagerName + "\n" + 
-                Source.Insurer.CompanyName + "\n" + 
+            Phrase infoList = new Phrase("Attention: " + Source.CaseManager.ManagerName + "\n" +
+                Source.Insurer.CompanyName + "\n" +
                 Source.Insurer.CompanyAddress.FullAddress + "\n" + "Email: ",
                 new Font(Font.UNDEFINED, 11f, Font.UNDEFINED, BaseColor.Black
             ));
@@ -350,7 +350,7 @@ namespace PdfPlayGround
 
                 Doc.Add(bdTable);
             }
-            
+
             //***********************Forth part************************//
             //ProjectContractDetailTable
             if (ProjectContractDetailTable != null)
@@ -542,7 +542,7 @@ namespace PdfPlayGround
 
             //if (CurriVitaeCard != null)
             //{
-               
+
             //}
 
             createPhotoAndScheduleTable();
@@ -621,8 +621,8 @@ namespace PdfPlayGround
                 //Doc.NewPage();
                 Paragraph reportTitleCell = new Paragraph("REPORT SUMMARY", new Font(Font.BOLD, 14f, Font.BOLD, BaseColor.Black));
                 Doc.Add(reportTitleCell);
-                Paragraph reportTitleTime = new Paragraph("Completed on the date of " + 
-                    DateTime.Now.Day.ToString() + " " + month + " " + DateTime.Now.Year.ToString(), 
+                Paragraph reportTitleTime = new Paragraph("Completed on the date of " +
+                    DateTime.Now.Day.ToString() + " " + month + " " + DateTime.Now.Year.ToString(),
                     new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black));
                 reportTitleTime.Alignment = Element.ALIGN_CENTER;
                 Doc.Add(reportTitleTime);
@@ -851,7 +851,7 @@ namespace PdfPlayGround
             if (ScheduleItemCard != null)
             {
                 Doc.NewPage();
-                PdfPTable summaryAllAcceptWorkEstimate = new PdfPTable(6);
+                PdfPTable summaryAllAcceptWorkEstimate = new PdfPTable(5);
                 summaryAllAcceptWorkEstimate.TotalWidth = 820f;
                 summaryAllAcceptWorkEstimate.LockedWidth = true;
                 summaryAllAcceptWorkEstimate.SplitLate = false;
@@ -870,11 +870,11 @@ namespace PdfPlayGround
                 description.HorizontalAlignment = Element.ALIGN_CENTER;
                 description.Colspan = 3;
                 summaryAllAcceptWorkEstimate.AddCell(description);
-                PdfPCell location = new PdfPCell(new Phrase("LOCATION", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
-                location.Padding = 4f;
-                location.HorizontalAlignment = Element.ALIGN_CENTER;
-                location.Colspan = 1;
-                summaryAllAcceptWorkEstimate.AddCell(location);
+                //PdfPCell location = new PdfPCell(new Phrase("LOCATION", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
+                //location.Padding = 4f;
+                //location.HorizontalAlignment = Element.ALIGN_CENTER;
+                //location.Colspan = 1;
+                //summaryAllAcceptWorkEstimate.AddCell(location);
                 PdfPCell estimate = new PdfPCell(new Phrase("ESTIMATE", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
                 estimate.Padding = 4f;
                 estimate.HorizontalAlignment = Element.ALIGN_CENTER;
@@ -892,7 +892,7 @@ namespace PdfPlayGround
                         {
                             var itemNumValue = field.FirstOrDefault(x => x.Name == "itemNumber")?.ValueString;
                             var descValue = field.FirstOrDefault(x => x.Name == "itemDescription")?.ValueString;
-                            var locationValue = field.FirstOrDefault(x => x.Name == "itemLocation")?.ValueString;
+                            //var locationValue = field.FirstOrDefault(x => x.Name == "itemLocation")?.ValueString;
                             var estimateCostValue = field.FirstOrDefault(x => x.Name == "costEstimate")?.ValueString;
 
                             if (double.TryParse(estimateCostValue, out var estNum))
@@ -908,10 +908,10 @@ namespace PdfPlayGround
                             descInfo.HorizontalAlignment = Element.ALIGN_LEFT;
                             descInfo.Colspan = 3;
                             summaryAllAcceptWorkEstimate.AddCell(descInfo);
-                            PdfPCell locationInfo = new PdfPCell(new Phrase(locationValue, new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
-                            locationInfo.HorizontalAlignment = Element.ALIGN_LEFT;
-                            locationInfo.Colspan = 1;
-                            summaryAllAcceptWorkEstimate.AddCell(locationInfo);
+                            //PdfPCell locationInfo = new PdfPCell(new Phrase(locationValue, new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
+                            //locationInfo.HorizontalAlignment = Element.ALIGN_LEFT;
+                            //locationInfo.Colspan = 1;
+                            //summaryAllAcceptWorkEstimate.AddCell(locationInfo);
                             string estimateValue = "";
                             if (estimateCostValue != "")
                             {
@@ -927,7 +927,7 @@ namespace PdfPlayGround
                 }
 
                 PdfPCell total = new PdfPCell(new Phrase("TOTAL", new Font(Font.BOLD, 10f, Font.BOLD, BaseColor.Black)));
-                total.Colspan = 5;
+                total.Colspan = 4;
                 total.HorizontalAlignment = Element.ALIGN_CENTER;
                 summaryAllAcceptWorkEstimate.AddCell(total);
                 string summaryAllAcceptedEstimateTotalValue = "";
@@ -1014,7 +1014,7 @@ namespace PdfPlayGround
             annexureATable.LockedWidth = true;
             annexureATable.DefaultCell.Border = Rectangle.NO_BORDER;
             annexureATable.SplitLate = false;
-            PdfPCell annexureATitle1 = new PdfPCell(new Paragraph("‘Annexure A’" , new Font(Font.BOLD, 11f, Font.BOLD, BaseColor.Black)));
+            PdfPCell annexureATitle1 = new PdfPCell(new Paragraph("‘Annexure A’", new Font(Font.BOLD, 11f, Font.BOLD, BaseColor.Black)));
             PdfPCell annexureATitle2 = new PdfPCell(new Paragraph("CURRICULUM VITAE-" + Source.Building.ScopingSupplier.CompanyName, new Font(Font.BOLD, 11f, Font.BOLD, BaseColor.Black)));
             PdfPCell annexureATitle3 = new PdfPCell(new Paragraph("LICENSED BUILDER / BUILDING CONSULTANT", new Font(Font.BOLD, 11f, Font.BOLD, BaseColor.Black)));
             annexureATitle1.Border = 0;
@@ -1076,8 +1076,8 @@ namespace PdfPlayGround
             PdfPCell proceduralDirectionInfo2 = new PdfPCell();
             proceduralDirectionInfo2.Colspan = 4;
             proceduralDirectionInfo2.Border = 0;
-            proceduralDirectionInfo2.AddElement(new Phrase("Proceedings in the Consumer and Commercial Division involving claims under the Home Building Act 1989 (NSW) with a value greater than $30,000. " + "\n" 
-                + "Proceedings in the Occupational Division for a “profession decision” as defined in cl 29(1) of Sch 5 to the NCAT Act. " + "\n" 
+            proceduralDirectionInfo2.AddElement(new Phrase("Proceedings in the Consumer and Commercial Division involving claims under the Home Building Act 1989 (NSW) with a value greater than $30,000. " + "\n"
+                + "Proceedings in the Occupational Division for a “profession decision” as defined in cl 29(1) of Sch 5 to the NCAT Act. " + "\n"
                 + "Any other proceedings in which the Tribunal directs that this Procedural Direction is to apply. ", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED)));
 
             PdfPCell effectiveDate = new PdfPCell(new Phrase("Effective Date: ", new Font(Font.BOLD, 9f, Font.BOLD)));
@@ -1136,10 +1136,10 @@ namespace PdfPlayGround
             list1.SetListSymbol("\u2022");
             list1.IndentationLeft = 20f;
             list1.First = 1;
-            list1.Add(new ListItem ("The Tribunal may rely on evidence from expert witnesses to reach a conclusion about a technical matter or area of specialised knowledge that is relevant to an issue to be determined in proceedings. It is important that experts’ opinions are soundly based, complete and reliable. ", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
-            list1.Add(new ListItem ("The Tribunal is bound by the rules of evidence in proceedings in exercise of its enforcement jurisdiction, proceedings for the imposition of a civil penalty in exercise of its general jurisdiction, proceedings under the Legal Profession Uniform Law (NSW) or Public Notaries Act 1997 concerning a question of professional misconduct and any other proceedings where so required by the relevant enabling legislation (“Evidence Rules Proceedings”), see, for example, s 35, s 38(2) and (3) and Sch 5 cl 20 of the NCAT Act. In Evidence Rules Proceedings, it is appropriate to require expert evidence to be prepared and presented in a matter which seeks to ensure its admissibility and usefulness. ", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
-            list1.Add(new ListItem ("In proceedings where the Tribunal is not bound by the rules of evidence, the acceptability of expert evidence is a question of weight not admissibility. Nonetheless, if those proceedings involve complex or difficult expert issues, it is appropriate to require expert evidence to be prepared and presented in a manner which seeks to ensure its usefulness. ", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
-            list1.Add(new ListItem ("For proceedings to which it applies, this Procedural Direction sets out a code of conduct for expert witnesses. ", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
+            list1.Add(new ListItem("The Tribunal may rely on evidence from expert witnesses to reach a conclusion about a technical matter or area of specialised knowledge that is relevant to an issue to be determined in proceedings. It is important that experts’ opinions are soundly based, complete and reliable. ", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
+            list1.Add(new ListItem("The Tribunal is bound by the rules of evidence in proceedings in exercise of its enforcement jurisdiction, proceedings for the imposition of a civil penalty in exercise of its general jurisdiction, proceedings under the Legal Profession Uniform Law (NSW) or Public Notaries Act 1997 concerning a question of professional misconduct and any other proceedings where so required by the relevant enabling legislation (“Evidence Rules Proceedings”), see, for example, s 35, s 38(2) and (3) and Sch 5 cl 20 of the NCAT Act. In Evidence Rules Proceedings, it is appropriate to require expert evidence to be prepared and presented in a matter which seeks to ensure its admissibility and usefulness. ", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
+            list1.Add(new ListItem("In proceedings where the Tribunal is not bound by the rules of evidence, the acceptability of expert evidence is a question of weight not admissibility. Nonetheless, if those proceedings involve complex or difficult expert issues, it is appropriate to require expert evidence to be prepared and presented in a manner which seeks to ensure its usefulness. ", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
+            list1.Add(new ListItem("For proceedings to which it applies, this Procedural Direction sets out a code of conduct for expert witnesses. ", new Font(Font.UNDEFINED, 9f, Font.UNDEFINED, BaseColor.Black)));
             //list1.Add(romanlist1);
 
             introductionInfo.AddElement(list1);
@@ -1278,7 +1278,7 @@ namespace PdfPlayGround
             applicationInfo.AddElement(list4);
 
             annexureBTable.AddCell(applicationInfo);
-            
+
             //PdfPCell applicationListInfo = new PdfPCell(new Paragraph("except that this Procedural Direction does not apply to evidence obtained from treating doctors, other health professionals or hospitals (who might otherwise fall within the definition of expert witness), unless the Tribunal otherwise directs", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
             //applicationListInfo.Border = 0;
             //applicationListInfo.PaddingTop = 10f;
@@ -1681,7 +1681,7 @@ namespace PdfPlayGround
                 testData.Images.AddRange(itemPhotos.Select(x => new ReportFile
                 {
                     Name = x.Name,
-                    Url= x.Url
+                    Url = x.Url
                 }));
             }
 
@@ -1697,7 +1697,7 @@ namespace PdfPlayGround
             return GenerateInfoTable(model, columNum, widths, cell, cell);
         }
 
-        protected PdfPTable GenerateTestTable(List<InfoTableMetaData> model, string title, byte columNum = 4, float totalWidths = 0,  float[] widths = null)
+        protected PdfPTable GenerateTestTable(List<InfoTableMetaData> model, string title, byte columNum = 4, float totalWidths = 0, float[] widths = null)
         {
             // Set the title cell stylle
             PdfPCell titleCell = new PdfPCell(new Phrase(title, new Font(Font.BOLD, 12f, Font.BOLD, BaseColor.White)))
@@ -1806,7 +1806,7 @@ namespace PdfPlayGround
                     headerLeft.AddElement(new Phrase(" ", new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
                 }
 
-                PdfPCell headerRight = new PdfPCell(new Phrase("Prepared by" + "\n" +  ThisDocument.Source.Building.ScopingSupplier.CompanyName + "\n" +
+                PdfPCell headerRight = new PdfPCell(new Phrase("Prepared by" + "\n" + ThisDocument.Source.Building.ScopingSupplier.CompanyName + "\n" +
                     ThisDocument.Source.Building.ScopingSupplier.CompanyPhone1, new Font(Font.UNDEFINED, 10f, Font.UNDEFINED, BaseColor.Black)));
                 headerRight.Colspan = 1;
                 headerRight.HorizontalAlignment = Element.ALIGN_RIGHT;
@@ -1815,7 +1815,7 @@ namespace PdfPlayGround
                 headerTable.AddCell(headerLeft);
                 headerTable.AddCell(headerRight);
 
-                headerTable.WriteSelectedRows(0, -1, document.LeftMargin, document.PageSize.Height -25, writer.DirectContent);
+                headerTable.WriteSelectedRows(0, -1, document.LeftMargin, document.PageSize.Height - 25, writer.DirectContent);
 
             }
 

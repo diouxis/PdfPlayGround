@@ -25,7 +25,8 @@ namespace PdfPlayGround.Model
         public SupplierScoreBoardView(int id)
         {
             BoardId = id;
-            InsurerLogo = "https://company-resources-edt.s3-ap-southeast-2.amazonaws.com/allianz/company_logo.png";
+            //InsurerLogo = "https://company-resources-edt.s3-ap-southeast-2.amazonaws.com/allianz/company_logo.png";
+            InsurerLogo = "https://www.endataclaims.com/NewWebsite/Images/ENDataTransparent.png";
             InsurerHeader = "Allianz Claim Operations";
             Title = "Builder Performance Summary";
             DateFrom = new DateTime(2020, 01, 01);
@@ -34,7 +35,7 @@ namespace PdfPlayGround.Model
             {
                 new SupplierScoreGroupView
                 {
-                    GroupDescription = @"<p><strong>Definition&nbsp;</strong></p>
+                    GroupDescription = @"<p style='text-align: center'><strong>Definition&nbsp;</strong></p>
 <p>Sum of Total Cost divided by count of Authorised + Variations within specified date range<br />- A claim might be included in the AVG or TOTAL only with the variation value approved (i.e. without the scope approved value)<br />- i.e. &ldquo;Authorised&rdquo; * &ldquo;Avg Total Cost&rdquo; will not always be equal to &ldquo;Total Cost&rdquo;</p>
 <p><em>Note: Claims with a status of 'Claim Lodged in Error' are excluded from this measure</em></p>
 <p>Sum of Total Cost divided by count of Authorised + Variations within specified date range<br />- A claim might be included in the AVG or TOTAL only with the variation value approved (i.e. without the scope approved value)<br />- i.e. &ldquo;Authorised&rdquo; * &ldquo;Avg Total Cost&rdquo; will not always be equal to &ldquo;Total Cost&rdquo;</p>
@@ -71,13 +72,7 @@ namespace PdfPlayGround.Model
                 },
                 new SupplierScoreGroupView
                 {
-                    GroupDescription = @"<p><strong>Definition&nbsp;</strong></p>
-<p>Sum of Total Cost divided by count of Authorised + Variations within specified date range<br />- A claim might be included in the AVG or TOTAL only with the variation value approved (i.e. without the scope approved value)<br />- i.e. &ldquo;Authorised&rdquo; * &ldquo;Avg Total Cost&rdquo; will not always be equal to &ldquo;Total Cost&rdquo;</p>
-<p><em>Note: Claims with a status of 'Claim Lodged in Error' are excluded from this measure</em></p>
-<p>Sum of Total Cost divided by count of Authorised + Variations within specified date range<br />- A claim might be included in the AVG or TOTAL only with the variation value approved (i.e. without the scope approved value)<br />- i.e. &ldquo;Authorised&rdquo; * &ldquo;Avg Total Cost&rdquo; will not always be equal to &ldquo;Total Cost&rdquo;</p>
-<p><em>Note: Claims with a status of 'Claim Lodged in Error' are excluded from this measure</em></p>
-<p>Sum of Total Cost divided by count of Authorised + Variations within specified date range<br />- A claim might be included in the AVG or TOTAL only with the variation value approved (i.e. without the scope approved value)<br />- i.e. &ldquo;Authorised&rdquo; * &ldquo;Avg Total Cost&rdquo; will not always be equal to &ldquo;Total Cost&rdquo;</p>
-<p><em>Note: Claims with a status of 'Claim Lodged in Error' are excluded from this measure</em></p>",
+                    GroupDescription = @"<table style= border: 1px solid black><tbody><tr><td width=‘301’><p><strong>Metric</strong></p></td><td width=‘301’><p><strong>Weighting</strong></p></td></tr><tr><td width=‘301’><p><strong>Cost  0-$10K &ndash; EOL</strong></p></td><td width=‘301’><p>8%</p></td></tr><tr><td idth=‘301’><p><strong>Cost - $0-$10K - Natural Hazard</strong></p></td><td width=‘301’><p>4%</p></td></tr><tr><td width=‘301’><p><strong>Cost - $0-$10K - Working oss</strong></p></td><td width=‘301’><p>8%</p></td></tr><tr><td width=‘301’><p><strong>Cost - $10-$20K &ndash; EOL</strong></p></td><td width=‘301’><p>8%</p></td></tr><tr><td width=‘301’><p><strong>Cost - $10-$20K - Natural azard</strong></p></td><td width=‘301’><p>4%</p></td></tr><tr><td width=‘301’><p><strong>Cost - $10-$20K - Working Loss</strong></p></td><td width=‘301’><p>8%</p></td></tr><tr><td width=‘301’><p><strong>Timeliness &ndash; coping</strong></p></td><td width=‘301’><p>10%</p></td></tr><tr><td width=‘301’><p><strong>Timeliness &ndash; Quoting</strong></p></td><td width=‘301’><p>10%</p></td></tr><tr><td width=‘301’><p><strong>Timeliness &ndash; epair</strong></p></td><td width=‘301’><p>10%</p></td></tr><tr><td width=‘301’><p><strong>Quality &ndash; Customer Rating</strong></p></td><td width=‘301’><p>20%</p></td></tr><tr><td width=‘301’><p><strong>Quality &ndash; ariations</strong></p></td><td width=‘301’><p>10%</p></td></tr><tr><td width=‘301’><p><strong>Total</strong></p></td><td width=‘301’><p>100%</p></td></tr></tbody></table>",
                     Name = "Timeliness",
                     Icon = "\\ue616",
                     Orientation = Orientation.Horizontal,
@@ -158,9 +153,7 @@ namespace PdfPlayGround.Model
                 },
                 new SupplierScoreGroupView
                 {
-                    GroupDescription = @"<p><strong>Definition&nbsp;</strong></p>
-<p>Sum of Total Cost divided by count of Authorised + Variations within specified date range<br />- A claim might be included in the AVG or TOTAL only with the variation value approved (i.e. without the scope approved value)<br />- i.e. &ldquo;Authorised&rdquo; * &ldquo;Avg Total Cost&rdquo; will not always be equal to &ldquo;Total Cost&rdquo;</p>
-<p><em>Note: Claims with a status of 'Claim Lodged in Error' are excluded from this measure</em></p>",
+                    GroupDescription = @"<table><tr><th>Metric</th><th>Weighting</th></tr><tr><td>Cost&ndash;$0&ndash;$10K&ndash;EOL</td><td>8%</td></tr><tr><td>Cost&ndash;$0&ndash;$10K&ndash;Natural Hazard</td><td>4%</td></tr><tr><td>Cost&ndash;$0-$10K&ndash;Working Loss</td><td>8%</td></tr><tr><td>Cost&ndash;$10$&ndash;20K&ndash;EOL</td><td>8%</td></tr><tr><td>Cost&ndash;$10-$20K&ndash;Natural Hazard</td><td>4%</td></tr><tr><td>Cost&ndash;$10-$20K&ndash;Working Loss</td><td>8%</td></tr><tr><td>Timeliness&ndash;Scoping</td><td>10%</td></tr><tr><td>Timeliness&ndash;Quoting</td><td>10%</td></tr><tr><td>Timeliness&ndash;Repair</td><td>10%</td></tr><tr><td>Quality&ndash;Customer Rating</td><td>20%</td></tr><tr><td>Quality&ndash;Variations</td><td>10%</td></tr><tr><td>Total</td><td>100%</td></tr></table>",
                     Name = "Cost 1",
                     Icon = "\\ue31c",
                     Orientation = Orientation.Vertical,

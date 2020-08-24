@@ -63,7 +63,8 @@ namespace PdfPlayGround
             startTableLeftCell.MinimumHeight = 150f;
             startTableLeftCell.VerticalAlignment = Element.ALIGN_MIDDLE;
             var logoImg = Image.GetInstance(new Uri(InsurerLogo));
-            logoImg.ScalePercent(30f);
+            logoImg.ScalePercent(25f);
+            logoImg.WidthPercentage = 100;
             logoImg.Alignment = Element.ALIGN_CENTER;
             startTableLeftCell.AddElement(logoImg);
             startTable.AddCell(startTableLeftCell);
@@ -212,6 +213,7 @@ namespace PdfPlayGround
 
                 descriptionTable.AddCell(title);
                 descriptionTable.AddCell(description);
+
             }
             Doc.Add(descriptionTable);
         }
