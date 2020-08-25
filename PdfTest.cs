@@ -123,7 +123,7 @@ namespace PdfPlayGround
             ClaimContent = new List<InfoTableMetaData>
 
             {
-                new InfoTableMetaData("Insurance Ref #:", Source.RefNumber ),
+                new InfoTableMetaData("Insurance Ref #:", "HBCF-CL-" + Source.RefNumber ),
                 new InfoTableMetaData("Event Type:", "Storm" )
             };
 
@@ -133,7 +133,7 @@ namespace PdfPlayGround
                 new InfoTableMetaData("Address:", Source.IncidentDetail.RiskAddress.FullAddress),
                 new InfoTableMetaData("Client", Source.Insurer.CompanyName),
                 new InfoTableMetaData("Our Reference:", BuildingConDetailCard.Fields[0].ValueString),
-                new InfoTableMetaData("Client Reference:", Source.RefNumber)
+                new InfoTableMetaData("Client Reference:", "HBCF-CL-" + Source.RefNumber)
             };
 
             foreach (var card in Source.ReportForm.Cards)
@@ -635,7 +635,7 @@ namespace PdfPlayGround
                 var lossAddress = Source.IncidentDetail.RiskAddress.FullAddress;
                 var client = Source.Insurer.CompanyName;
                 var buildingConRef = BuildingConDetailCard.Fields.FirstOrDefault(x => x.Name == "ourReference");
-                var clientRef = Source.RefNumber;
+                var clientRef = "HBCF-CL-" + Source.RefNumber;
                 string[] reportSumInfo = {
                     "Building Owner:", buildingOwner.Content,
                     "Loss Address:", Source.IncidentDetail.RiskAddress.FullAddress,

@@ -207,13 +207,17 @@ namespace PdfPlayGround
                 description.Colspan = 6;
                 Phrase desPhrase = new Phrase();
 
-                desPhrase.AddRange(ConvertHtml(item.GroupDescription));
+                //desPhrase.AddRange(ConvertHtml(item.GroupDescription));
+                var parsedHtmlElements = HtmlWorker.ParseToList(new StringReader(item.GroupDescription), null);
+                foreach (var htmlElement in parsedHtmlElements)
+                {
+                    description.AddElement(htmlElement as IElement);
+                }
 
-                description.AddElement(desPhrase);
+                //description.AddElement(desPhrase);
 
                 descriptionTable.AddCell(title);
                 descriptionTable.AddCell(description);
-
             }
             Doc.Add(descriptionTable);
         }
@@ -385,7 +389,5 @@ namespace PdfPlayGround
             static readonly Font StyleFooterAndPageNumber = FontFactory.GetFont(BaseFont.HELVETICA, 10f);
         }
     }
-
-
 
 }
